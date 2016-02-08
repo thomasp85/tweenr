@@ -1,0 +1,27 @@
+Package: tweenr
+Type: Package
+Title: Interpolate data for smooth animations
+Version: 0.0.1
+Date: 2016-02-08
+Authors@R: c(
+    person('Thomas Lin', 'Pedersen', , 'thomasp85@gmail.com', c('aut', 'cre'))
+    )
+Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
+Description: In order to create smooth animation between states of data,
+    tweening is necessary. tweenr provides a range of function for creating
+    tweened data that plugs right in to tools such as gganimate.
+License: GPL (>=2)
+LazyData: TRUE
+Imports:
+    Rcpp (>= 0.12.3),
+    grDevices
+LinkingTo: Rcpp
+Collate:
+    'RcppExports.R'
+    'aaa.R'
+    'interpolate.R'
+    'tween_appear.R'
+    'tween_elements.R'
+    'tween_states.R'
+    'tweenr_package.R'
+RoxygenNote: 5.0.1
