@@ -58,3 +58,27 @@ col_classes <- function(data) {
     names(classes) <- names(data)
     classes
 }
+
+prepareTween <- function(data, n, ease) {
+    if (!is.list(data)) {
+        data <- as.list(data)
+    }
+    if (length(unique(lengths(data))) != 1) {
+        stop('All elements in data must have the same length')
+    }
+    if (!all(ease %in% validEase)) {
+        stop('ease must be the name of a valid easing function')
+    }
+    n <- c(rep(n, length.out = length(data) - 1) - 1, 0)
+    ease <- c(rep(ease, length.out = length(data) - 1), 'constant')
+    states <- data.frame(
+        state = seq_along(data) - 1,
+        nframes = n,
+        ease = ease,
+        stringsAsFactors = FALSE
+    )
+    list(
+        data = data,
+        states = states
+    )
+}

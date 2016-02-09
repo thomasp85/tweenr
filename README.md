@@ -26,8 +26,14 @@ if (!require(devtools)) {
 devtools::install_github("thomasp85/tweenr")
 ```
 
-Once you have it there are currently two ways to tween your data (more are
-comming):
+Once you have it there are currently three ways to tween your data. Furthermore
+there is also access to standard vectorized interpolaters for the following 
+classes:
+
+- numeric
+- Date
+- POSIXt
+- colour (not really a class - any string that can be considered a colour)
 
 ### tween_states
 `tween_states` takes a list of data.frames, each representing a state of your
@@ -44,7 +50,7 @@ data into frames and assigns an age to each observation in each frame. A
 negative age means that the observation has yet to appear.
 
 ### tween_elements
-**TBD** This function is the most versatile of them all. It takes a data.frame
-that contains a time column, a observation.id column and an ease column along
-with the rest of the data. Each observation, defined by the observation.id, is
+This function is the most versatile of them all. It takes a data.frame that 
+contains a time column, a observation.id column and an ease column along with 
+the rest of the data. Each observation, defined by the observation.id, is
 animated through its individual states, using its own easing function.
