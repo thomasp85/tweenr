@@ -1,6 +1,40 @@
 BASEDATE <- Sys.Date() - as.numeric(Sys.Date())
 BASEDATETIME <- Sys.time() - as.numeric(Sys.time())
 
+validEase <- c(
+    "linear",
+    "quadratic-in",
+    "quadratic-out",
+    "quadratic-in-out",
+    "cubic-in",
+    "cubic-out",
+    "cubic-in-out",
+    "quartic-in",
+    "quartic-out",
+    "quartic-in-out",
+    "quintic-in",
+    "quintic-out",
+    "quintic-in-out",
+    "sine-in",
+    "sine-out",
+    "sine-in-out",
+    "circular-in",
+    "circular-out",
+    "circular-in-out",
+    "exponential-in",
+    "exponential-out",
+    "exponential-in-out",
+    "elastic-in",
+    "elastic-out",
+    "elastic-in-out",
+    "back-in",
+    "back-out",
+    "back-in-out",
+    "bounce-in",
+    "bounce-out",
+    "bounce-in-out"
+)
+
 col_classes <- function(data) {
     classes <- sapply(data, function(d) {
         if (is.numeric(d)) {

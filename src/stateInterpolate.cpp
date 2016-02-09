@@ -180,7 +180,7 @@ std::vector<double> easeSeq(std::string easer, int length) {
 }
 
 //[[Rcpp::export]]
-NumericVector numeric_interpolator(List data, DataFrame states) {
+NumericVector numeric_state_interpolator(List data, DataFrame states) {
     IntegerVector state_index = states("state");
     NumericVector nframes_per_state = states("nframes");
     std::vector<std::string> easer = states("ease");
@@ -219,7 +219,7 @@ NumericVector numeric_interpolator(List data, DataFrame states) {
 }
 
 //[[Rcpp::export]]
-NumericMatrix colour_interpolator(List data, DataFrame states) {
+NumericMatrix colour_state_interpolator(List data, DataFrame states) {
     IntegerVector state_index = states("state");
     NumericVector nframes_per_state = states("nframes");
     std::vector<std::string> easer = states("ease");
@@ -262,7 +262,7 @@ NumericMatrix colour_interpolator(List data, DataFrame states) {
 }
 
 //[[Rcpp::export]]
-CharacterVector constant_interpolator(List data, DataFrame states) {
+CharacterVector constant_state_interpolator(List data, DataFrame states) {
     IntegerVector state_index = states("state");
     NumericVector nframes_per_state = states("nframes");
     std::vector<std::string> easer = states("ease");
@@ -302,4 +302,118 @@ CharacterVector constant_interpolator(List data, DataFrame states) {
     }
 
     return res;
+}
+
+//[[Rcpp::export]]
+DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
+    std::deque<double> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    int i, j, nframes;
+    std::string groupString;
+    std::string currentGroup = as<std::string>(group[0]);
+
+    for (i = 1; i < data.size(); ++i) {
+        groupString = as<std::string>(group[i]);
+        if (currentGroup == groupString) {
+            nframes = frame[i] - frame[i-1];
+            std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
+            for (j = 0; j < ease_points.size(); ++j) {
+                tweendata.push_back(data[i - 1] + ease_points[j] * nframes);
+                tweengroup.push_back(groupString);
+                tweenframe.push_back(j + frame[i-1]);
+            }
+        } else {
+            tweendata.push_back(data[i - 1]);
+            tweengroup.push_back(currentGroup);
+            tweenframe.push_back(frame[i-1]);
+            currentGroup = groupString;
+        }
+    }
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe)
+    );
+}
+
+//[[Rcpp::export]]
+DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
+    std::deque<double> tweendata1;
+    std::deque<double> tweendata2;
+    std::deque<double> tweendata3;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    int i, j, nframes;
+    std::string groupString;
+    std::string currentGroup = as<std::string>(group[0]);
+
+    for (i = 1; i < data.nrow(); ++i) {
+        groupString = as<std::string>(group[i]);
+        if (currentGroup == groupString) {
+            nframes = frame[i] - frame[i-1];
+            std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
+            for (j = 0; j < ease_points.size(); ++j) {
+                tweendata1.push_back(data(i - 1, 0) + ease_points[j] * nframes);
+                tweendata2.push_back(data(i - 1, 1) + ease_points[j] * nframes);
+                tweendata3.push_back(data(i - 1, 2) + ease_points[j] * nframes);
+                tweengroup.push_back(groupString);
+                tweenframe.push_back(j + frame[i-1]);
+            }
+        } else {
+            tweendata1.push_back(data(i - 1, 0));
+            tweendata2.push_back(data(i - 1, 1));
+            tweendata3.push_back(data(i - 1, 2));
+            tweengroup.push_back(currentGroup);
+            tweenframe.push_back(frame[i-1]);
+            currentGroup = groupString;
+        }
+    }
+
+    return DataFrame::create(
+        Named("data1") = wrap(tweendata1),
+        Named("data2") = wrap(tweendata1),
+        Named("data3") = wrap(tweendata1),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe)
+    );
+}
+
+//[[Rcpp::export]]
+DataFrame constant_element_interpolator(CharacterVector data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
+    std::deque<std::string> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    int i, j, nframes;
+    std::string groupString;
+    std::string currentGroup = as<std::string>(group[0]);
+
+    for (i = 1; i < data.size(); ++i) {
+        groupString = as<std::string>(group[i]);
+        if (currentGroup == groupString) {
+            nframes = frame[i] - frame[i-1];
+            std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
+            for (j = 0; j < ease_points.size(); ++j) {
+                if (ease_points[j] < 0.5) {
+                    tweendata.push_back(as<std::string>(data[i - 1]));
+                } else {
+                    tweendata.push_back(as<std::string>(data[i]));
+                }
+                tweengroup.push_back(groupString);
+                tweenframe.push_back(j + frame[i-1]);
+            }
+        } else {
+            tweendata.push_back(as<std::string>(data[i - 1]));
+            tweengroup.push_back(currentGroup);
+            tweenframe.push_back(frame[i-1]);
+            currentGroup = groupString;
+        }
+    }
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe)
+    );
 }

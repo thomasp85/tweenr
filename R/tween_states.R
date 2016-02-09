@@ -106,13 +106,13 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
         d <- lapply(data, `[[`, i = name)
         switch(
             colClasses[name],
-            numeric = interpolate_numeric(d, states),
-            factor = interpolate_factor(d, states),
-            character = interpolate_character(d, states),
-            colour = interpolate_colour(d, states),
-            date = interpolate_date(d, states),
-            datetime = interpolate_datetime(d, states),
-            constant = interpolate_constant(d, states)
+            numeric = interpolate_numeric_state(d, states),
+            factor = interpolate_factor_state(d, states),
+            character = interpolate_character_state(d, states),
+            colour = interpolate_colour_state(d, states),
+            date = interpolate_date_state(d, states),
+            datetime = interpolate_datetime_state(d, states),
+            constant = interpolate_constant_state(d, states)
         )
     })
     tweendata <- as.data.frame(tweendata)

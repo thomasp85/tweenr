@@ -5,39 +5,81 @@
 
 using namespace Rcpp;
 
-// numeric_interpolator
-NumericVector numeric_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_numeric_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+// numeric_state_interpolator
+NumericVector numeric_state_interpolator(List data, DataFrame states);
+RcppExport SEXP tweenr_numeric_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type data(dataSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type states(statesSEXP);
-    __result = Rcpp::wrap(numeric_interpolator(data, states));
+    __result = Rcpp::wrap(numeric_state_interpolator(data, states));
     return __result;
 END_RCPP
 }
-// colour_interpolator
-NumericMatrix colour_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_colour_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+// colour_state_interpolator
+NumericMatrix colour_state_interpolator(List data, DataFrame states);
+RcppExport SEXP tweenr_colour_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type data(dataSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type states(statesSEXP);
-    __result = Rcpp::wrap(colour_interpolator(data, states));
+    __result = Rcpp::wrap(colour_state_interpolator(data, states));
     return __result;
 END_RCPP
 }
-// constant_interpolator
-CharacterVector constant_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_constant_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+// constant_state_interpolator
+CharacterVector constant_state_interpolator(List data, DataFrame states);
+RcppExport SEXP tweenr_constant_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type data(dataSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type states(statesSEXP);
-    __result = Rcpp::wrap(constant_interpolator(data, states));
+    __result = Rcpp::wrap(constant_state_interpolator(data, states));
+    return __result;
+END_RCPP
+}
+// numeric_element_interpolator
+DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease);
+RcppExport SEXP tweenr_numeric_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type frame(frameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    __result = Rcpp::wrap(numeric_element_interpolator(data, group, frame, ease));
+    return __result;
+END_RCPP
+}
+// colour_element_interpolator
+DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group, IntegerVector frame, CharacterVector ease);
+RcppExport SEXP tweenr_colour_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type frame(frameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    __result = Rcpp::wrap(colour_element_interpolator(data, group, frame, ease));
+    return __result;
+END_RCPP
+}
+// constant_element_interpolator
+DataFrame constant_element_interpolator(CharacterVector data, CharacterVector group, IntegerVector frame, CharacterVector ease);
+RcppExport SEXP tweenr_constant_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< CharacterVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type frame(frameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    __result = Rcpp::wrap(constant_element_interpolator(data, group, frame, ease));
     return __result;
 END_RCPP
 }
