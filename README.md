@@ -5,7 +5,7 @@
 ## What is this?
 tweenr is a small package that makes it easy to interpolate your data between
 different states, specifying the length of each change, the easing of the
-transition and how many intermidiary steps should be generated. tweenr works
+transition and how many intermediary steps should be generated. tweenr works
 particularly well with [gganimate](https://github.com/dgrtwo/gganimate) but can
 be used for any case where interpolation of data is needed. All functions are
 vectorized so in any case you'll get better performance than using `approx` and 
