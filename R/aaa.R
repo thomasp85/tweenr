@@ -69,8 +69,45 @@ prepareTween <- function(data, n, ease) {
     if (!all(ease %in% validEase)) {
         stop('ease must be the name of a valid easing function')
     }
-    n <- c(rep(n, length.out = length(data) - 1) - 1, 0)
+    n <- c(rep(n, length.out = length(data) - 1) - 1, 1)
     ease <- c(rep(ease, length.out = length(data) - 1), 'constant')
+    states <- data.frame(
+        state = seq_along(data) - 1,
+        nframes = n,
+        ease = ease,
+        stringsAsFactors = FALSE
+    )
+    list(
+        data = data,
+        states = states
+    )
+}
+
+prepareTweenTranspose <- function(data, n, ease) {
+    if (!is.list(data)) {
+        data <- list(data)
+    }
+    if (!all(ease %in% validEase)) {
+        stop('ease must be the name of a valid easing function')
+    }
+    n <- rep(n, length.out = length(data))
+    n <- Map(function(n, l) {
+        s <- floor(n / l)
+        s <- rep(s, l)
+        overhead <- n - sum(s)
+        if (overhead) {
+            s <- s + rep(floor(overhead / l), l)
+            addInd <- sample(length(s), overhead %% l)
+            s[addInd] <- s[addInd] + 1
+        }
+        c(s, 1)
+    }, n = n - 1, l = lengths(data) - 1)
+    n <- unlist(n)
+    ease <- rep(ease, length.out = length(data))
+    ease <- rep(ease, lengths(data) - 1)
+    easeSplit <- split(ease, rep(seq_along(data), lengths(data) - 1))
+    ease <- unlist(lapply(easeSplit, append, values = 'constant'))
+    data <- as.list(unlist(data))
     states <- data.frame(
         state = seq_along(data) - 1,
         nframes = n,

@@ -26,6 +26,7 @@ Collate:
     'tween_numeric.R'
     'tween.R'
     'tween_appear.R'
+    'tween_constant.R'
     'tween_elements.R'
     'tween_states.R'
     'tweenr_package.R'
