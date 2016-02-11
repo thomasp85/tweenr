@@ -18,8 +18,9 @@ vectorized so in any case you'll get better performance than using `approx` and
 *tweening of 9 states of data*
 
 ## How does it work?
-Installation is currently through the use of `devtools` but the package will
-eventually land on CRAN:
+tweenr is available through CRAN using `install.packages('tweenr')`. In order to
+get the development version, you can install directly from GitHub using 
+devtools:
 
 ```r
 if (!require(devtools)) {
