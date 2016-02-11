@@ -54,6 +54,8 @@ negative age means that the observation has yet to appear.
 
 ### tween_elements
 This function is the most versatile of them all. It takes a data.frame that 
-contains a time column, a observation.id column and an ease column along with 
-the rest of the data. Each observation, defined by the observation.id, is
-animated through its individual states, using its own easing function.
+contains a time column, an observation id column and an ease column along with 
+the rest of the data. Each observation, defined by the id, is animated through 
+its individual states, using its own easing function:
+
+![tween_elements](https://dl.dropboxusercontent.com/u/2323585/tweenr/element.gif)
