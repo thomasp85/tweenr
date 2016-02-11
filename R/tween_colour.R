@@ -2,6 +2,8 @@
 #'
 NULL
 
+#' @rdname tween
+#'
 #' @export
 tween_colour <- function(data, n, ease = 'linear') {
     data <- as.list(data)
@@ -13,9 +15,13 @@ tween_colour <- function(data, n, ease = 'linear') {
     unname(split(tweendata,
                  rep(seq_along(data[[1]]), length.out = length(tweendata))))
 }
+#' @rdname tween
+#'
 #' @export
 tween_color <- tween_colour
 
+#' @rdname tween
+#'
 #' @export
 tween_colour_t <- function(data, n, ease = 'linear') {
     if (!is.list(data)) {
@@ -29,5 +35,7 @@ tween_colour_t <- function(data, n, ease = 'linear') {
     unname(split(tweendata,
                  rep(seq_along(data), rep(n, length.out = length(data)))))
 }
+#' @rdname tween
+#'
 #' @export
 tween_color_t <- tween_colour_t

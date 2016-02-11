@@ -32,4 +32,18 @@ calculates the duration of each frame. At each frame each row is
 assigned an age based on the progression of frames and the entry point of in
 time for that row. A negative age means that the row has not appeared yet.
 }
+\examples{
+data <- data.frame(
+  x = rnorm(100),
+  y = rnorm(100),
+  time = sample(50, 100, replace = TRUE)
+)
+
+data <- tween_appear(data, 'time', nframes = 200)
+
+}
+\seealso{
+Other data.frame.tween: \code{\link{tween_elements}},
+  \code{\link{tween_states}}
+}
 

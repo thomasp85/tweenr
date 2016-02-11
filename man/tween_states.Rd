@@ -33,35 +33,22 @@ the columns with change. Each state can have a defined period of pause, the
 transition length between each states can be defined as well as the easing
 function.
 }
-\details{
-How transitions proceed between states are defined by an easing function. The
-easing function converts the parameterized progression from one state to the
-next to a new number between 0 and 1. \code{linear} easing is equivalent to
-an identity function that returns the input unchanged. In addition there are
-a range of additional easers available, each with three modifiers.
+\examples{
+data1 <- data.frame(
+  x = 1:20,
+  y = 0,
+  colour = 'forestgreen',
+  stringsAsFactors = FALSE
+)
+data2 <- data1
+data2$x <- 20:1
+data2$y <- 1
 
-\strong{Easing modifiers:}
-\describe{
- \item{-in}{The easing function is applied as-is}
- \item{-out}{The easing function is applied in reverse}
- \item{-in-out}{The first half of the transition it is applied as-is, while
- in the last half it is reversed}
+data <- tween_states(list(data1, data2), 3, 1, 'cubic-in-out', 100)
+
 }
-
-\strong{Easing functions}
-\describe{
- \item{quadratic}{Models a power-of-2 function}
- \item{cubic}{Models a power-of-3 function}
- \item{quartic}{Models a power-of-4 function}
- \item{quintic}{Models a power-of-5 function}
- \item{sine}{Models a sine function}
- \item{circular}{Models a pi/2 circle arc}
- \item{exponential}{Models an exponential function}
- \item{elastic}{Models an elastic release of energy}
- \item{back}{Models a pullback and relase}
- \item{bounce}{Models the bouncing of a ball}
-}
-
-A good visual explanation can be found \href{http://easings.net}{here}.
+\seealso{
+Other data.frame.tween: \code{\link{tween_appear}},
+  \code{\link{tween_elements}}
 }
 

@@ -2,6 +2,8 @@
 #'
 NULL
 
+#' @rdname tween
+#'
 #' @export
 tween_constant <- function(data, n, ease = 'linear') {
     data <- as.list(data)
@@ -12,6 +14,8 @@ tween_constant <- function(data, n, ease = 'linear') {
                  rep(seq_along(data[[1]]), length.out = length(tweendata))))
 }
 
+#' @rdname tween
+#'
 #' @export
 tween_constant_t <- function(data, n, ease = 'linear') {
     if (!is.list(data)) {

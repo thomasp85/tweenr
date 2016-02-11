@@ -23,6 +23,17 @@
 #' @return A data.frame as \code{data} but repeated \code{nframes} times and
 #' with the additional columns \code{.age} and \code{.frame}
 #'
+#' @family data.frame tween
+#'
+#' @examples
+#' data <- data.frame(
+#'   x = rnorm(100),
+#'   y = rnorm(100),
+#'   time = sample(50, 100, replace = TRUE)
+#' )
+#'
+#' data <- tween_appear(data, 'time', nframes = 200)
+#'
 #' @export
 #'
 tween_appear <- function(data, time, timerange, nframes) {

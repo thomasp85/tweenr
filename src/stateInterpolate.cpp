@@ -315,11 +315,11 @@ DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group
 
     for (i = 1; i < data.size(); ++i) {
         groupString = as<std::string>(group[i]);
-        if (currentGroup == groupString) {
+        if (currentGroup.compare(groupString) == 0) {
             nframes = frame[i] - frame[i-1];
             std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
             for (j = 0; j < ease_points.size(); ++j) {
-                tweendata.push_back(data[i - 1] + ease_points[j] * nframes);
+                tweendata.push_back(data[i - 1] + ease_points[j] * (data[i] - data[i - 1]));
                 tweengroup.push_back(groupString);
                 tweenframe.push_back(j + frame[i-1]);
             }
@@ -330,6 +330,9 @@ DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group
             currentGroup = groupString;
         }
     }
+    tweendata.push_back(data[i - 1]);
+    tweengroup.push_back(currentGroup);
+    tweenframe.push_back(frame[i-1]);
 
     return DataFrame::create(
         Named("data") = wrap(tweendata),
@@ -351,13 +354,13 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
 
     for (i = 1; i < data.nrow(); ++i) {
         groupString = as<std::string>(group[i]);
-        if (currentGroup == groupString) {
+        if (currentGroup.compare(groupString) == 0) {
             nframes = frame[i] - frame[i-1];
             std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
             for (j = 0; j < ease_points.size(); ++j) {
-                tweendata1.push_back(data(i - 1, 0) + ease_points[j] * nframes);
-                tweendata2.push_back(data(i - 1, 1) + ease_points[j] * nframes);
-                tweendata3.push_back(data(i - 1, 2) + ease_points[j] * nframes);
+                tweendata1.push_back(data(i - 1, 0) + ease_points[j] * (data(i, 0) - data(i - 1, 0)));
+                tweendata2.push_back(data(i - 1, 1) + ease_points[j] * (data(i, 1) - data(i - 1, 1)));
+                tweendata3.push_back(data(i - 1, 2) + ease_points[j] * (data(i, 2) - data(i - 1, 2)));
                 tweengroup.push_back(groupString);
                 tweenframe.push_back(j + frame[i-1]);
             }
@@ -391,7 +394,7 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
 
     for (i = 1; i < data.size(); ++i) {
         groupString = as<std::string>(group[i]);
-        if (currentGroup == groupString) {
+        if (currentGroup.compare(groupString) == 0) {
             nframes = frame[i] - frame[i-1];
             std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
             for (j = 0; j < ease_points.size(); ++j) {

@@ -1,15 +1,19 @@
 Package: tweenr
 Type: Package
-Title: Interpolate data for smooth animations
-Version: 0.0.1
-Date: 2016-02-08
+Title: Interpolate Data for Smooth Animations
+Version: 0.1.1
+Date: 2016-02-11
 Authors@R: c(
     person('Thomas Lin', 'Pedersen', , 'thomasp85@gmail.com', c('aut', 'cre'))
     )
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
 Description: In order to create smooth animation between states of data,
     tweening is necessary. tweenr provides a range of function for creating
-    tweened data that plugs right in to tools such as gganimate.
+    tweened data that plugs right in to tools such as gganimate. Furthermore it
+    adds a number of vectorized interpolaters for common R data types such as
+    numeric, date and colour.
+URL: https://github.com/thomasp85/tweenr
+BugReports: https://github.com/thomasp85/tweenr/issues
 License: GPL (>=2)
 LazyData: TRUE
 Imports:
@@ -19,11 +23,12 @@ LinkingTo: Rcpp
 Collate:
     'RcppExports.R'
     'aaa.R'
+    'tween_numeric.R'
+    'display_ease.R'
     'interpolate.R'
     'tween_colour.R'
     'tween_datetime.R'
     'tween_date.R'
-    'tween_numeric.R'
     'tween.R'
     'tween_appear.R'
     'tween_constant.R'

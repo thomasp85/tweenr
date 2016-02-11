@@ -2,6 +2,8 @@
 #'
 NULL
 
+#' @rdname tween
+#'
 #' @export
 tween_numeric <- function(data, n, ease = 'linear') {
     data <- as.list(data)
@@ -14,6 +16,8 @@ tween_numeric <- function(data, n, ease = 'linear') {
                  rep(seq_along(data[[1]]), length.out = length(tweendata))))
 }
 
+#' @rdname tween
+#'
 #' @export
 tween_numeric_t <- function(data, n, ease = 'linear') {
     if (!is.list(data)) {
