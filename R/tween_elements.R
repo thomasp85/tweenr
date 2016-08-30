@@ -61,7 +61,7 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
     specialCols <- c(group, ease)
     data <- data[order(data[[group]], data[[time]]), ]
     group <- as.character(data[[group]])
-    frame <- round((data$time - timerange[1]) / framelength)
+    frame <- round((data[[time]] - timerange[1]) / framelength)
     ease <- as.character(data[[ease]])
     data <- data[, !names(data) %in% specialCols, drop = FALSE]
 
