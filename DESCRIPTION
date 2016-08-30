@@ -1,8 +1,8 @@
 Package: tweenr
 Type: Package
 Title: Interpolate Data for Smooth Animations
-Version: 0.1.2
-Date: 2016-02-11
+Version: 0.1.4
+Date: 2016-08-30
 Authors@R: c(
     person('Thomas Lin', 'Pedersen', , 'thomasp85@gmail.com', c('aut', 'cre'))
     )
@@ -16,6 +16,7 @@ URL: https://github.com/thomasp85/tweenr
 BugReports: https://github.com/thomasp85/tweenr/issues
 License: GPL (>=2)
 LazyData: TRUE
+Depends: R (>= 3.2.0)
 Imports:
     Rcpp (>= 0.12.3),
     grDevices
