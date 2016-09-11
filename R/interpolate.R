@@ -63,18 +63,14 @@ interpolate_character_element <- function(data, group, frame, ease) {
 }
 interpolate_date_element <- function(data, group, frame, ease) {
     data <- as.numeric(data)
-    res <- interpolate_numeric_element(data, group, frame, ease)
-    res[['data']] <- as.Date(res[['data']], origin = BASEDATE)
-    res
+    as.Date(interpolate_numeric_element(data, group, frame, ease), origin = BASEDATE)
 }
 interpolate_datetime_element <- function(data, group, frame, ease) {
     if (inherits(data, 'POSIXlt')) {
         warning("POSIXlt converted to POSIXct")
     }
     data <- as.numeric(data)
-    res <- interpolate_numeric_element(data, group, frame, ease)
-    res[['data']] <-  as.POSIXct(res[['data']], origin = BASEDATETIME)
-    res
+    as.POSIXct(interpolate_numeric_element(data, group, frame, ease), origin = BASEDATETIME)
 }
 interpolate_factor_element <- function(data, group, frame, ease) {
     data <- as.character(data)
