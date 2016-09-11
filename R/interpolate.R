@@ -74,5 +74,7 @@ interpolate_datetime_element <- function(data, group, frame, ease) {
 }
 interpolate_factor_element <- function(data, group, frame, ease) {
     data <- as.character(data)
-    as.factor(interpolate_character_element(data, group, frame, ease))
+    res <- interpolate_character_element(data, group, frame, ease)
+    res[['data']] <- as.factor(res[['data']])
+    res
 }
