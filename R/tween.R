@@ -102,7 +102,7 @@ tween_t <- function(data, n, ease = 'linear') {
 guessType <- function(data) {
     data <- unlist(data)
     if (is.character(data)) {
-        if (anyNA(suppressWarnings(col2rgb(head(data, 100))))) {
+        if (!anyNA(suppressWarnings(col2rgb(head(data, 100))))) {
             return('colour')
         }
     }
