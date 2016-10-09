@@ -412,8 +412,12 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
             tweenframe.push_back(frame[i-1]);
             currentGroup = groupString;
         }
+        
     }
-
+    tweendata.push_back(as<std::string>(data[i - 1]));
+    tweengroup.push_back(currentGroup);
+    tweenframe.push_back(frame[i-1]);
+    
     return DataFrame::create(
         Named("data") = wrap(tweendata),
         Named("group") = wrap(tweengroup),
