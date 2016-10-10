@@ -1,8 +1,8 @@
 # tweenr
 
 [![Travis-CI Build Status](https://travis-ci.org/thomasp85/tweenr.svg?branch=master)](https://travis-ci.org/thomasp85/tweenr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tweenr)](http://cran.r-project.org/package=tweenr)
-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](http://cran.r-project.org/package=tweenr)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tweenr)](https://CRAN.R-project.org/package=tweenr)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr)
 
 ## What is this?
 tweenr is a small package that makes it easy to interpolate your data between
