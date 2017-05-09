@@ -11,7 +11,7 @@ be used for any case where interpolation of data is needed. All functions are
 vectorized so in any case you'll get better performance than using `approx` and 
 `colorRamp`.
 
-![tweenr](https://www.dropbox.com/s/iau6o90senz2ytv/showreel.gif)
+![tweenr](https://www.dropbox.com/s/iau6o90senz2ytv/showreel.gif?raw=1)
 
 *tweening of 9 states of data*
 
@@ -56,7 +56,7 @@ contains a time column, an observation id column and an ease column along with
 the rest of the data. Each observation, defined by the id, is animated through 
 its individual states, using its own easing function:
 
-![tween_elements](https://www.dropbox.com/s/bbi25t699nf1au5/element.gif)
+![tween_elements](https://www.dropbox.com/s/bbi25t699nf1au5/element.gif?raw=1)
 
 ## How did I make those two animations?
 Following are the code needed to recreate the two animations shown above. Most
