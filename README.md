@@ -127,7 +127,7 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
     expand_limits(x=c(-0.36, 1.36), y=c(-0.36, 1.36)) + 
     theme_bw()
 animation::ani.options(interval = 1/15)
-gg_animate(p, "dancing ball.gif", title_frame = F, ani.width = 400, 
+gganimate(p, "dancing ball.gif", title_frame = F, ani.width = 400, 
            ani.height = 400)
 ```
 
@@ -169,5 +169,5 @@ p <- ggplot(data = dt) +
     scale_alpha(range = c(0, 1), guide = 'none') + 
     ggforce::theme_no_axes()
 animation::ani.options(interval = 1/24)
-gg_animate(p, 'dropping balls.gif', title_frame = F)
+gganimate(p, 'dropping balls.gif', title_frame = F)
 ```
