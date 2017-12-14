@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // numeric_state_interpolator
 NumericVector numeric_state_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_numeric_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+RcppExport SEXP _tweenr_numeric_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // colour_state_interpolator
 NumericMatrix colour_state_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_colour_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+RcppExport SEXP _tweenr_colour_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -31,7 +31,7 @@ END_RCPP
 }
 // constant_state_interpolator
 CharacterVector constant_state_interpolator(List data, DataFrame states);
-RcppExport SEXP tweenr_constant_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+RcppExport SEXP _tweenr_constant_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // numeric_element_interpolator
 DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease);
-RcppExport SEXP tweenr_numeric_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+RcppExport SEXP _tweenr_numeric_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -57,7 +57,7 @@ END_RCPP
 }
 // colour_element_interpolator
 DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group, IntegerVector frame, CharacterVector ease);
-RcppExport SEXP tweenr_colour_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+RcppExport SEXP _tweenr_colour_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -71,7 +71,7 @@ END_RCPP
 }
 // constant_element_interpolator
 DataFrame constant_element_interpolator(CharacterVector data, CharacterVector group, IntegerVector frame, CharacterVector ease);
-RcppExport SEXP tweenr_constant_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+RcppExport SEXP _tweenr_constant_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -82,4 +82,19 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(constant_element_interpolator(data, group, frame, ease));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_tweenr_numeric_state_interpolator", (DL_FUNC) &_tweenr_numeric_state_interpolator, 2},
+    {"_tweenr_colour_state_interpolator", (DL_FUNC) &_tweenr_colour_state_interpolator, 2},
+    {"_tweenr_constant_state_interpolator", (DL_FUNC) &_tweenr_constant_state_interpolator, 2},
+    {"_tweenr_numeric_element_interpolator", (DL_FUNC) &_tweenr_numeric_element_interpolator, 4},
+    {"_tweenr_colour_element_interpolator", (DL_FUNC) &_tweenr_colour_element_interpolator, 4},
+    {"_tweenr_constant_element_interpolator", (DL_FUNC) &_tweenr_constant_element_interpolator, 4},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_tweenr(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

@@ -12,6 +12,6 @@
 #' \code{\link{tween_elements}} and \code{\link{tween_appear}}, while the
 #' standard interpolaters can be found at \code{\link{tween}}
 #'
-#' @useDynLib tweenr
+#' @useDynLib tweenr, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 '_PACKAGE'
