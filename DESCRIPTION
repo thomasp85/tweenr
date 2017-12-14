@@ -21,7 +21,7 @@ Imports:
     Rcpp (>= 0.12.3),
     grDevices
 LinkingTo: Rcpp
-Collate:
+Collate: 
     'RcppExports.R'
     'aaa.R'
     'tween_numeric.R'
