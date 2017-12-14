@@ -1,5 +1,4 @@
-#' Create smooth data transitions
-#'
+#' @details
 #' tweenr is a small collection of functions to help you in creating
 #' intermediary representations of your data, i.e. interpolating states of data.
 #' As such it's a great match for packages such as animate and gganimate, since

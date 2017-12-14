@@ -49,7 +49,7 @@ data <- tween_elements(data, 'time', 'group', 'ease', nframes = 100)
 
 }
 \seealso{
-Other data.frame.tween: \code{\link{tween_appear}},
+Other data.frame tween: \code{\link{tween_appear}},
   \code{\link{tween_states}}
 }
-
+\concept{data.frame tween}

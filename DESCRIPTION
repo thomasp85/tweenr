@@ -1,8 +1,8 @@
 Package: tweenr
 Type: Package
 Title: Interpolate Data for Smooth Animations
-Version: 0.1.5
-Date: 2016-10-09
+Version: 0.1.5.9999
+Date: 2017-12-14
 Authors@R: c(
     person('Thomas Lin', 'Pedersen', , 'thomasp85@gmail.com', c('aut', 'cre'))
     )
@@ -36,4 +36,4 @@ Collate:
     'tween_elements.R'
     'tween_states.R'
     'tweenr_package.R'
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1.9000

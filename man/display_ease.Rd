@@ -56,4 +56,3 @@ display_ease('linear')
 display_ease('elastic-in')
 
 }
-

@@ -4,8 +4,17 @@
 \name{tweenr-package}
 \alias{tweenr}
 \alias{tweenr-package}
-\title{Create smooth data transitions}
+\title{tweenr: Interpolate Data for Smooth Animations}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
+In order to create smooth animation between states of data,
+tweening is necessary. This package provides a range of functions for
+creating tweened data that plugs right into functions such as gg_animate()
+from the 'gganimate' package. Furthermore it adds a number of vectorized
+interpolaters for common R data types such as numeric, date and colour.
+}
+\details{
 tweenr is a small collection of functions to help you in creating
 intermediary representations of your data, i.e. interpolating states of data.
 As such it's a great match for packages such as animate and gganimate, since
@@ -14,10 +23,20 @@ efficient interpolaters for numeric, date, datetime and colour that are
 vectorized and thus more efficient to use than the build in interpolation
 functions (mainly \code{\link[stats]{approx}} and
 \code{\link[grDevices]{colorRamp}}).
-}
-\details{
+
 The main functions for data.frames are \code{\link{tween_states}},
 \code{\link{tween_elements}} and \code{\link{tween_appear}}, while the
 standard interpolaters can be found at \code{\link{tween}}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/thomasp85/tweenr}
+  \item Report bugs at \url{https://github.com/thomasp85/tweenr/issues}
+}
 
+}
+\author{
+\strong{Maintainer}: Thomas Lin Pedersen \email{thomasp85@gmail.com}
+
+}
