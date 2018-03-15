@@ -14,26 +14,15 @@ Description: In order to create smooth animation between states of data,
     interpolaters for common R data types such as numeric, date and colour.
 URL: https://github.com/thomasp85/tweenr
 BugReports: https://github.com/thomasp85/tweenr/issues
-License: GPL (>=2)
+License: MIT + file LICENSE
+Encoding: UTF-8
 LazyData: TRUE
 Depends: R (>= 3.2.0)
 Imports:
     Rcpp (>= 0.12.3),
-    grDevices
+    grDevices,
+    farver
+Remotes: thomasp85/farver
 LinkingTo: Rcpp
-Collate: 
-    'RcppExports.R'
-    'aaa.R'
-    'tween_numeric.R'
-    'display_ease.R'
-    'interpolate.R'
-    'tween_colour.R'
-    'tween_datetime.R'
-    'tween_date.R'
-    'tween.R'
-    'tween_appear.R'
-    'tween_constant.R'
-    'tween_elements.R'
-    'tween_states.R'
-    'tweenr_package.R'
 RoxygenNote: 6.0.1.9000
+Roxygen: list(markdown=TRUE)

@@ -1,20 +1,18 @@
-#' @include RcppExports.R
-#'
-NULL
-
 ## STATES
 
 interpolate_numeric_state <- function(data, states) {
     numeric_state_interpolator(data, states)
 }
-#' @importFrom grDevices convertColor col2rgb rgb
+#' @importFrom grDevices col2rgb rgb
+#' @importFrom farver convert_colour
 interpolate_colour_state <- function(data, states) {
     data <- lapply(data, function(d){
-        convertColor(t(col2rgb(d)), from = 'sRGB', to = 'Lab', scale.in = 255)
+        convert_colour(t(col2rgb(d)), from = 'rgb', to = 'lab')
     })
     int_col <- colour_state_interpolator(data, states)
-    int_col <- convertColor(int_col, from = 'Lab', to = 'sRGB', clip = TRUE)
-    rgb(int_col[, 1], int_col[, 2], int_col[, 3])
+    int_col <- convert_colour(int_col, from = 'lab', to = 'rgb')
+    int_col[int_col > 255] <- 255
+    rgb(int_col[, 1], int_col[, 2], int_col[, 3], maxColorValue = 255)
 }
 interpolate_constant_state <- function(data, states) {
     constant_state_interpolator(data, states)
@@ -43,13 +41,15 @@ interpolate_factor_state <- function(data, states) {
 interpolate_numeric_element <- function(data, group, frame, ease) {
     numeric_element_interpolator(data, group, frame, ease)
 }
-#' @importFrom grDevices convertColor col2rgb rgb
+#' @importFrom grDevices col2rgb rgb
+#' @importFrom farver convert_colour
 interpolate_colour_element <- function(data, group, frame, ease) {
-    data <- convertColor(t(col2rgb(data)), from = 'sRGB', to = 'Lab', scale.in = 255)
+    data <- convert_colour(t(col2rgb(data)), from = 'rgb', to = 'lab')
     int_col <- colour_element_interpolator(data, group, frame, ease)
-    int_col_convert <- convertColor(as.matrix(int_col[, c('data1', 'data2', 'data3')]), from = 'Lab', to = 'sRGB', clip = TRUE)
+    int_col_convert <- convert_colour(as.matrix(int_col[, c('data1', 'data2', 'data3')]), from = 'lab', to = 'rgb')
+    int_col_convert[int_col_convert > 255] <- 255
     data.frame(
-        data = rgb(int_col_convert[, 1], int_col_convert[, 2], int_col_convert[, 3]),
+        data = rgb(int_col_convert[, 1], int_col_convert[, 2], int_col_convert[, 3], maxColorValue = 255),
         group = int_col$group,
         frame = int_col$frame,
         stringsAsFactors = FALSE
