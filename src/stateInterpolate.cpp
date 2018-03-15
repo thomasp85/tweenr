@@ -373,11 +373,16 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
             currentGroup = groupString;
         }
     }
+    tweendata1.push_back(data(i - 1, 0));
+    tweendata2.push_back(data(i - 1, 1));
+    tweendata3.push_back(data(i - 1, 2));
+    tweengroup.push_back(currentGroup);
+    tweenframe.push_back(frame[i-1]);
 
     return DataFrame::create(
         Named("data1") = wrap(tweendata1),
-        Named("data2") = wrap(tweendata1),
-        Named("data3") = wrap(tweendata1),
+        Named("data2") = wrap(tweendata2),
+        Named("data3") = wrap(tweendata3),
         Named("group") = wrap(tweengroup),
         Named("frame") = wrap(tweenframe)
     );
@@ -412,12 +417,12 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
             tweenframe.push_back(frame[i-1]);
             currentGroup = groupString;
         }
-        
+
     }
     tweendata.push_back(as<std::string>(data[i - 1]));
     tweengroup.push_back(currentGroup);
     tweenframe.push_back(frame[i-1]);
-    
+
     return DataFrame::create(
         Named("data") = wrap(tweendata),
         Named("group") = wrap(tweengroup),
