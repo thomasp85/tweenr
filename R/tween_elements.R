@@ -1,7 +1,3 @@
-#' @include aaa.R
-#'
-NULL
-
 #' Create frames based on individual element states
 #'
 #' This function creates tweens for each observation individually, in cases
@@ -20,15 +16,15 @@ NULL
 #' @param ease The name of the column holding the easing function name
 #'
 #' @param timerange The range of time to span. If missing it will default to
-#' \code{range(data[[time]])}
+#' `range(data[[time]])`
 #'
 #' @param nframes The number of frames to generate. If missing it will default
-#' to \code{ceiling(diff(timerange) + 1)} (At least one frame for each
+#' to `ceiling(diff(timerange) + 1)` (At least one frame for each
 #' individual timepoint)
 #'
-#' @return A data.frame with the same columns as \code{data} except for the
-#' group and ease columns, but replicated \code{nframes} times. Two additional
-#' columns called \code{.frame} and \code{.group} will be added giving the frame
+#' @return A data.frame with the same columns as `data` except for the
+#' group and ease columns, but replicated `nframes` times. Two additional
+#' columns called `.frame` and `.group` will be added giving the frame
 #' number and observation id for each row.
 #'
 #' @family data.frame tween

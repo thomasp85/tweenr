@@ -1,7 +1,3 @@
-#' @include aaa.R
-#'
-NULL
-
 #' @rdname tween
 #'
 #' @export

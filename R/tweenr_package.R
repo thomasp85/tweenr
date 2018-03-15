@@ -5,13 +5,13 @@
 #' it can work directly with data.frames of data, but it also provide fast and
 #' efficient interpolaters for numeric, date, datetime and colour that are
 #' vectorized and thus more efficient to use than the build in interpolation
-#' functions (mainly \code{\link[stats]{approx}} and
-#' \code{\link[grDevices]{colorRamp}}).
+#' functions (mainly [stats::approx()] and
+#' [grDevices::colorRamp()]).
 #'
-#' The main functions for data.frames are \code{\link{tween_states}},
-#' \code{\link{tween_elements}} and \code{\link{tween_appear}}, while the
-#' standard interpolaters can be found at \code{\link{tween}}
+#' The main functions for data.frames are [tween_states()],
+#' [tween_elements()] and [tween_appear()], while the
+#' standard interpolaters can be found at [tween()]
 #'
-#' @useDynLib tweenr, .registration = TRUE
+#' @useDynLib tweenr
 #' @importFrom Rcpp sourceCpp
 '_PACKAGE'

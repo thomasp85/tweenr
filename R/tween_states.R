@@ -1,8 +1,3 @@
-#' @include aaa.R
-#' @include interpolate.R
-#'
-NULL
-
 #' Tween a list of data.frames representing states
 #'
 #' This function is intended to create smooth transitions between states of
@@ -22,12 +17,12 @@ NULL
 #' @param ease The easing functions to use for the transitions. See details.
 #'
 #' @param nframes The number of frames to generate. The actual number of frames
-#' might end up being higher depending on the regularity of \code{tweenlength}
-#' and \code{statelength}.
+#' might end up being higher depending on the regularity of `tweenlength`
+#' and `statelength`.
 #'
 #' @return A data.frame with the same columns as the first data.frame in
-#' \code{data}, but replicated \code{nframes} times. An additional column called
-#' \code{.frame} will be added giving the frame number.
+#' `data`, but replicated `nframes` times. An additional column called
+#' `.frame` will be added giving the frame number.
 #'
 #' @family data.frame tween
 #'
@@ -78,7 +73,7 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
     states$state <- rep(seq_len(nstates) - 1, each = 2, length.out = nrow(states))
     fullLength <- sum(states$length)
     framelength <- fullLength/nframes
-    states$nframes <- ceiling(states$length / framelength)
+    states$nframes <- round(states$length / framelength)
     nframes <- sum(states$nframes)
     framelength <- fullLength/nframes
     data <- Reduce(function(l, r) {
