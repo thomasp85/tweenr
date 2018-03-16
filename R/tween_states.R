@@ -52,6 +52,7 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
         stop('All elements in data must have the same number of rows')
     }
     origNames <- names(data[[1]])
+    if (!is.list(ease)) ease <- as.list(ease)
     allNames <- unlist(lapply(data, names))
     if (!all(allNames %in% origNames)) {
         stop('All columns must be specified in the original data.frame')
@@ -66,11 +67,13 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
     states <- data.frame(
         length = c(statelength, tweenlength)[statesOrder],
         nframes = NA_integer_,
-        ease = c(rep('constant', nstates), ease)[statesOrder],
         state = NA_integer_,
         stringsAsFactors = FALSE
     )
     states$state <- rep(seq_len(nstates) - 1, each = 2, length.out = nrow(states))
+    states$ease <- lapply(c(rep(list('constant'), nstates), ease)[statesOrder], function(e) {
+        structure(rep(e, length.out = length(origNames)), names = origNames)
+    })
     fullLength <- sum(states$length)
     framelength <- fullLength/nframes
     states$nframes <- round(states$length / framelength)
@@ -83,15 +86,17 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
     colClasses <- col_classes(data[[1]])
     tweendata <- lapply(names(data[[1]]),  function(name) {
         d <- lapply(data, `[[`, i = name)
+        d_states <- states
+        d_states$ease <- vapply(d_states$ease, `[`, character(1), i = name)
         switch(
             colClasses[name],
-            numeric = interpolate_numeric_state(d, states),
-            factor = interpolate_factor_state(d, states),
-            character = interpolate_character_state(d, states),
-            colour = interpolate_colour_state(d, states),
-            date = interpolate_date_state(d, states),
-            datetime = interpolate_datetime_state(d, states),
-            constant = interpolate_constant_state(d, states)
+            numeric = interpolate_numeric_state(d, d_states),
+            factor = interpolate_factor_state(d, d_states),
+            character = interpolate_character_state(d, d_states),
+            colour = interpolate_colour_state(d, d_states),
+            date = interpolate_date_state(d, d_states),
+            datetime = interpolate_datetime_state(d, d_states),
+            constant = interpolate_constant_state(d, d_states)
         )
     })
     tweendata <- as.data.frame(tweendata)
