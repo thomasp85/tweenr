@@ -21,7 +21,8 @@ Depends: R (>= 3.2.0)
 Imports:
     Rcpp (>= 0.12.3),
     grDevices,
-    farver
+    farver,
+    magrittr
 Remotes: thomasp85/farver
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1.9000

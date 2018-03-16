@@ -35,6 +35,10 @@ validEase <- c(
     "bounce-in-out"
 )
 
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 col_classes <- function(data) {
     classes <- sapply(data, function(d) {
         if (is.numeric(d)) {
