@@ -32,8 +32,9 @@ interpolate_datetime_state <- function(data, states) {
     as.POSIXct(interpolate_numeric_state(data, states), origin = BASEDATETIME)
 }
 interpolate_factor_state <- function(data, states) {
+    all_levels <- Reduce(union, lapply(data, levels))
     data <- lapply(data, as.character)
-    as.factor(interpolate_character_state(data, states))
+    factor(interpolate_character_state(data, states), all_levels)
 }
 
 ## ELEMENTS
@@ -77,8 +78,9 @@ interpolate_datetime_element <- function(data, group, frame, ease) {
     res
 }
 interpolate_factor_element <- function(data, group, frame, ease) {
+    all_levels <- levels(data)
     data <- as.character(data)
     res <- interpolate_character_element(data, group, frame, ease)
-    res[['data']] <- as.factor(res[['data']])
+    res[['data']] <- factor(res[['data']], all_levels)
     res
 }
