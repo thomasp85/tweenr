@@ -16,7 +16,7 @@
 #' @param ease The name of the column holding the easing function name
 #'
 #' @param timerange The range of time to span. If missing it will default to
-#' `range(data[[time]])`
+#' \code{range(data[[time]])}
 #'
 #' @param nframes The number of frames to generate. If missing it will default
 #' to `ceiling(diff(timerange) + 1)` (At least one frame for each
