@@ -11,7 +11,7 @@
 #' numbers of states and/or you want to specify the total number of points for
 #' each tween.
 #'
-#' @section Difference Between `tween_numeric` and [stats::approx()]:
+#' @section Difference Between `tween_numeric` and `approx()`:
 #' `tween_numeric` (and `tween_numeric_t`) is superficially equivalent to
 #' [stats::approx()], but there are differences.
 #' [stats::approx()] will create evenly spaced points, at the expense

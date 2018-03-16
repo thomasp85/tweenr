@@ -25,24 +25,24 @@ a range of additional easers available, each with three modifiers.
 
 \strong{Easing modifiers:}
 \describe{
- \item{-in}{The easing function is applied as-is}
- \item{-out}{The easing function is applied in reverse}
- \item{-in-out}{The first half of the transition it is applied as-is, while
- in the last half it is reversed}
+\item{-in}{The easing function is applied as-is}
+\item{-out}{The easing function is applied in reverse}
+\item{-in-out}{The first half of the transition it is applied as-is, while
+in the last half it is reversed}
 }
 
 \strong{Easing functions}
 \describe{
- \item{quadratic}{Models a power-of-2 function}
- \item{cubic}{Models a power-of-3 function}
- \item{quartic}{Models a power-of-4 function}
- \item{quintic}{Models a power-of-5 function}
- \item{sine}{Models a sine function}
- \item{circular}{Models a pi/2 circle arc}
- \item{exponential}{Models an exponential function}
- \item{elastic}{Models an elastic release of energy}
- \item{back}{Models a pullback and relase}
- \item{bounce}{Models the bouncing of a ball}
+\item{quadratic}{Models a power-of-2 function}
+\item{cubic}{Models a power-of-3 function}
+\item{quartic}{Models a power-of-4 function}
+\item{quintic}{Models a power-of-5 function}
+\item{sine}{Models a sine function}
+\item{circular}{Models a pi/2 circle arc}
+\item{exponential}{Models an exponential function}
+\item{elastic}{Models an elastic release of energy}
+\item{back}{Models a pullback and relase}
+\item{bounce}{Models the bouncing of a ball}
 }
 
 In addition to this function a good animated explanation can be found
