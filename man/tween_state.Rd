@@ -3,12 +3,18 @@
 \name{tween_state}
 \alias{tween_state}
 \alias{keep_state}
+\alias{open_state}
+\alias{close_state}
 \title{Compose tweening between states}
 \usage{
 tween_state(.data, to, ease, nframes, id = NULL, enter = NULL,
   exit = NULL)
 
 keep_state(.data, nframes)
+
+open_state(.data, ease, nframes, enter)
+
+close_state(.data, ease, nframes, exit)
 }
 \arguments{
 \item{.data}{A data.frame to start from. If \code{.data} is the result of a prior
@@ -24,14 +30,16 @@ each column in the data set.}
 \item{nframes}{The number of frames to calculate for the tween}
 
 \item{id}{The column to match observations on. If \code{NULL} observations will be
-matched by position}
+matched by position. See the \emph{Match, Enter, and Exit} section for more
+information.}
 
 \item{enter, exit}{functions that calculate a start state for new observations
 that appear in \code{to} or an end state for observations that are not present in
 \code{to}. If \code{NULL} the new/old observations will not be part of the tween. The
 function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
-a modified version of that data.frame.}
+a modified version of that data.frame. See the \emph{Match, Enter, and Exit}
+section for more information.}
 }
 \value{
 A data.frame containing all the intermediary states in the tween,
@@ -43,8 +51,48 @@ letting you gradually build up a scene by composing state changes one by one.
 This setup lets you take more control over each state change and allows you
 to work with datasets with uneven number of rows, flexibly specifying what
 should happen with entering and exiting data. \code{keep_state()} is a simpel
-helper for letting you pause at a state.
+helper for letting you pause at a state. \code{open_state()} is a shortcut from
+tweening from an empty dataset with a given \code{enter()} function while
+\code{close_state()} is the same but will instead tween into an empty dataset with
+a given \code{exit()} function.
 }
+\section{Match, Enter, and Exit}{
+
+When there are discrepancies between the two states to tweeen between you
+need a way to resolve the discrepancy before calculating the intermediary
+states. With discrepancies we mean that some data points are present in the
+start state and not in the end state, and/or some are present in the end
+state but not in the start state. A simple example is that the start state
+contains 100 rows and the end state contains 70. There are 30 missing rows
+that we need to do something about before we can calculate the tween.
+
+\strong{Making pairs}
+The first question to answer is "How do we know which observations are
+disappearing (\emph{exiting}) and/or appearing (\emph{entering})?". This is done with
+the \code{id} argument which should give a column name to match rows between the
+two states on. If \code{id = NULL} the rows will be matched by position (in the
+above example the last 30 rows in the start state will be entering). The \code{id}
+column must only contain unique values in order to work.
+
+\strong{Making up states}
+Once the rows in each state has been paired you'll end up with three sets of
+data. One containing rows that is present in both the start and end state,
+one containing rows only present in the start state, and one only containing
+rows present in the end state. The first group is easy - here you just tween
+between each rows - but for the other two we'll need some state to start or
+end the tween with. This is really the purpose of the \code{enter} and \code{exit}
+functions. They take a data frame containing the subset of data that has not
+been matched and must return a new data frame giving the state that these
+rows must be tweened from/into. A simple example could be an \code{enter} function
+that sets the variable giving the opacity in the plot to 0 - this will make
+the new points fade into view during the transition.
+
+\strong{Ignoring discrepancies}
+The default values for \code{enter} and \code{exit} is \code{NULL}. This value indicate that
+non-matching rows should simply be ignored for the transition and simply
+appear in the last frame of the tween. This is the default.
+}
+
 \examples{
 data1 <- data.frame(
   x = 1:20,
@@ -60,5 +108,27 @@ data <- data1 \%>\%
   tween_state(data2, 'linear', 50) \%>\%
   keep_state(20) \%>\%
   tween_state(data1, 'bounce-out', 50)
+
+# Using enter and exit (made up numbers)
+df1 <- data.frame(
+  country = c('Denmark', 'Sweden', 'Norway'),
+  population = c(5e6, 10e6, 3.5e6)
+)
+df2 <- data.frame(
+  country = c('Denmark', 'Sweden', 'Norway', 'Finland'),
+  population = c(6e6, 10.5e6, 4e6, 3e6)
+)
+df3 <- data.frame(
+  country = c('Denmark', 'Norway'),
+  population = c(10e6, 6e6)
+)
+to_zero <- function(x) {
+  x$population <- 0
+  x
+}
+pop_devel <- df1 \%>\%
+  tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) \%>\%
+  tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
+              exit = to_zero)
 
 }
