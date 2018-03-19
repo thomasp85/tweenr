@@ -113,7 +113,7 @@
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
-    from <- get_last_frame(.data)
+    from <- .get_last_frame(.data)
     if (nrow(from) != nrow(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
         stop('from and to must have identical columns', call. = FALSE)
@@ -149,50 +149,68 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
         tweendata[tweendata$.frame != 1, , drop = FALSE],
         cbind(to, .frame = nframes)
     )
-    with_prior_frames(.data, tweendata)
+    .with_prior_frames(.data, tweendata)
 }
 #' @rdname tween_state
 #' @export
 keep_state <- function(.data, nframes) {
-    state <- get_last_frame(.data)
+    state <- .get_last_frame(.data)
     if (nrow(state) != nrow(.data)) nframes <- nframes + 1
     states <- state[rep(seq_len(nrow(state)), nframes), , drop = FALSE]
     states$.frame <- rep(seq_len(nframes), each = nrow(state))
-    with_prior_frames(.data, states)
+    .with_prior_frames(.data, states)
 }
 #' @rdname tween_state
 #' @export
 open_state <- function(.data, ease, nframes, enter) {
-    to <- get_first_frame(.data)
+    to <- .get_first_frame(.data)
     if (nrow(to) != nrow(.data)) nframes <- nframes + 1
     from <- enter(to)
     tweendata <- tween_state(from, to, ease, nframes)
-    with_later_frames(.data, tweendata)
+    .with_later_frames(.data, tweendata)
 }
 #' @rdname tween_state
 #' @export
 close_state <- function(.data, ease, nframes, exit) {
-    from <- get_last_frame(.data)
+    from <- .get_last_frame(.data)
     if (nrow(from) != nrow(.data)) nframes <- nframes + 1
     to <- exit(from)
     tweendata <- tween_state(from, to, ease, nframes)
-    with_prior_frames(.data, tweendata)
+    .with_prior_frames(.data, tweendata)
 }
-get_last_frame <- function(data) {
+#' Helpers for working with tweened data
+#'
+#' These are internal helpers for extracting and inserting data into a
+#' data.frame of tweened states.
+#'
+#' @param data,prior,later A data.frame. If a `.frame` column exists it will be interpreted
+#' as a data.frame containing multiple states
+#'
+#' @param new_tween The result of a tweening
+#'
+#' @return A data.frame
+#' @keywords internal
+#' @export
+#'
+.get_last_frame <- function(data) {
     if ('.frame' %in% names(data)) {
         data[data$.frame == max(data$.frame), names(data) != '.frame']
     } else {
         data
     }
 }
-get_first_frame <- function(data) {
+#' @rdname dot-get_last_frame
+#' @export
+.get_first_frame <- function(data) {
     if ('.frame' %in% names(data)) {
         data[data$.frame == 1, names(data) != '.frame']
     } else {
         data
     }
 }
-with_prior_frames <- function(prior, new_tween) {
+#' @rdname dot-get_last_frame
+#' @export
+.with_prior_frames <- function(prior, new_tween) {
     if ('.frame' %in% names(prior)) {
         prior <- prior[prior$.frame != max(prior$.frame), , drop = FALSE]
         new_tween$.frame <- new_tween$.frame + max(prior$.frame)
@@ -201,7 +219,9 @@ with_prior_frames <- function(prior, new_tween) {
         new_tween
     }
 }
-with_later_frames <- function(later, new_tween) {
+#' @rdname dot-get_last_frame
+#' @export
+.with_later_frames <- function(later, new_tween) {
     if ('.frame' %in% names(later)) {
         later <- later[later$.frame != 1, , drop = FALSE]
         later$.frame <- later$.frame + max(new_tween$.frame)
