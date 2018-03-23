@@ -125,7 +125,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
 
     classes <- col_classes(from)
     stopifnot(identical(classes, col_classes(to)))
-    full_set <- complete_states(from, to, id, enter, exit)
+    full_set <- .complete_states(from, to, id, enter, exit)
 
     tweendata <- lapply(seq_along(classes), function(i) {
         d <- list(full_set$from[[i]], full_set$to[[i]])
@@ -230,7 +230,25 @@ close_state <- function(.data, ease, nframes, exit) {
         new_tween
     }
 }
-complete_states <- function(from, to, id, enter, exit) {
+#' Fill in missing rows using enter and exit functions
+#'
+#' This function figures out which rows are missing in either state and applies
+#' the provided `enter` and `exit`  functions to fill in the blanks and provide
+#' a 1-to-1 relation between the rows in `from` and `to`.
+#'
+#' @param from,to Data.frames to tween between
+#'
+#' @param id The name of the column that holds the matching id
+#'
+#' @param enter,exit functions to fill out missing rows in `from` and `to`
+#' respectively
+#'
+#' @return A list with the elements `from` and `to` holding the filled out
+#' versions of `from` and `to`
+#'
+#' @keywords internal
+#' @export
+.complete_states <- function(from, to, id, enter, exit) {
     if (is.null(id)) {
         from_id <- seq_len(nrow(from))
         to_id <- seq_len(nrow(to))
