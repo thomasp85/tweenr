@@ -118,7 +118,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     if (!setequal(names(from), names(to))) {
         stop('from and to must have identical columns', call. = FALSE)
     }
-    to <- to[, match(names(from), names(to))]
+    to <- to[, match(names(from), names(to)), drop = FALSE]
     if (length(ease) == 1) ease <- rep(ease, ncol(from))
     if (length(ease) != ncol(from)) stop('Ease must be either a single string or one for each column', call. = FALSE)
     stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
@@ -194,7 +194,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #'
 .get_last_frame <- function(data) {
     if ('.frame' %in% names(data)) {
-        data[data$.frame == max(data$.frame), names(data) != '.frame']
+        data[data$.frame == max(data$.frame), names(data) != '.frame', drop = FALSE]
     } else {
         data
     }
@@ -203,7 +203,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @export
 .get_first_frame <- function(data) {
     if ('.frame' %in% names(data)) {
-        data[data$.frame == 1, names(data) != '.frame']
+        data[data$.frame == 1, names(data) != '.frame', drop = FALSE]
     } else {
         data
     }
