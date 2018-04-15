@@ -113,6 +113,20 @@
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
+  tween_state_(
+    .data,
+    to,
+    ease,
+    f_capture(id),
+    enter,
+    exit
+  )
+}
+
+#' @rdname tween_state
+#' @export
+#' 
+tween_state_ <- function(.data, to, ease, nframes, id = ~ NULL, enter = NULL, exit = NULL) {
     from <- .get_last_frame(.data)
     if (nrow(from) != nrow(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
@@ -249,13 +263,13 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @keywords internal
 #' @export
 .complete_states <- function(from, to, id, enter, exit) {
-    if (is.null(id)) {
-        from_id <- seq_len(nrow(from))
-        to_id <- seq_len(nrow(to))
+    if (is.null(f_eval(id))) {
+        from_id <- f_eval(~ seq_len(nrow(uq(from))))
+        to_id <- f_eval(~ seq_len(nrow(uq(to))))
     } else {
-        stopifnot(id %in% names(from))
-        from_id <- from[[id]]
-        to_id <- to[[id]]
+        stopifnot(f_text(id) %in% names(from))
+        from_id <- f_eval(id, from)
+        to_id <- f_eval(t, to)
     }
     if (!setequal(from_id, to_id)) {
         entering <- !to_id %in% from_id

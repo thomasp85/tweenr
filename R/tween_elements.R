@@ -9,11 +9,17 @@
 #' observation id, a column giving timepoints for each state and a column giving
 #' the easing to apply when transitioning away from the state.
 #'
-#' @param time The name of the column holding timepoints
+#' @param time The name of the column holding timepoints. This argument is 
+#' automatically quoted and evaluated in the context of the data frame and 
+#' supports expressions.
 #'
-#' @param group The name of the column holding the observation id
+#' @param group The name of the column holding the observation identifier. This
+#' argument is automatically quoted and evaluated in the context of the data
+#' frame and supports expressions.
 #'
-#' @param ease The name of the column holding the easing function name
+#' @param ease The name of the column holding the easing function name. This
+#' argument is automatically quoted and evaluated in the context of the data
+#' frame and supports expressions.
 #'
 #' @param timerange The range of time to span. If missing it will default to
 #' \code{range(data[[time]])}
@@ -38,48 +44,66 @@
 #'   ease = rep('cubic-in-out', 6)
 #' )
 #'
-#' data <- tween_elements(data, 'time', 'group', 'ease', nframes = 100)
+#' data <- tween_elements(data, time, group, ease, nframes = 100)
 #'
 #' @export
 #'
 tween_elements <- function(data, time, group, ease, timerange, nframes) {
-    if (!all(data[[ease]] %in% validEase)) {
-        stop("All names given in the easing column must be valid easers")
-    }
+  tween_elements_(
+    data,
+    f_capture(time),
+    f_capture(group),
+    f_capture(ease),
+    if (missing(timerange)) NULL else timerange,
+    if (missing(nframes)) NULL else nframes
+  )
+}
 
-    if (missing(timerange) || is.null(timerange)) {
-        timerange <- range(data[[time]])
-    }
-    if (missing(nframes) || is.null(nframes)) {
-        nframes <- ceiling(diff(timerange) + 1)
-    }
-    framelength <- diff(timerange) / nframes
-    specialCols <- c(group, ease)
-    data <- data[order(data[[group]], data[[time]]), ]
-    group <- as.character(data[[group]])
-    frame <- round((data[[time]] - timerange[1]) / framelength)
-    ease <- as.character(data[[ease]])
-    data <- data[, !names(data) %in% specialCols, drop = FALSE]
+#' @rdname tween_elements
+#' @export
+#' 
+tween_elements_ <- function(data, time, group, ease, timerange, nframes) {
+  
+  if (!all(f_eval(ease, data) %in% validEase)) {
+    stop("All names given in the easing column must be valid easers")
+  }
+  
+  if (missing(timerange) || is.null(timerange)) {
+    timerange <- f_eval(~ range(uq(time)), data)
+  }
+  if (missing(nframes) || is.null(nframes)) {
+    nframes <- ceiling(diff(timerange) + 1)
+  }
 
-    colClasses <- col_classes(data)
-    tweendata <- lapply(seq_along(data),  function(i) {
-        d <- data[[i]]
-        switch(
-            colClasses[i],
-            numeric = interpolate_numeric_element(d, group, frame, ease),
-            factor = interpolate_factor_element(d, group, frame, ease),
-            character = interpolate_character_element(d, group, frame, ease),
-            colour = interpolate_colour_element(d, group, frame, ease),
-            date = interpolate_date_element(d, group, frame, ease),
-            datetime = interpolate_datetime_element(d, group, frame, ease),
-            constant = interpolate_constant_element(d, group, frame, ease)
-        )
-    })
-    tweenInfo <- tweendata[[1]][, c('group', 'frame')]
-    tweendata <- as.data.frame(lapply(tweendata, `[[`, i = 'data'))
-    names(tweendata) <- names(data)
-    tweendata$.frame <- tweenInfo$frame
-    tweendata$.group <- tweenInfo$group
-    attr(tweendata, 'framelength') <- framelength
-    tweendata[order(tweendata$.frame, tweendata$.group), ]
+  specialCols <- as.character(c(uq(group), uq(ease)))
+  
+  framelength <- diff(timerange) / nframes
+  data <- data[f_eval(~ order(uq(group), uq(time)), data), ]
+  group <- f_eval(~ as.character(uq(group)), data)
+  frame <- f_eval(~ round((uq(time) - timerange[1]) / framelength), data)
+  ease <- f_eval(~ as.character(uq(ease)), data)
+  
+  data <- data[, !names(data) %in% specialCols, drop = FALSE]
+  
+  colClasses <- col_classes(data)
+  tweendata <- lapply(seq_along(data),  function(i) {
+    d <- data[[i]]
+    switch(
+      colClasses[i],
+      numeric = interpolate_numeric_element(d, group, frame, ease),
+      factor = interpolate_factor_element(d, group, frame, ease),
+      character = interpolate_character_element(d, group, frame, ease),
+      colour = interpolate_colour_element(d, group, frame, ease),
+      date = interpolate_date_element(d, group, frame, ease),
+      datetime = interpolate_datetime_element(d, group, frame, ease),
+      constant = interpolate_constant_element(d, group, frame, ease)
+    )
+  })
+  tweenInfo <- tweendata[[1]][, c('group', 'frame')]
+  tweendata <- as.data.frame(lapply(tweendata, `[[`, i = 'data'))
+  names(tweendata) <- names(data)
+  tweendata$.frame <- tweenInfo$frame
+  tweendata$.group <- tweenInfo$group
+  attr(tweendata, 'framelength') <- framelength
+  tweendata[order(tweendata$.frame, tweendata$.group), ]
 }
