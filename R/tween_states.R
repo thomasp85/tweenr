@@ -96,11 +96,12 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
             colour = interpolate_colour_state(d, d_states),
             date = interpolate_date_state(d, d_states),
             datetime = interpolate_datetime_state(d, d_states),
-            constant = interpolate_constant_state(d, d_states)
+            constant = interpolate_constant_state(d, d_states),
+            numlist =,
+            list = interpolate_list_state(d, d_states)
         )
     })
-    tweendata <- as.data.frame(tweendata)
-    names(tweendata) <- names(data[[1]])
+    tweendata <- structure(tweendata, names = names(data[[1]]), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
     tweendata$.frame <- rep(seq_len(nframes), each = nrow(data[[1]]))
     attr(tweendata, 'framelength') <- framelength
     tweendata

@@ -138,7 +138,9 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
             colour = interpolate_colour_state(d, state),
             date = interpolate_date_state(d, state),
             datetime = interpolate_datetime_state(d, state),
-            constant = interpolate_constant_state(d, state)
+            constant = interpolate_constant_state(d, state),
+            numlist =,
+            list = interpolate_list_state(d, d_states)
         )
     })
     tweendata <- as.data.frame(tweendata)

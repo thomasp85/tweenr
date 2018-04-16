@@ -72,7 +72,9 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
             colour = interpolate_colour_element(d, group, frame, ease),
             date = interpolate_date_element(d, group, frame, ease),
             datetime = interpolate_datetime_element(d, group, frame, ease),
-            constant = interpolate_constant_element(d, group, frame, ease)
+            constant = interpolate_constant_element(d, group, frame, ease),
+            numlist =,
+            list = interpolate_list_element(d, group, frame, ease)
         )
     })
     tweenInfo <- tweendata[[1]][, c('group', 'frame')]
