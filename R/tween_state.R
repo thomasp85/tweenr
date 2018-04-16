@@ -109,8 +109,8 @@
 #'   x
 #' }
 #' pop_devel <- df1 %>%
-#'   tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) %>%
-#'   tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
+#'   tween_state(df2, 'cubic-in-out', 50, country, enter = to_zero) %>%
+#'   tween_state(df3, 'cubic-in-out', 50, country, enter = to_zero,
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
@@ -269,13 +269,13 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @importFrom lazyeval f_eval f_text uq
 #' @export
 .complete_states <- function(from, to, id, enter, exit) {
-    if (is.null(f_eval(id))) {
+    if (is.null(uq(id))) {
         from_id <- f_eval(~ seq_len(nrow(uq(from))))
         to_id <- f_eval(~ seq_len(nrow(uq(to))))
     } else {
         stopifnot(f_text(id) %in% names(from))
         from_id <- f_eval(id, from)
-        to_id <- f_eval(t, to)
+        to_id <- f_eval(id, to)
     }
     if (!setequal(from_id, to_id)) {
         entering <- !to_id %in% from_id
