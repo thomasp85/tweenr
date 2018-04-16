@@ -51,7 +51,7 @@ tween_appear <- function(data, time, timerange, nframes) {
 #' 
 tween_appear_ <- function(data, time, timerange, nframes) {
   if (missing(timerange) || is.null(timerange)) {
-    timerange <- f_eval(range(uq(time)), data)
+    timerange <- f_eval(~ range(uq(time)), data)
   }
   if (missing(nframes) || is.null(nframes)) {
     nframes <- ceiling(diff(timerange) + 1)
