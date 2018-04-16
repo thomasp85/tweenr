@@ -76,7 +76,7 @@ tween_elements_ <- function(data, time, group, ease, timerange, nframes) {
   if (missing(nframes) || is.null(nframes)) {
     nframes <- ceiling(diff(timerange) + 1)
   }
-
+  
   specialCols <- as.character(c(uq(group), uq(ease)))
   
   framelength <- diff(timerange) / nframes

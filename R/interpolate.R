@@ -36,6 +36,11 @@ interpolate_factor_state <- function(data, states) {
     data <- lapply(data, as.character)
     factor(interpolate_character_state(data, states), all_levels)
 }
+interpolate_list_state <- function(data, states) {
+    new_data <- list_state_interpolator(data, states)
+    attributes(new_data) <- attributes(data)
+    new_data
+}
 
 ## ELEMENTS
 
@@ -83,4 +88,9 @@ interpolate_factor_element <- function(data, group, frame, ease) {
     res <- interpolate_character_element(data, group, frame, ease)
     res[['data']] <- factor(res[['data']], all_levels)
     res
+}
+interpolate_list_element <- function(data, group, frame, ease) {
+    new_data <- list_element_interpolator(data, group, frame, ease)
+    attributes(new_data$data) <- attributes(data)
+    new_data
 }
