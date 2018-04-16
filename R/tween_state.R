@@ -115,12 +115,13 @@
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
   tween_state_(
-    .data,
-    to,
-    ease,
-    f_capture(id),
-    enter,
-    exit
+    .data = .data,
+    to = to,
+    ease = ease,
+    nframes = nframes,
+    id = f_capture(id),
+    enter = enter,
+    exit = exit
   )
 }
 
