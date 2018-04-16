@@ -39,7 +39,7 @@ data <- data.frame(
   time = sample(50, 100, replace = TRUE)
 )
 
-data <- tween_appear(data, 'time', nframes = 200)
+data <- tween_appear(data, time, nframes = 200)
 
 }
 \seealso{

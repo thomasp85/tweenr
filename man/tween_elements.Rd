@@ -45,7 +45,7 @@ data <- data.frame(
   ease = rep('cubic-in-out', 6)
 )
 
-data <- tween_elements(data, 'time', 'group', 'ease', nframes = 100)
+data <- tween_elements(data, time, group, ease, nframes = 100)
 
 }
 \seealso{

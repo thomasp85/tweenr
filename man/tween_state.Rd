@@ -127,8 +127,8 @@ to_zero <- function(x) {
   x
 }
 pop_devel <- df1 \%>\%
-  tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) \%>\%
-  tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
+  tween_state(df2, 'cubic-in-out', 50, id = country, enter = to_zero) \%>\%
+  tween_state(df3, 'cubic-in-out', 50, id = country, enter = to_zero,
               exit = to_zero)
 
 }
