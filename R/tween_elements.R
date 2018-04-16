@@ -46,8 +46,9 @@
 #'
 #' data <- tween_elements(data, time, group, ease, nframes = 100)
 #'
+#' @importFrom lazyeval f_capture
 #' @export
-#'
+#' 
 tween_elements <- function(data, time, group, ease, timerange, nframes) {
   tween_elements_(
     data,
@@ -60,6 +61,7 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
 }
 
 #' @rdname tween_elements
+#' @importFrom lazyeval f_eval
 #' @export
 #' 
 tween_elements_ <- function(data, time, group, ease, timerange, nframes) {

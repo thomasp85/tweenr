@@ -35,6 +35,7 @@
 #'
 #' data <- tween_appear(data, time, nframes = 200)
 #'
+#' @importFrom lazyeval f_capture
 #' @export
 #'
 tween_appear <- function(data, time, timerange, nframes) {
@@ -47,6 +48,7 @@ tween_appear <- function(data, time, timerange, nframes) {
 }
 
 #' @rdname tween_appear
+#' @importFrom lazyeval f_eval
 #' @export
 #' 
 tween_appear_ <- function(data, time, timerange, nframes) {

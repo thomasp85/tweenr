@@ -72,6 +72,7 @@
 #' non-matching rows should simply be ignored for the transition and simply
 #' appear in the last frame of the tween. This is the default.
 #'
+#' @importFrom lazyeval f_capture
 #' @export
 #'
 #' @examples
@@ -124,6 +125,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
 }
 
 #' @rdname tween_state
+#' @importFrom lazyeval f_eval
 #' @export
 #' 
 tween_state_ <- function(.data, to, ease, nframes, id = ~ NULL, enter = NULL, exit = NULL) {
@@ -261,6 +263,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #' versions of `from` and `to`
 #'
 #' @keywords internal
+#' @importFrom lazyeval f_eval f_text
 #' @export
 .complete_states <- function(from, to, id, enter, exit) {
     if (is.null(f_eval(id))) {
