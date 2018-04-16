@@ -55,6 +55,9 @@ col_classes <- function(data) {
             'date'
         } else if (inherits(d, 'POSIXt')) {
             'datetime'
+        } else if (is.list(d)) {
+            if (all(vapply(d, is.numeric, logical(1)))) 'numlist'
+            else 'list'
         } else {
             'constant'
         }
