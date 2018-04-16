@@ -51,4 +51,3 @@ data <- tween_states(list(data1, data2), 3, 1, 'cubic-in-out', 100)
 Other data.frame tween: \code{\link{tween_appear}},
   \code{\link{tween_elements}}
 }
-\concept{data.frame tween}

@@ -265,7 +265,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #' versions of `from` and `to`
 #'
 #' @keywords internal
-#' @importFrom lazyeval f_eval f_text
+#' @importFrom lazyeval f_eval f_text uq
 #' @export
 .complete_states <- function(from, to, id, enter, exit) {
     if (is.null(f_eval(id))) {

@@ -2,20 +2,29 @@
 % Please edit documentation in R/tween_elements.R
 \name{tween_elements}
 \alias{tween_elements}
+\alias{tween_elements_}
 \title{Create frames based on individual element states}
 \usage{
 tween_elements(data, time, group, ease, timerange, nframes)
+
+tween_elements_(data, time, group, ease, timerange, nframes)
 }
 \arguments{
 \item{data}{A data.frame consisting at least of a column giving the
 observation id, a column giving timepoints for each state and a column giving
 the easing to apply when transitioning away from the state.}
 
-\item{time}{The name of the column holding timepoints}
+\item{time}{The name of the column holding timepoints. This argument is
+automatically quoted and evaluated in the context of the data frame and
+supports expressions.}
 
-\item{group}{The name of the column holding the observation id}
+\item{group}{The name of the column holding the observation identifier. This
+argument is automatically quoted and evaluated in the context of the data
+frame and supports expressions.}
 
-\item{ease}{The name of the column holding the easing function name}
+\item{ease}{The name of the column holding the easing function name. This
+argument is automatically quoted and evaluated in the context of the data
+frame and supports expressions.}
 
 \item{timerange}{The range of time to span. If missing it will default to
 \code{range(data[[time]])}}
@@ -52,4 +61,3 @@ data <- tween_elements(data, time, group, ease, nframes = 100)
 Other data.frame tween: \code{\link{tween_appear}},
   \code{\link{tween_states}}
 }
-\concept{data.frame tween}

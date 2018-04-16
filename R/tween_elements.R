@@ -61,7 +61,7 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
 }
 
 #' @rdname tween_elements
-#' @importFrom lazyeval f_eval
+#' @importFrom lazyeval f_eval uq
 #' @export
 #' 
 tween_elements_ <- function(data, time, group, ease, timerange, nframes) {

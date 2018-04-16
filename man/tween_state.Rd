@@ -2,12 +2,16 @@
 % Please edit documentation in R/tween_state.R
 \name{tween_state}
 \alias{tween_state}
+\alias{tween_state_}
 \alias{keep_state}
 \alias{open_state}
 \alias{close_state}
 \title{Compose tweening between states}
 \usage{
 tween_state(.data, to, ease, nframes, id = NULL, enter = NULL,
+  exit = NULL)
+
+tween_state_(.data, to, ease, nframes, id = ~NULL, enter = NULL,
   exit = NULL)
 
 keep_state(.data, nframes)
@@ -127,8 +131,8 @@ to_zero <- function(x) {
   x
 }
 pop_devel <- df1 \%>\%
-  tween_state(df2, 'cubic-in-out', 50, id = country, enter = to_zero) \%>\%
-  tween_state(df3, 'cubic-in-out', 50, id = country, enter = to_zero,
+  tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) \%>\%
+  tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
               exit = to_zero)
 
 }
