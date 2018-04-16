@@ -72,6 +72,7 @@
 #' non-matching rows should simply be ignored for the transition and simply
 #' appear in the last frame of the tween. This is the default.
 #'
+#' @importFrom lazyeval f_capture
 #' @export
 #'
 #' @examples
@@ -108,11 +109,27 @@
 #'   x
 #' }
 #' pop_devel <- df1 %>%
-#'   tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) %>%
-#'   tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
+#'   tween_state(df2, 'cubic-in-out', 50, country, enter = to_zero) %>%
+#'   tween_state(df3, 'cubic-in-out', 50, country, enter = to_zero,
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
+  tween_state_(
+    .data = .data,
+    to = to,
+    ease = ease,
+    nframes = nframes,
+    id = f_capture(id),
+    enter = enter,
+    exit = exit
+  )
+}
+
+#' @rdname tween_state
+#' @importFrom lazyeval f_eval
+#' @export
+#' 
+tween_state_ <- function(.data, to, ease, nframes, id = ~ NULL, enter = NULL, exit = NULL) {
     from <- .get_last_frame(.data)
     if (nrow(from) != nrow(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
@@ -249,15 +266,16 @@ close_state <- function(.data, ease, nframes, exit) {
 #' versions of `from` and `to`
 #'
 #' @keywords internal
+#' @importFrom lazyeval f_eval f_text uq
 #' @export
 .complete_states <- function(from, to, id, enter, exit) {
-    if (is.null(id)) {
-        from_id <- seq_len(nrow(from))
-        to_id <- seq_len(nrow(to))
+    if (is.null(uq(id))) {
+        from_id <- f_eval(~ seq_len(nrow(uq(from))))
+        to_id <- f_eval(~ seq_len(nrow(uq(to))))
     } else {
-        stopifnot(id %in% names(from))
-        from_id <- from[[id]]
-        to_id <- to[[id]]
+        stopifnot(f_text(id) %in% names(from))
+        from_id <- f_eval(id, from)
+        to_id <- f_eval(id, to)
     }
     if (!setequal(from_id, to_id)) {
         entering <- !to_id %in% from_id

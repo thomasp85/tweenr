@@ -22,7 +22,8 @@ Imports:
     Rcpp (>= 0.12.3),
     grDevices,
     farver,
-    magrittr
+    magrittr,
+    lazyeval
 Remotes: thomasp85/farver
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1.9000

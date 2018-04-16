@@ -6,8 +6,6 @@
 \alias{tweenr-package}
 \title{tweenr: Interpolate Data for Smooth Animations}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
-
 In order to create smooth animation between states of data,
 tweening is necessary. This package provides a range of functions for
 creating tweened data that plugs right into functions such as gg_animate()

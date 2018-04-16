@@ -158,7 +158,7 @@ d5$time <- max(d5$time)
 df <- rbind(d, d2, d3, d4, d5)
 
 # Using tweenr
-dt <- tween_elements(df, 'time', 'id', 'ease', nframes = 500)
+dt <- tween_elements(df, time, id, ease, nframes = 500)
 
 # Animate with gganimate
 p <- ggplot(data = dt) + 

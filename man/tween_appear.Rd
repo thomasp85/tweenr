@@ -2,16 +2,20 @@
 % Please edit documentation in R/tween_appear.R
 \name{tween_appear}
 \alias{tween_appear}
+\alias{tween_appear_}
 \title{Tween a data.frame of appearances}
 \usage{
 tween_appear(data, time, timerange, nframes)
+
+tween_appear_(data, time, timerange, nframes)
 }
 \arguments{
 \item{data}{A data.frame to tween}
 
 \item{time}{The name of the column that holds the time dimension. This does
 not need to hold time data in the strictest sence - any numerical type will
-do}
+do. This argument is automatically quoted and evaluated in the context of
+the data frame and supports expressions.}
 
 \item{timerange}{The range of time to create the tween for. If missing it
 will defaults to the range of the time column}
@@ -39,11 +43,10 @@ data <- data.frame(
   time = sample(50, 100, replace = TRUE)
 )
 
-data <- tween_appear(data, 'time', nframes = 200)
+data <- tween_appear(data, time, nframes = 200)
 
 }
 \seealso{
 Other data.frame tween: \code{\link{tween_elements}},
   \code{\link{tween_states}}
 }
-\concept{data.frame tween}
