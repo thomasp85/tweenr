@@ -46,7 +46,7 @@ col_classes <- function(data) {
         } else if (is.factor(d)) {
             'factor'
         } else if (is.character(d)) {
-            if (anyNA(suppressWarnings(col2rgb(d)))) {
+            if (class(try(col2rgb(d), silent = TRUE)) == "try-error") {
                 'character'
             } else {
                 'colour'
