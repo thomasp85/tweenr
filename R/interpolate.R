@@ -41,6 +41,11 @@ interpolate_list_state <- function(data, states) {
     attributes(new_data) <- attributes(data)
     new_data
 }
+interpolate_numlist_state <- function(data, states) {
+    new_data <- numlist_state_interpolator(lapply(data, lapply, as.numeric), states)
+    attributes(new_data) <- attributes(data)
+    new_data
+}
 
 ## ELEMENTS
 
@@ -91,6 +96,11 @@ interpolate_factor_element <- function(data, group, frame, ease) {
 }
 interpolate_list_element <- function(data, group, frame, ease) {
     new_data <- list_element_interpolator(data, group, frame, ease)
+    attributes(new_data$data) <- attributes(data)
+    new_data
+}
+interpolate_numlist_element <- function(data, group, frame, ease) {
+    new_data <- numlist_element_interpolator(data, group, frame, ease)
     attributes(new_data$data) <- attributes(data)
     new_data
 }

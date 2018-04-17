@@ -345,6 +345,65 @@ List list_state_interpolator(List data, DataFrame states) {
 
     return res;
 }
+NumericVector align_num_elem(NumericVector from, NumericVector to) {
+    NumericVector res;
+    if (from.size() < to.size()) {
+        if (from.size() == 0) {
+            res = NumericVector(to.size(), mean(to));
+        } else {
+            res = NumericVector(to.size());
+            for (int i = 0; i < res.size(); ++i) {
+                res[i] = from[i % from.size()];
+            }
+        }
+    } else {
+        res = from;
+    }
+    return res;
+}
+//[[Rcpp::export]]
+List numlist_state_interpolator(List data, DataFrame states) {
+    IntegerVector state_index = states("state");
+    NumericVector nframes_per_state = states("nframes");
+    std::vector<std::string> easer = states("ease");
+    int nelements = as<List>(data(0)).size();
+    int nstates = states.nrows();
+    int nframes = sum(nframes_per_state);
+    int frame = 0;
+    int state, element, currentframe, res_index;
+    List res(nelements * nframes);
+
+    for (state = 0; state < nstates; ++state) {
+        if (easer[state] == "constant") {
+            List state_from = data(state_index(state));
+            for (currentframe = 0; currentframe < nframes_per_state(state); ++currentframe) {
+                res_index = (frame + currentframe) * nelements;
+                for (element = 0; element < nelements; ++element) {
+                    res[res_index] = state_from[element];
+                    ++res_index;
+                }
+            }
+        } else {
+            std::vector<double> ease_points = easeSeq(easer[state], nframes_per_state(state));
+            List state_from = data(state_index(state));
+            List state_to = data(state_index(state) + 1);
+            for (element = 0; element < nelements; ++element) {
+                NumericVector state_from_vec = state_from[element];
+                NumericVector state_to_vec = state_to[element];
+                state_from_vec = align_num_elem(state_from_vec, state_to_vec);
+                state_to_vec = align_num_elem(state_to_vec, state_from_vec);
+                for (currentframe = 0; currentframe < nframes_per_state(state); ++currentframe) {
+                    res_index = (frame + currentframe) * nelements + element;
+                    NumericVector state_vec = state_from_vec + ease_points[currentframe] * (state_to_vec - state_from_vec);
+                    res[res_index] = state_vec;
+                }
+            }
+        }
+        frame += nframes_per_state(state);
+    }
+
+    return res;
+}
 
 //[[Rcpp::export]]
 DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
@@ -477,7 +536,7 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
 
 //[[Rcpp::export]]
 List list_element_interpolator(List data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
-    std::deque<List> tweendata;
+    std::deque<SEXP> tweendata;
     std::deque<std::string> tweengroup;
     std::deque<int> tweenframe;
     int i, j, nframes;
@@ -495,6 +554,54 @@ List list_element_interpolator(List data, CharacterVector group, IntegerVector f
                 } else {
                     tweendata.push_back(data[i]);
                 }
+                tweengroup.push_back(groupString);
+                tweenframe.push_back(j + frame[i-1]);
+            }
+        } else {
+            tweendata.push_back(data[i - 1]);
+            tweengroup.push_back(currentGroup);
+            tweenframe.push_back(frame[i-1]);
+            currentGroup = groupString;
+        }
+
+    }
+    tweendata.push_back(data[i - 1]);
+    tweengroup.push_back(currentGroup);
+    tweenframe.push_back(frame[i-1]);
+    List tweendata_list = wrap(tweendata);
+    IntegerVector frame_vec = wrap(tweenframe);
+    CharacterVector group_vec = wrap(tweengroup);
+    List res = List::create(
+        Named("data") = tweendata_list,
+        Named("group") = group_vec,
+        Named("frame") = frame_vec
+    );
+    res.attr("class") = "data.frame";
+    res.attr("row.names") = seq_along(frame_vec);
+    return res;
+}
+
+//[[Rcpp::export]]
+List numlist_element_interpolator(List data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
+    std::deque<NumericVector> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    int i, j, nframes;
+    std::string groupString;
+    std::string currentGroup = as<std::string>(group[0]);
+
+    for (i = 1; i < data.size(); ++i) {
+        groupString = as<std::string>(group[i]);
+        if (currentGroup.compare(groupString) == 0) {
+            nframes = frame[i] - frame[i-1];
+            std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
+            NumericVector state_from_vec = data[i - 1];
+            NumericVector state_to_vec = data[i];
+            state_from_vec = align_num_elem(state_from_vec, state_to_vec);
+            state_to_vec = align_num_elem(state_to_vec, state_from_vec);
+            for (j = 0; j < ease_points.size(); ++j) {
+                NumericVector state_vec = state_from_vec + ease_points[j] * (state_to_vec - state_from_vec);
+                tweendata.push_back(state_vec);
                 tweengroup.push_back(groupString);
                 tweenframe.push_back(j + frame[i-1]);
             }

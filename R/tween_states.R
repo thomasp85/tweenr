@@ -97,7 +97,7 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
             date = interpolate_date_state(d, d_states),
             datetime = interpolate_datetime_state(d, d_states),
             constant = interpolate_constant_state(d, d_states),
-            numlist =,
+            numlist = interpolate_numlist_state(d, d_states),
             list = interpolate_list_state(d, d_states)
         )
     })

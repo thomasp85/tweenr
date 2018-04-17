@@ -73,7 +73,7 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
             date = interpolate_date_element(d, group, frame, ease),
             datetime = interpolate_datetime_element(d, group, frame, ease),
             constant = interpolate_constant_element(d, group, frame, ease),
-            numlist =,
+            numlist = interpolate_numlist_element(d, group, frame, ease),
             list = interpolate_list_element(d, group, frame, ease)
         )
     })

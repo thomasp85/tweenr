@@ -17,6 +17,10 @@ list_state_interpolator <- function(data, states) {
     .Call('_tweenr_list_state_interpolator', PACKAGE = 'tweenr', data, states)
 }
 
+numlist_state_interpolator <- function(data, states) {
+    .Call('_tweenr_numlist_state_interpolator', PACKAGE = 'tweenr', data, states)
+}
+
 numeric_element_interpolator <- function(data, group, frame, ease) {
     .Call('_tweenr_numeric_element_interpolator', PACKAGE = 'tweenr', data, group, frame, ease)
 }
@@ -31,5 +35,9 @@ constant_element_interpolator <- function(data, group, frame, ease) {
 
 list_element_interpolator <- function(data, group, frame, ease) {
     .Call('_tweenr_list_element_interpolator', PACKAGE = 'tweenr', data, group, frame, ease)
+}
+
+numlist_element_interpolator <- function(data, group, frame, ease) {
+    .Call('_tweenr_numlist_element_interpolator', PACKAGE = 'tweenr', data, group, frame, ease)
 }
 

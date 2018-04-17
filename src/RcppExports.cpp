@@ -53,6 +53,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// numlist_state_interpolator
+List numlist_state_interpolator(List data, DataFrame states);
+RcppExport SEXP _tweenr_numlist_state_interpolator(SEXP dataSEXP, SEXP statesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type states(statesSEXP);
+    rcpp_result_gen = Rcpp::wrap(numlist_state_interpolator(data, states));
+    return rcpp_result_gen;
+END_RCPP
+}
 // numeric_element_interpolator
 DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease);
 RcppExport SEXP _tweenr_numeric_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
@@ -109,16 +121,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// numlist_element_interpolator
+List numlist_element_interpolator(List data, CharacterVector group, IntegerVector frame, CharacterVector ease);
+RcppExport SEXP _tweenr_numlist_element_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP frameSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type frame(frameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numlist_element_interpolator(data, group, frame, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_numeric_state_interpolator", (DL_FUNC) &_tweenr_numeric_state_interpolator, 2},
     {"_tweenr_colour_state_interpolator", (DL_FUNC) &_tweenr_colour_state_interpolator, 2},
     {"_tweenr_constant_state_interpolator", (DL_FUNC) &_tweenr_constant_state_interpolator, 2},
     {"_tweenr_list_state_interpolator", (DL_FUNC) &_tweenr_list_state_interpolator, 2},
+    {"_tweenr_numlist_state_interpolator", (DL_FUNC) &_tweenr_numlist_state_interpolator, 2},
     {"_tweenr_numeric_element_interpolator", (DL_FUNC) &_tweenr_numeric_element_interpolator, 4},
     {"_tweenr_colour_element_interpolator", (DL_FUNC) &_tweenr_colour_element_interpolator, 4},
     {"_tweenr_constant_element_interpolator", (DL_FUNC) &_tweenr_constant_element_interpolator, 4},
     {"_tweenr_list_element_interpolator", (DL_FUNC) &_tweenr_list_element_interpolator, 4},
+    {"_tweenr_numlist_element_interpolator", (DL_FUNC) &_tweenr_numlist_element_interpolator, 4},
     {NULL, NULL, 0}
 };
 
