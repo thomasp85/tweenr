@@ -43,10 +43,13 @@ col_classes <- function(data) {
     classes <- sapply(data, function(d) {
         if (is.numeric(d)) {
             'numeric'
+        } else if (is.logical(d)) {
+            'logical'
         } else if (is.factor(d)) {
             'factor'
         } else if (is.character(d)) {
-            if (anyNA(suppressWarnings(col2rgb(d)))) {
+            colour <- try(suppressWarnings(col2rgb(d)), silent = TRUE)
+            if (inherits(colour, 'try-error') || anyNA(colour)) {
                 'character'
             } else {
                 'colour'
