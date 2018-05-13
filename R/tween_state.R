@@ -114,17 +114,22 @@
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
     from <- .get_last_frame(.data)
-    if (nrow(from) != nrow(.data)) nframes <- nframes + 1
+    if (.has_frames(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
         stop('from and to must have identical columns', call. = FALSE)
     }
+
+    if (nrow(from) == 0 && nrow(to) == 0) {
+        return(.with_prior_frames(.data, from, nframes))
+    }
+
     to <- to[, match(names(from), names(to)), drop = FALSE]
     if (length(ease) == 1) ease <- rep(ease, ncol(from))
     if (length(ease) != ncol(from)) stop('Ease must be either a single string or one for each column', call. = FALSE)
     stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
-    classes <- col_classes(from)
-    stopifnot(identical(classes, col_classes(to)))
+    classes <- if (nrow(from) == 0) col_classes(to) else col_classes(from)
+    if (nrow(from) > 0 && nrow(to) > 0) stopifnot(identical(classes, col_classes(to)))
     full_set <- .complete_states(from, to, id, enter, exit)
 
     tweendata <- lapply(seq_along(classes), function(i) {
@@ -144,42 +149,50 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
             list = interpolate_list_state(d, state)
         )
     })
-    tweendata <- as.data.frame(tweendata)
-    names(tweendata) <- names(from)
+    tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
     tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
     tweendata <- rbind(
-        cbind(from, .frame = 1),
+        cbind(from, .frame = rep(1, nrow(from))),
         tweendata[tweendata$.frame != 1, , drop = FALSE],
-        cbind(to, .frame = nframes)
+        cbind(to, .frame = rep(nframes, nrow(to)))
     )
-    .with_prior_frames(.data, tweendata)
+    .with_prior_frames(.data, tweendata, nframes)
 }
 #' @rdname tween_state
 #' @export
 keep_state <- function(.data, nframes) {
     state <- .get_last_frame(.data)
-    if (nrow(state) != nrow(.data)) nframes <- nframes + 1
+    if (.has_frames(.data)) nframes <- nframes + 1
+    if (nrow(state) == 0) {
+        return(.with_prior_frames(.data, state, nframes))
+    }
     states <- state[rep(seq_len(nrow(state)), nframes), , drop = FALSE]
     states$.frame <- rep(seq_len(nframes), each = nrow(state))
-    .with_prior_frames(.data, states)
+    .with_prior_frames(.data, states, nframes)
 }
 #' @rdname tween_state
 #' @export
 open_state <- function(.data, ease, nframes, enter) {
     to <- .get_first_frame(.data)
-    if (nrow(to) != nrow(.data)) nframes <- nframes + 1
+    if (.has_frames(.data)) nframes <- nframes + 1
+    if (nrow(to) == 0) {
+        return(.with_prior_frames(.data, to, nframes))
+    }
     from <- enter(to)
     tweendata <- tween_state(from, to, ease, nframes)
-    .with_later_frames(.data, tweendata)
+    .with_later_frames(.data, tweendata, nframes)
 }
 #' @rdname tween_state
 #' @export
 close_state <- function(.data, ease, nframes, exit) {
     from <- .get_last_frame(.data)
-    if (nrow(from) != nrow(.data)) nframes <- nframes + 1
+    if (.has_frames(.data)) nframes <- nframes + 1
+    if (nrow(from) == 0) {
+        return(.with_prior_frames(.data, from, nframes))
+    }
     to <- exit(from)
     tweendata <- tween_state(from, to, ease, nframes)
-    .with_prior_frames(.data, tweendata)
+    .with_prior_frames(.data, tweendata, nframes)
 }
 #' Helpers for working with tweened data
 #'
@@ -196,7 +209,10 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @export
 #'
 .get_last_frame <- function(data) {
-    if ('.frame' %in% names(data)) {
+    nframes <- attr(data, 'nframes')
+    if (!is.null(nframes)) {
+        data[data$.frame == nframes, names(data) != '.frame', drop = FALSE]
+    } else if ('.frame' %in% names(data)) {
         data[data$.frame == max(data$.frame), names(data) != '.frame', drop = FALSE]
     } else {
         data
@@ -213,25 +229,34 @@ close_state <- function(.data, ease, nframes, exit) {
 }
 #' @rdname dot-get_last_frame
 #' @export
-.with_prior_frames <- function(prior, new_tween) {
-    if ('.frame' %in% names(prior)) {
-        prior <- prior[prior$.frame != max(prior$.frame), , drop = FALSE]
-        new_tween$.frame <- new_tween$.frame + max(prior$.frame)
+.with_prior_frames <- function(prior, new_tween, nframes) {
+    nframes_before <- attr(prior, 'nframes')
+    if (is.null(nframes_before) && '.frame' %in% names(prior)) nframes_before <- max(prior$.frame)
+    frames <- if (!is.null(nframes_before)) {
+        prior <- prior[prior$.frame != nframes_before, , drop = FALSE]
+        new_tween$.frame <- new_tween$.frame + nframes_before - 1
         rbind(prior, new_tween)
     } else {
+        nframes_before <- 1
         new_tween
     }
+    attr(frames, 'nframes') <- nframes + nframes_before - 1
+    frames
 }
 #' @rdname dot-get_last_frame
 #' @export
-.with_later_frames <- function(later, new_tween) {
-    if ('.frame' %in% names(later)) {
+.with_later_frames <- function(later, new_tween, nframes) {
+    nframes_before <- attr(later, 'nframes')
+    nframes_before <- if (is.null(nframes_before) && '.frame' %in% names(later)) max(later$.frame) else 1
+    frames <- if ('.frame' %in% names(later)) {
         later <- later[later$.frame != 1, , drop = FALSE]
         later$.frame <- later$.frame + max(new_tween$.frame)
         rbind(new_tween, later)
     } else {
         new_tween
     }
+    attr(frames, 'nframes') <- nframes + nframes_before - 1
+    frames
 }
 #' Fill in missing rows using enter and exit functions
 #'
@@ -260,7 +285,9 @@ close_state <- function(.data, ease, nframes, exit) {
         from_id <- from[[id]]
         to_id <- to[[id]]
     }
-    if (!setequal(from_id, to_id)) {
+    if (anyDuplicated(from_id) || anyDuplicated(to_id) || !setequal(from_id, to_id)) {
+        from_id <- paste(from_id, count_occourance(from_id), sep = '_')
+        to_id <- paste(to_id, count_occourance(to_id), sep = '_')
         entering <- !to_id %in% from_id
         exiting <- !from_id %in% to_id
         exits <- from[entering, , drop = FALSE]
@@ -277,7 +304,7 @@ close_state <- function(.data, ease, nframes, exit) {
         }
         if (is.null(exit) || sum(exiting) == 0) {
             from <- from[!exiting, , drop = FALSE]
-            from_id <- from_id[!entering]
+            from_id <- from_id[!exiting]
             exits <- from[0, , drop = FALSE]
             exit_id <- from_id[0]
         } else {
@@ -294,6 +321,21 @@ close_state <- function(.data, ease, nframes, exit) {
 
     list(from = from, to = to)
 }
+.has_frames <- function(data) {
+    nframes <- attr(data, 'nframes')
+    if (is.null(nframes) && !is.null(data$.frame)) nframes <- max(data$.frame)
+    if (is.null(nframes)) {
+        FALSE
+    } else {
+        nframes > 1
+    }
+
+}
 simple_state <- function(n, ease) {
     data.frame(state = c(0, 1), nframes = c(n - 1, 0), ease = c(ease, 'constant'), stringsAsFactors = FALSE)
+}
+
+count_occourance <- function(x) {
+    if (length(x) == 0) return(integer(0))
+    unsplit(lapply(split(x, x), seq_along), x)
 }
