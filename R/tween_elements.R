@@ -67,6 +67,7 @@ tween_elements <- function(data, time, group, ease, timerange, nframes) {
         switch(
             colClasses[i],
             numeric = interpolate_numeric_element(d, group, frame, ease),
+            logical = interpolate_logical_element(d, group, frame, ease),
             factor = interpolate_factor_element(d, group, frame, ease),
             character = interpolate_character_element(d, group, frame, ease),
             colour = interpolate_colour_element(d, group, frame, ease),

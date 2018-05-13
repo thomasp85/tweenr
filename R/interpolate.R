@@ -3,6 +3,9 @@
 interpolate_numeric_state <- function(data, states) {
     numeric_state_interpolator(data, states)
 }
+interpolate_logical_state <- function(data, states) {
+    as.logical(round(numeric_state_interpolator(lapply(data, as.numeric), states)))
+}
 #' @importFrom grDevices col2rgb rgb
 #' @importFrom farver convert_colour
 interpolate_colour_state <- function(data, states) {
@@ -51,6 +54,11 @@ interpolate_numlist_state <- function(data, states) {
 
 interpolate_numeric_element <- function(data, group, frame, ease) {
     numeric_element_interpolator(data, group, frame, ease)
+}
+interpolate_logical_element <- function(data, group, frame, ease) {
+    res <- numeric_element_interpolator(as.numeric(data), group, frame, ease)
+    res[['data']] <- as.logical(round(res[['data']]))
+    res
 }
 #' @importFrom grDevices col2rgb rgb
 #' @importFrom farver convert_colour

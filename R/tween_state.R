@@ -133,6 +133,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
         switch(
             classes[i],
             numeric = interpolate_numeric_state(d, state),
+            logical = interpolate_logical_state(d, state),
             factor = interpolate_factor_state(d, state),
             character = interpolate_character_state(d, state),
             colour = interpolate_colour_state(d, state),
