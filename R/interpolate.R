@@ -17,8 +17,10 @@ interpolate_colour_state <- function(data, states) {
     int_col <- colour_state_interpolator(data, states)
     alpha <- int_col[,4]
     alpha[alpha > 255] <- 255
+    alpha[alpha < 0] <- 0
     int_col <- convert_colour(int_col[, 1:3, drop = FALSE], from = 'lab', to = 'rgb')
     int_col[int_col > 255] <- 255
+    int_col[int_col < 0] <- 0
     rgb(int_col[, 1], int_col[, 2], int_col[, 3], alpha, maxColorValue = 255)
 }
 interpolate_constant_state <- function(data, states) {
@@ -72,7 +74,8 @@ interpolate_colour_element <- function(data, group, frame, ease) {
     int_col <- colour_element_interpolator(cbind(data, col[,4]), group, frame, ease)
     int_col_convert <- convert_colour(as.matrix(int_col[, c('data1', 'data2', 'data3')]), from = 'lab', to = 'rgb')
     int_col_convert[int_col_convert > 255] <- 255
-    int_col$data4[int_col$data4 > 255] <- 255
+    int_col_convert[int_col_convert < 0] <- 0
+    int_col$data4[int_col$data4 < 0] <- 0
     data.frame(
         data = rgb(int_col_convert[, 1], int_col_convert[, 2], int_col_convert[, 3], int_col$data4, maxColorValue = 255),
         group = int_col$group,
