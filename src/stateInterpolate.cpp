@@ -228,7 +228,7 @@ NumericMatrix colour_state_interpolator(List data, DataFrame states) {
     int nframes = sum(nframes_per_state);
     int frame = 0;
     int state, element, currentframe, res_index;
-    NumericMatrix res(nelements * nframes, 3);
+    NumericMatrix res(nelements * nframes, 4);
 
     for (state = 0; state < nstates; ++state) {
         if (easer[state] == "constant") {
@@ -239,6 +239,7 @@ NumericMatrix colour_state_interpolator(List data, DataFrame states) {
                     res(res_index, 0) = state_from(element, 0);
                     res(res_index, 1) = state_from(element, 1);
                     res(res_index, 2) = state_from(element, 2);
+                    res(res_index, 3) = state_from(element, 3);
                     ++res_index;
                 }
             }
@@ -252,6 +253,7 @@ NumericMatrix colour_state_interpolator(List data, DataFrame states) {
                     res(res_index, 0) = state_from(element, 0) + ease_points[currentframe] * (state_to(element, 0) - state_from(element, 0));
                     res(res_index, 1) = state_from(element, 1) + ease_points[currentframe] * (state_to(element, 1) - state_from(element, 1));
                     res(res_index, 2) = state_from(element, 2) + ease_points[currentframe] * (state_to(element, 2) - state_from(element, 2));
+                    res(res_index, 3) = state_from(element, 3) + ease_points[currentframe] * (state_to(element, 3) - state_from(element, 3));
                 }
             }
         }
@@ -448,6 +450,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
     std::deque<double> tweendata1;
     std::deque<double> tweendata2;
     std::deque<double> tweendata3;
+    std::deque<double> tweendata4;
     std::deque<std::string> tweengroup;
     std::deque<int> tweenframe;
     int i, j, nframes;
@@ -463,6 +466,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
                 tweendata1.push_back(data(i - 1, 0) + ease_points[j] * (data(i, 0) - data(i - 1, 0)));
                 tweendata2.push_back(data(i - 1, 1) + ease_points[j] * (data(i, 1) - data(i - 1, 1)));
                 tweendata3.push_back(data(i - 1, 2) + ease_points[j] * (data(i, 2) - data(i - 1, 2)));
+                tweendata4.push_back(data(i - 1, 3) + ease_points[j] * (data(i, 3) - data(i - 1, 3)));
                 tweengroup.push_back(groupString);
                 tweenframe.push_back(j + frame[i-1]);
             }
@@ -470,6 +474,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
             tweendata1.push_back(data(i - 1, 0));
             tweendata2.push_back(data(i - 1, 1));
             tweendata3.push_back(data(i - 1, 2));
+            tweendata4.push_back(data(i - 1, 3));
             tweengroup.push_back(currentGroup);
             tweenframe.push_back(frame[i-1]);
             currentGroup = groupString;
@@ -478,6 +483,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
     tweendata1.push_back(data(i - 1, 0));
     tweendata2.push_back(data(i - 1, 1));
     tweendata3.push_back(data(i - 1, 2));
+    tweendata4.push_back(data(i - 1, 3));
     tweengroup.push_back(currentGroup);
     tweenframe.push_back(frame[i-1]);
 
@@ -485,6 +491,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
         Named("data1") = wrap(tweendata1),
         Named("data2") = wrap(tweendata2),
         Named("data3") = wrap(tweendata3),
+        Named("data4") = wrap(tweendata4),
         Named("group") = wrap(tweengroup),
         Named("frame") = wrap(tweenframe),
         Named("stringsAsFactors") = false

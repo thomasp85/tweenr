@@ -10,12 +10,16 @@ interpolate_logical_state <- function(data, states) {
 #' @importFrom farver convert_colour
 interpolate_colour_state <- function(data, states) {
     data <- lapply(data, function(d){
-        convert_colour(t(col2rgb(d)), from = 'rgb', to = 'lab')
+        col <- t(col2rgb(d, alpha = TRUE))
+        col_conv <- convert_colour(col[,1:3, drop = FALSE], from = 'rgb', to = 'lab')
+        cbind(col_conv, col[,4])
     })
     int_col <- colour_state_interpolator(data, states)
-    int_col <- convert_colour(int_col, from = 'lab', to = 'rgb')
+    alpha <- int_col[,4]
+    alpha[alpha > 255] <- 255
+    int_col <- convert_colour(int_col[, 1:3, drop = FALSE], from = 'lab', to = 'rgb')
     int_col[int_col > 255] <- 255
-    rgb(int_col[, 1], int_col[, 2], int_col[, 3], maxColorValue = 255)
+    rgb(int_col[, 1], int_col[, 2], int_col[, 3], alpha, maxColorValue = 255)
 }
 interpolate_constant_state <- function(data, states) {
     constant_state_interpolator(data, states)
@@ -63,12 +67,14 @@ interpolate_logical_element <- function(data, group, frame, ease) {
 #' @importFrom grDevices col2rgb rgb
 #' @importFrom farver convert_colour
 interpolate_colour_element <- function(data, group, frame, ease) {
-    data <- convert_colour(t(col2rgb(data)), from = 'rgb', to = 'lab')
-    int_col <- colour_element_interpolator(data, group, frame, ease)
+    col <- t(col2rgb(data, alpha = TRUE))
+    data <- convert_colour(col[,1:3, drop = FALSE], from = 'rgb', to = 'lab')
+    int_col <- colour_element_interpolator(cbind(data, col[,4]), group, frame, ease)
     int_col_convert <- convert_colour(as.matrix(int_col[, c('data1', 'data2', 'data3')]), from = 'lab', to = 'rgb')
     int_col_convert[int_col_convert > 255] <- 255
+    int_col$data4[int_col$data4 > 255] <- 255
     data.frame(
-        data = rgb(int_col_convert[, 1], int_col_convert[, 2], int_col_convert[, 3], maxColorValue = 255),
+        data = rgb(int_col_convert[, 1], int_col_convert[, 2], int_col_convert[, 3], int_col$data4, maxColorValue = 255),
         group = int_col$group,
         frame = int_col$frame,
         stringsAsFactors = FALSE
