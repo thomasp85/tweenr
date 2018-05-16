@@ -11,9 +11,9 @@
 
 .get_first_frame(data)
 
-.with_prior_frames(prior, new_tween)
+.with_prior_frames(prior, new_tween, nframes)
 
-.with_later_frames(later, new_tween)
+.with_later_frames(later, new_tween, nframes)
 }
 \arguments{
 \item{data, prior, later}{A data.frame. If a \code{.frame} column exists it will be interpreted

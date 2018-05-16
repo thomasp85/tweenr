@@ -4,7 +4,7 @@
 \alias{.complete_states}
 \title{Fill in missing rows using enter and exit functions}
 \usage{
-.complete_states(from, to, id, enter, exit)
+.complete_states(from, to, id, enter, exit, max_id)
 }
 \arguments{
 \item{from, to}{Data.frames to tween between}

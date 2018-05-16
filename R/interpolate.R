@@ -56,6 +56,10 @@ interpolate_numlist_state <- function(data, states) {
     new_data
 }
 
+get_phase_state <- function(data, states) {
+    phase_state_interpolator(data, states)
+}
+
 ## ELEMENTS
 
 interpolate_numeric_element <- function(data, group, frame, ease) {

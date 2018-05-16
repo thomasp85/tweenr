@@ -408,6 +408,47 @@ List numlist_state_interpolator(List data, DataFrame states) {
 }
 
 //[[Rcpp::export]]
+CharacterVector phase_state_interpolator(List data, DataFrame states) {
+    IntegerVector state_index = states("state");
+    NumericVector nframes_per_state = states("nframes");
+    std::vector<std::string> easer = states("ease");
+    int nelements = as<CharacterVector>(data(0)).size();
+    int nstates = states.nrows();
+    int nframes = sum(nframes_per_state);
+    int frame = 0;
+    int state, element, currentframe, res_index;
+    CharacterVector res(nelements * nframes);
+
+    for (state = 0; state < nstates; ++state) {
+        if (easer[state] == "constant") {
+            CharacterVector state_from = data(state_index(state));
+            for (currentframe = 0; currentframe < nframes_per_state(state); ++currentframe) {
+                std::string type = currentframe == nframes_per_state(state) - 1 ? "raw" : "static";
+                res_index = (frame + currentframe) * nelements;
+                for (element = 0; element < nelements; ++element) {
+                    res[res_index] = type;
+                    ++res_index;
+                }
+            }
+        } else {
+            std::vector<double> ease_points = easeSeq(easer[state], nframes_per_state(state));
+            CharacterVector state_from = data(state_index(state));
+            CharacterVector state_to = data(state_index(state) + 1);
+            for (element = 0; element < nelements; ++element) {
+                std::string type = state_from[element] == "enter" ? "enter" : state_to[element] == "exit" ? "exit" : "transition";
+                for (currentframe = 0; currentframe < nframes_per_state(state); ++currentframe) {
+                    res_index = (frame + currentframe) * nelements + element;
+                    res[res_index] = type;
+                }
+            }
+        }
+        frame += nframes_per_state(state);
+    }
+
+    return res;
+}
+
+//[[Rcpp::export]]
 DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
     std::deque<double> tweendata;
     std::deque<std::string> tweengroup;
@@ -634,4 +675,43 @@ List numlist_element_interpolator(List data, CharacterVector group, IntegerVecto
     res.attr("class") = "data.frame";
     res.attr("row.names") = seq_along(frame_vec);
     return res;
+}
+
+//[[Rcpp::export]]
+DataFrame phase_element_interpolator(CharacterVector data, CharacterVector group, IntegerVector frame, CharacterVector ease) {
+    std::deque<std::string> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    int i, j, nframes;
+    std::string groupString;
+    std::string currentGroup = as<std::string>(group[0]);
+
+    for (i = 1; i < data.size(); ++i) {
+        groupString = as<std::string>(group[i]);
+        if (currentGroup.compare(groupString) == 0) {
+            nframes = frame[i] - frame[i-1];
+            std::string type = data[i - 1] == "enter" ? "enter" : data[i] == "exit" ? "exit" : "transition";
+            for (j = 0; j < nframes; ++j) {
+                tweendata.push_back(type);
+                tweengroup.push_back(groupString);
+                tweenframe.push_back(j + frame[i-1]);
+            }
+        } else {
+            tweendata.push_back(as<std::string>(data[i - 1]));
+            tweengroup.push_back(currentGroup);
+            tweenframe.push_back(frame[i-1]);
+            currentGroup = groupString;
+        }
+
+    }
+    tweendata.push_back(as<std::string>(data[i - 1]));
+    tweengroup.push_back(currentGroup);
+    tweenframe.push_back(frame[i-1]);
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe),
+        Named("stringsAsFactors") = false
+    );
 }

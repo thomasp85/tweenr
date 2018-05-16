@@ -51,6 +51,10 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
     if (length(unique(sapply(data, nrow))) != 1) {
         stop('All elements in data must have the same number of rows')
     }
+    data <- lapply(data, function(d) {
+        d$.phase <- 'raw'
+        d
+    })
     origNames <- names(data[[1]])
     if (!is.list(ease)) ease <- as.list(ease)
     allNames <- unlist(lapply(data, names))
@@ -99,10 +103,12 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
             datetime = interpolate_datetime_state(d, d_states),
             constant = interpolate_constant_state(d, d_states),
             numlist = interpolate_numlist_state(d, d_states),
-            list = interpolate_list_state(d, d_states)
+            list = interpolate_list_state(d, d_states),
+            phase = get_phase_state(d, d_states)
         )
     })
     tweendata <- structure(tweendata, names = names(data[[1]]), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+    tweendata$.id <- rep(seq_len(nrow(data[[1]])), each = nframes)
     tweendata$.frame <- rep(seq_len(nframes), each = nrow(data[[1]]))
     attr(tweendata, 'framelength') <- framelength
     tweendata

@@ -66,6 +66,7 @@ col_classes <- function(data) {
         }
     })
     names(classes) <- names(data)
+    classes[names(classes) == '.phase'] <- 'phase'
     classes
 }
 
