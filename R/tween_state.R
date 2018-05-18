@@ -127,8 +127,12 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     }
 
     to <- to[, match(names(from), names(to)), drop = FALSE]
-    if (length(ease) == 1) ease <- rep(ease, ncol(from))
-    if (length(ease) != ncol(from)) stop('Ease must be either a single string or one for each column', call. = FALSE)
+    if (length(ease) == 1) ease <- rep(ease, ncol(from) - 2)
+    if (length(ease) == ncol(from) - 2) {
+        ease <- c(ease, 'linear', 'linear') # To account for .phase and .id columns
+    } else {
+        stop('Ease must be either a single string or one for each column', call. = FALSE)
+    }
     stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
     classes <- if (nrow(from) == 0) col_classes(to) else col_classes(from)
