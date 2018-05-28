@@ -692,7 +692,11 @@ DataFrame phase_element_interpolator(CharacterVector data, CharacterVector group
             nframes = frame[i] - frame[i-1];
             std::string type = data[i - 1] == "enter" ? "enter" : data[i] == "exit" ? "exit" : "transition";
             for (j = 0; j < nframes; ++j) {
-                tweendata.push_back(type);
+                if (j == 0 && (type == "transition" || type == "exit")) {
+                    tweendata.push_back("raw");
+                } else {
+                    tweendata.push_back(type);
+                }
                 tweengroup.push_back(groupString);
                 tweenframe.push_back(j + frame[i-1]);
             }

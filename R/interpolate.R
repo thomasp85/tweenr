@@ -125,3 +125,6 @@ interpolate_numlist_element <- function(data, group, frame, ease) {
     attributes(new_data$data) <- attributes(data)
     new_data
 }
+get_phase_element <- function(data, group, frame, ease) {
+    phase_element_interpolator(data, group, frame, ease)
+}
