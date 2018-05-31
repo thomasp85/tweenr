@@ -19,11 +19,14 @@
 #' @param id An unquoted expression giving the component id for each row. Will
 #' be evaluated in the context of `.data` so can refer to a column from that
 #'
+#' @param range The range of time points to include in the tween. If `NULL` it
+#' will use the range of `time`
+#'
 #' @param enter_length,exit_length The lenght of the opening and closing
 #' transitions if `enter` and/or `exit` is given. Measured in the same units as
 #' `time`
 #'
-#' @return A data.frame with the same columns as `data` along with `.id` giving
+#' @return A data.frame with the same columns as `.data` along with `.id` giving
 #' the component id, `.phase` giving the state of each component in each frame,
 #' and `.frame` giving the frame membership of each row.
 #'
@@ -46,17 +49,17 @@
 #' @export
 #' @importFrom rlang enquo eval_tidy
 #'
-tween_components <- function(.data, ease, nframes, time, id, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
+tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
     time <- enquo(time)
     time <- eval_tidy(time, data)
     id <- enquo(id)
     id <- eval_tidy(id, data)
     .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
 
-    .tween_individuals(.data, ease, nframes)
+    .tween_individuals(.data, ease, nframes, range)
 }
 
-.tween_individuals <- function(.data, ease, nframes) {
+.tween_individuals <- function(.data, ease, nframes, range) {
     if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 2)
     if (length(ease) == ncol(.data) - 2) {
         ease <- c(ease, 'linear', 'linear') # To account for .phase and .id columns
@@ -65,7 +68,7 @@ tween_components <- function(.data, ease, nframes, time, id, enter = NULL, exit 
     }
     stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
-    timerange <- range(.data$.time)
+    timerange <- if (is.null(range)) range(.data$.time) else range
     framelength <- diff(timerange) / (nframes - 1)
     .data <- .data[order(.data$.id, .data$.time), , drop = FALSE]
     frame <- round((.data$.time - min(timerange[1])) / framelength) + 1
