@@ -137,7 +137,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
 
     classes <- if (nrow(from) == 0) col_classes(to) else col_classes(from)
     if (nrow(from) > 0 && nrow(to) > 0) stopifnot(identical(classes, col_classes(to)))
-    full_set <- .complete_states(from, to, id, enter, exit, max_id(.data))
+    full_set <- .complete_states(from, to, id, enter, exit, .max_id(.data))
     to$.id <- full_set$orig_to
 
     tweendata <- lapply(seq_along(classes), function(i) {
@@ -272,9 +272,20 @@ close_state <- function(.data, ease, nframes, exit) {
     frames
 }
 find_max_id <- function(data, new) {
-    max(max(new$.id), max_id(data))
+    max(max(new$.id), .max_id(data))
 }
-max_id <- function(data) {
+#' Get the highest id occuring in a dataset
+#'
+#' This is helper for `tween_state` related functions to get the currently
+#' highest `.id` in a frame collection
+#'
+#' @param data A data.frame as returned by `tween_state`
+#'
+#' @return An integer giving the currently highest id
+#'
+#' @keywords internal
+#' @export
+.max_id <- function(data) {
     max_id <- attr(data, 'max_id')
     if (is.null(max_id) && !is.null(data$.id)) max_id <- max(data$.id)
     else max_id <- nrow(data)
