@@ -51,17 +51,17 @@
 #'
 tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
     time <- enquo(time)
-    time <- eval_tidy(time, data)
+    time <- eval_tidy(time, .data)
     id <- enquo(id)
-    id <- eval_tidy(id, data)
+    id <- eval_tidy(id, .data)
     .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
 
     .tween_individuals(.data, ease, nframes, range)
 }
 
 .tween_individuals <- function(.data, ease, nframes, range) {
-    if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 2)
-    if (length(ease) == ncol(.data) - 2) {
+    if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
+    if (length(ease) == ncol(.data) - 3) {
         ease <- c(ease, 'linear', 'linear') # To account for .phase and .id columns
     } else {
         stop('Ease must be either a single string or one for each column', call. = FALSE)
@@ -117,7 +117,7 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
             enter_data <- data[0, , drop = FALSE]
         }
         if (!is.null(exit)) {
-            exit_data <- enter(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
+            exit_data <- exit(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
             exit_data$.phase <- 'exit'
             exit_data$.time <- exit_data$.time + exit_length
         } else {
