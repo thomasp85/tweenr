@@ -54,6 +54,8 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
     time <- eval_tidy(time, .data)
     id <- enquo(id)
     id <- eval_tidy(id, .data)
+    if (is.null(enter_length)) enter_length <- 0
+    if (is.null(exit_length)) exit_length <- 0
     .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
 
     .tween_individuals(.data, ease, nframes, range)
@@ -62,7 +64,7 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
 .tween_individuals <- function(.data, ease, nframes, range) {
     if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
     if (length(ease) == ncol(.data) - 3) {
-        ease <- c(ease, 'linear', 'linear') # To account for .phase and .id columns
+        ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
     } else {
         stop('Ease must be either a single string or one for each column', call. = FALSE)
     }

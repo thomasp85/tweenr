@@ -45,7 +45,13 @@ tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, 
     start <- eval_tidy(start, .data)
     end <- enquo(end)
     end <- eval_tidy(end, .data)
+    enter_length <- enquo(enter_length)
+    enter_length <- eval_tidy(enter_length, .data)
+    exit_length <- enquo(exit_length)
+    exit_length <- eval_tidy(exit_length, .data)
 
+    if (is.null(enter_length)) enter_length <- 0
+    if (is.null(exit_length)) exit_length <- 0
     .data <- .complete_events(.data, start, end, enter, exit, enter_length, exit_length)
 
     .tween_individuals(.data, ease, nframes, range)
