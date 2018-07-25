@@ -49,7 +49,7 @@ col_classes <- function(data) {
             'factor'
         } else if (is.character(d)) {
             colour <- try(suppressWarnings(col2rgb(d)), silent = TRUE)
-            if (inherits(colour, 'try-error') || anyNA(colour)) {
+            if (all(is.na(d)) || inherits(colour, 'try-error') || anyNA(colour)) {
                 'character'
             } else {
                 'colour'
