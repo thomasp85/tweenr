@@ -116,7 +116,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     from <- .get_last_frame(.data)
     from$.phase <- rep('raw', length = nrow(from))
     to$.phase <- rep('raw', length = nrow(to))
-    to$.id <- NA_integer_
+    to$.id <- rep(NA_integer_, length = nrow(to))
     if (.has_frames(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
         stop('from and to must have identical columns', call. = FALSE)
@@ -242,7 +242,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @export
 .with_prior_frames <- function(prior, new_tween, nframes) {
     nframes_before <- attr(prior, 'nframes')
-    if (is.null(nframes_before) && '.frame' %in% names(prior)) nframes_before <- max(prior$.frame)
+    if (is.null(nframes_before) && nrow(prior) > 0 && '.frame' %in% names(prior)) nframes_before <- max(prior$.frame)
     frames <- if (!is.null(nframes_before)) {
         prior <- prior[prior$.frame != nframes_before, , drop = FALSE]
         new_tween$.frame <- new_tween$.frame + nframes_before - 1
@@ -259,7 +259,7 @@ close_state <- function(.data, ease, nframes, exit) {
 #' @export
 .with_later_frames <- function(later, new_tween, nframes) {
     nframes_before <- attr(later, 'nframes')
-    nframes_before <- if (is.null(nframes_before) && '.frame' %in% names(later)) max(later$.frame) else 1
+    nframes_before <- if (is.null(nframes_before) && nrow(later) > 0 && '.frame' %in% names(later)) max(later$.frame) else 1
     frames <- if ('.frame' %in% names(later)) {
         later <- later[later$.frame != 1, , drop = FALSE]
         later$.frame <- later$.frame + max(new_tween$.frame)
@@ -272,7 +272,8 @@ close_state <- function(.data, ease, nframes, exit) {
     frames
 }
 find_max_id <- function(data, new) {
-    max(max(new$.id), .max_id(data))
+    max_new <- if (nrow(new) == 0) 0 else max(new$.id)
+    max(max_new, .max_id(data))
 }
 #' Get the highest id occuring in a dataset
 #'
@@ -287,7 +288,7 @@ find_max_id <- function(data, new) {
 #' @export
 .max_id <- function(data) {
     max_id <- attr(data, 'max_id')
-    if (is.null(max_id) && !is.null(data$.id)) max_id <- max(data$.id)
+    if (is.null(max_id) && nrow(data) > 0 && !is.null(data$.id)) max_id <- max(data$.id)
     else max_id <- nrow(data)
     max_id
 }
