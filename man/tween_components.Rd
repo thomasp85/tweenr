@@ -4,8 +4,8 @@
 \alias{tween_components}
 \title{Interpolate individual component}
 \usage{
-tween_components(.data, ease, nframes, time, id, range = NULL, enter = NULL,
-  exit = NULL, enter_length = 0, exit_length = 0)
+tween_components(.data, ease, nframes, time, id, range = NULL,
+  enter = NULL, exit = NULL, enter_length = 0, exit_length = 0)
 }
 \arguments{
 \item{.data}{A data.frame with components at different stages}

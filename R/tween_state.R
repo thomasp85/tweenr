@@ -72,6 +72,7 @@
 #' non-matching rows should simply be ignored for the transition and simply
 #' appear in the last frame of the tween. This is the default.
 #'
+#' @importFrom rlang enquo
 #' @export
 #'
 #' @examples
@@ -108,8 +109,8 @@
 #'   x
 #' }
 #' pop_devel <- df1 %>%
-#'   tween_state(df2, 'cubic-in-out', 50, id = 'country', enter = to_zero) %>%
-#'   tween_state(df3, 'cubic-in-out', 50, id = 'country', enter = to_zero,
+#'   tween_state(df2, 'cubic-in-out', 50, id = country, enter = to_zero) %>%
+#'   tween_state(df3, 'cubic-in-out', 50, id = country, enter = to_zero,
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
@@ -117,6 +118,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     from$.phase <- rep('raw', length = nrow(from))
     to$.phase <- rep('raw', length = nrow(to))
     to$.id <- rep(NA_integer_, length = nrow(to))
+    id <- enquo(id)
     if (.has_frames(.data)) nframes <- nframes + 1
     if (!setequal(names(from), names(to))) {
         stop('from and to must have identical columns', call. = FALSE)
@@ -309,15 +311,13 @@ find_max_id <- function(data, new) {
 #' versions of `from` and `to`
 #'
 #' @keywords internal
+#' @importFrom rlang eval_tidy %||%
 #' @export
 .complete_states <- function(from, to, id, enter, exit, max_id) {
-    if (is.null(id)) {
-        from_id <- seq_len(nrow(from))
-        to_id <- seq_len(nrow(to))
-    } else {
-        stopifnot(id %in% names(from))
-        from_id <- from[[id]]
-        to_id <- to[[id]]
+    from_id <- eval_tidy(id, from) %||% seq_len(nrow(from))
+    to_id <- eval_tidy(id, to) %||% seq_len(nrow(to))
+    if (length(from_id) != nrow(from) || length(to_id) != nrow(to)) {
+        stop('id must match the length of the data', call. = FALSE)
     }
     n_to <- nrow(to)
     if (anyDuplicated(from_id) || anyDuplicated(to_id) || !setequal(from_id, to_id)) {

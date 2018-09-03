@@ -9,10 +9,10 @@
 \if{html}{\figure{logo.png}{options: align='right'}}
 
 In order to create smooth animation between states of data,
-tweening is necessary. This package provides a range of functions for
-creating tweened data that plugs right into functions such as gg_animate()
-from the 'gganimate' package. Furthermore it adds a number of vectorized
-interpolaters for common R data types such as numeric, date and colour.
+    tweening is necessary. This package provides a range of functions for
+    creating tweened data that plugs right into functions such as gg_animate()
+    from the 'gganimate' package. Furthermore it adds a number of vectorized
+    interpolaters for common R data types such as numeric, date and colour.
 }
 \details{
 tweenr is a small collection of functions to help you in creating
