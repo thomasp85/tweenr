@@ -49,3 +49,27 @@ phase_element_interpolator <- function(data, group, frame, ease) {
     .Call('_tweenr_phase_element_interpolator', PACKAGE = 'tweenr', data, group, frame, ease)
 }
 
+numeric_along_interpolator <- function(data, group, time, history, keep_last, nframes, ease) {
+    .Call('_tweenr_numeric_along_interpolator', PACKAGE = 'tweenr', data, group, time, history, keep_last, nframes, ease)
+}
+
+colour_along_interpolator <- function(data, group, time, history, keep_last, nframes, ease) {
+    .Call('_tweenr_colour_along_interpolator', PACKAGE = 'tweenr', data, group, time, history, keep_last, nframes, ease)
+}
+
+constant_along_interpolator <- function(data, group, time, history, keep_last, nframes, ease) {
+    .Call('_tweenr_constant_along_interpolator', PACKAGE = 'tweenr', data, group, time, history, keep_last, nframes, ease)
+}
+
+list_along_interpolator <- function(data, group, time, history, keep_last, nframes, ease) {
+    .Call('_tweenr_list_along_interpolator', PACKAGE = 'tweenr', data, group, time, history, keep_last, nframes, ease)
+}
+
+numlist_along_interpolator <- function(data, group, time, history, keep_last, nframes, ease) {
+    .Call('_tweenr_numlist_along_interpolator', PACKAGE = 'tweenr', data, group, time, history, keep_last, nframes, ease)
+}
+
+phase_along_interpolator <- function(group, time, history, keep_last, nframes) {
+    .Call('_tweenr_phase_along_interpolator', PACKAGE = 'tweenr', group, time, history, keep_last, nframes)
+}
+

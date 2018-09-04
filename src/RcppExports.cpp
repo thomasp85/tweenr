@@ -161,6 +161,106 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// numeric_along_interpolator
+DataFrame numeric_along_interpolator(NumericVector data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease);
+RcppExport SEXP _tweenr_numeric_along_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numeric_along_interpolator(data, group, time, history, keep_last, nframes, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// colour_along_interpolator
+DataFrame colour_along_interpolator(NumericMatrix data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease);
+RcppExport SEXP _tweenr_colour_along_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(colour_along_interpolator(data, group, time, history, keep_last, nframes, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// constant_along_interpolator
+DataFrame constant_along_interpolator(CharacterVector data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease);
+RcppExport SEXP _tweenr_constant_along_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(constant_along_interpolator(data, group, time, history, keep_last, nframes, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// list_along_interpolator
+List list_along_interpolator(List data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease);
+RcppExport SEXP _tweenr_list_along_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(list_along_interpolator(data, group, time, history, keep_last, nframes, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// numlist_along_interpolator
+List numlist_along_interpolator(List data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease);
+RcppExport SEXP _tweenr_numlist_along_interpolator(SEXP dataSEXP, SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numlist_along_interpolator(data, group, time, history, keep_last, nframes, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// phase_along_interpolator
+DataFrame phase_along_interpolator(CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes);
+RcppExport SEXP _tweenr_phase_along_interpolator(SEXP groupSEXP, SEXP timeSEXP, SEXP historySEXP, SEXP keep_lastSEXP, SEXP nframesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type group(groupSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< bool >::type history(historySEXP);
+    Rcpp::traits::input_parameter< bool >::type keep_last(keep_lastSEXP);
+    Rcpp::traits::input_parameter< int >::type nframes(nframesSEXP);
+    rcpp_result_gen = Rcpp::wrap(phase_along_interpolator(group, time, history, keep_last, nframes));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_numeric_state_interpolator", (DL_FUNC) &_tweenr_numeric_state_interpolator, 2},
@@ -175,6 +275,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_list_element_interpolator", (DL_FUNC) &_tweenr_list_element_interpolator, 4},
     {"_tweenr_numlist_element_interpolator", (DL_FUNC) &_tweenr_numlist_element_interpolator, 4},
     {"_tweenr_phase_element_interpolator", (DL_FUNC) &_tweenr_phase_element_interpolator, 4},
+    {"_tweenr_numeric_along_interpolator", (DL_FUNC) &_tweenr_numeric_along_interpolator, 7},
+    {"_tweenr_colour_along_interpolator", (DL_FUNC) &_tweenr_colour_along_interpolator, 7},
+    {"_tweenr_constant_along_interpolator", (DL_FUNC) &_tweenr_constant_along_interpolator, 7},
+    {"_tweenr_list_along_interpolator", (DL_FUNC) &_tweenr_list_along_interpolator, 7},
+    {"_tweenr_numlist_along_interpolator", (DL_FUNC) &_tweenr_numlist_along_interpolator, 7},
+    {"_tweenr_phase_along_interpolator", (DL_FUNC) &_tweenr_phase_along_interpolator, 5},
     {NULL, NULL, 0}
 };
 

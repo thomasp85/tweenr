@@ -75,8 +75,8 @@ data <- tween_components(data, 'cubic-in-out', nframes = 100, time = time,
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_appear}},
-  \code{\link{tween_elements}}, \code{\link{tween_events}},
-  \code{\link{tween_states}}
+Other data.frame tween: \code{\link{tween_along}},
+  \code{\link{tween_appear}}, \code{\link{tween_elements}},
+  \code{\link{tween_events}}, \code{\link{tween_states}}
 }
 \concept{data.frame tween}

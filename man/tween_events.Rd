@@ -80,7 +80,8 @@ tween_events(d, 'cubic-in-out', 50, start = time, end = time + duration,
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_appear}},
+Other data.frame tween: \code{\link{tween_along}},
+  \code{\link{tween_appear}},
   \code{\link{tween_components}},
   \code{\link{tween_elements}}, \code{\link{tween_states}}
 }

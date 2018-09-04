@@ -43,7 +43,8 @@ data <- tween_appear(data, 'time', nframes = 200)
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_components}},
+Other data.frame tween: \code{\link{tween_along}},
+  \code{\link{tween_components}},
   \code{\link{tween_elements}}, \code{\link{tween_events}},
   \code{\link{tween_states}}
 }

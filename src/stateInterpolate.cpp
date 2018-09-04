@@ -178,6 +178,108 @@ std::vector<double> easeSeq(std::string easer, int length) {
     }
     return res;
 }
+double easePos(double p, std::string easer) {
+    double p_new;
+    switch (hashEase(easer)) {
+    case linear:
+        p_new = LinearInterpolation(p);
+        break;
+    case quadratic_in:
+        p_new = QuadraticEaseIn(p);
+        break;
+    case quadratic_out:
+        p_new = QuadraticEaseOut(p);
+        break;
+    case quadratic_in_out:
+        p_new = QuadraticEaseInOut(p);
+        break;
+    case cubic_in:
+        p_new = CubicEaseIn(p);
+        break;
+    case cubic_out:
+        p_new = CubicEaseOut(p);
+        break;
+    case cubic_in_out:
+        p_new = CubicEaseInOut(p);
+        break;
+    case quartic_in:
+        p_new = QuarticEaseIn(p);
+        break;
+    case quartic_out:
+        p_new = QuarticEaseOut(p);
+        break;
+    case quartic_in_out:
+        p_new = QuarticEaseInOut(p);
+        break;
+    case quintic_in:
+        p_new = QuinticEaseIn(p);
+        break;
+    case quintic_out:
+        p_new = QuinticEaseOut(p);
+        break;
+    case quintic_in_out:
+        p_new = QuinticEaseInOut(p);
+        break;
+    case sine_in:
+        p_new = SineEaseIn(p);
+        break;
+    case sine_out:
+        p_new = SineEaseOut(p);
+        break;
+    case sine_in_out:
+        p_new = SineEaseInOut(p);
+        break;
+    case circular_in:
+        p_new = CircularEaseIn(p);
+        break;
+    case circular_out:
+        p_new = CircularEaseOut(p);
+        break;
+    case circular_in_out:
+        p_new = CircularEaseInOut(p);
+        break;
+    case exponential_in:
+        p_new = ExponentialEaseIn(p);
+        break;
+    case exponential_out:
+        p_new = ExponentialEaseOut(p);
+        break;
+    case exponential_in_out:
+        p_new = ExponentialEaseInOut(p);
+        break;
+    case elastic_in:
+        p_new = ElasticEaseIn(p);
+        break;
+    case elastic_out:
+        p_new = ElasticEaseOut(p);
+        break;
+    case elastic_in_out:
+        p_new = ElasticEaseInOut(p);
+        break;
+    case back_in:
+        p_new = BackEaseIn(p);
+        break;
+    case back_out:
+        p_new = BackEaseOut(p);
+        break;
+    case back_in_out:
+        p_new = BackEaseInOut(p);
+        break;
+    case bounce_in:
+        p_new = BounceEaseIn(p);
+        break;
+    case bounce_out:
+        p_new = BounceEaseOut(p);
+        break;
+    case bounce_in_out:
+        p_new = BounceEaseInOut(p);
+        break;
+    case UNKNOWN:
+        stop("Unknown easing function");
+    }
+    return p_new;
+}
+
 
 //[[Rcpp::export]]
 NumericVector numeric_state_interpolator(List data, DataFrame states) {
@@ -711,6 +813,282 @@ DataFrame phase_element_interpolator(CharacterVector data, CharacterVector group
     tweendata.push_back(as<std::string>(data[i - 1]));
     tweengroup.push_back(currentGroup);
     tweenframe.push_back(frame[i-1]);
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe),
+        Named("stringsAsFactors") = false
+    );
+}
+
+//[[Rcpp::export]]
+DataFrame numeric_along_interpolator(NumericVector data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease) {
+    std::deque<double> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    std::string easer = as<std::string>(ease);
+
+    int i,j,jj;
+    bool before,after,same,last;
+    double pos,interp;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < data.size(); ++j) {
+            last = j == data.size() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata.push_back(data[j]);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                pos = (i - time[j]) / (time[jj] - time[j]);
+                pos = easePos(pos, easer);
+                interp = data[j] + (data[jj] - data[j]) * pos;
+                tweendata.push_back(interp);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe),
+        Named("stringsAsFactors") = false
+    );
+}
+//[[Rcpp::export]]
+DataFrame colour_along_interpolator(NumericMatrix data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease) {
+    std::deque<double> tweendata1;
+    std::deque<double> tweendata2;
+    std::deque<double> tweendata3;
+    std::deque<double> tweendata4;
+
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    std::string easer = as<std::string>(ease);
+
+    int i,j,jj;
+    bool before,after,same,last;
+    double pos;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < data.nrow(); ++j) {
+            last = j == data.nrow() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata1.push_back(data(j, 0));
+                tweendata2.push_back(data(j, 1));
+                tweendata3.push_back(data(j, 2));
+                tweendata4.push_back(data(j, 3));
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                pos = (i - time[j]) / (time[j + 1] - time[j]);
+                pos = easePos(pos, easer);
+                tweendata1.push_back(data(j, 0) + (data(j + 1, 0) - data(j, 0)) * pos);
+                tweendata2.push_back(data(j, 1) + (data(j + 1, 1) - data(j, 1)) * pos);
+                tweendata3.push_back(data(j, 2) + (data(j + 1, 2) - data(j, 2)) * pos);
+                tweendata4.push_back(data(j, 3) + (data(j + 1, 3) - data(j, 3)) * pos);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
+
+    return DataFrame::create(
+        Named("data1") = wrap(tweendata1),
+        Named("data2") = wrap(tweendata2),
+        Named("data3") = wrap(tweendata3),
+        Named("data4") = wrap(tweendata4),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe),
+        Named("stringsAsFactors") = false
+    );
+}
+
+//[[Rcpp::export]]
+DataFrame constant_along_interpolator(CharacterVector data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease) {
+    std::deque<std::string> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    std::string easer = as<std::string>(ease);
+
+    int i,j,jj;
+    bool before,after,same,last;
+    double pos;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < data.size(); ++j) {
+            last = j == data.size() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata.push_back(as<std::string>(data[j]));
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                pos = (i - time[j]) / (time[j + 1] - time[j]);
+                pos = easePos(pos, easer);
+                if (pos < 0.5) {
+                    tweendata.push_back(as<std::string>(data[j]));
+                } else {
+                    tweendata.push_back(as<std::string>(data[j + 1]));
+                }
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
+
+    return DataFrame::create(
+        Named("data") = wrap(tweendata),
+        Named("group") = wrap(tweengroup),
+        Named("frame") = wrap(tweenframe),
+        Named("stringsAsFactors") = false
+    );
+}
+
+//[[Rcpp::export]]
+List list_along_interpolator(List data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease) {
+    std::deque<SEXP> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    std::string easer = as<std::string>(ease);
+
+    int i,j,jj;
+    bool before,after,same,last;
+    double pos;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < data.size(); ++j) {
+            last = j == data.size() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata.push_back(data[j]);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                pos = (i - time[j]) / (time[j + 1] - time[j]);
+                pos = easePos(pos, easer);
+                if (pos < 0.5) {
+                    tweendata.push_back(data[j]);
+                } else {
+                    tweendata.push_back(data[j + 1]);
+                }
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
+
+    List tweendata_list = wrap(tweendata);
+    IntegerVector frame_vec = wrap(tweenframe);
+    CharacterVector group_vec = wrap(tweengroup);
+    List res = List::create(
+        Named("data") = tweendata_list,
+        Named("group") = group_vec,
+        Named("frame") = frame_vec
+    );
+    res.attr("class") = "data.frame";
+    res.attr("row.names") = seq_along(frame_vec);
+    return res;
+}
+//[[Rcpp::export]]
+List numlist_along_interpolator(List data, CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes, CharacterVector ease) {
+    std::deque<NumericVector> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+    std::string easer = as<std::string>(ease);
+
+    int i,j,jj;
+    bool before,after,same,last;
+    double pos;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < data.size(); ++j) {
+            last = j == data.size() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata.push_back(data[j]);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                NumericVector state_from_vec = data[j];
+                NumericVector state_to_vec = data[j + 1];
+                state_from_vec = align_num_elem(state_from_vec, state_to_vec);
+                state_to_vec = align_num_elem(state_to_vec, state_from_vec);
+                pos = (i - time[j]) / (time[j + 1] - time[j]);
+                pos = easePos(pos, easer);
+                NumericVector state_vec = state_from_vec + pos * (state_to_vec - state_from_vec);
+                tweendata.push_back(state_vec);
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
+
+    List tweendata_list = wrap(tweendata);
+    IntegerVector frame_vec = wrap(tweenframe);
+    CharacterVector group_vec = wrap(tweengroup);
+    List res = List::create(
+        Named("data") = tweendata_list,
+        Named("group") = group_vec,
+        Named("frame") = frame_vec
+    );
+    res.attr("class") = "data.frame";
+    res.attr("row.names") = seq_along(frame_vec);
+    return res;
+}
+//[[Rcpp::export]]
+DataFrame phase_along_interpolator(CharacterVector group, NumericVector time, bool history, bool keep_last, int nframes) {
+    std::deque<std::string> tweendata;
+    std::deque<std::string> tweengroup;
+    std::deque<int> tweenframe;
+
+    int i,j,jj;
+    bool before,after,same,last;
+
+    for (i = 1; i <= nframes; ++i) {
+        for (j = 0; j < group.size(); ++j) {
+            last = j == group.size() - 1;
+            jj = last ? j : j + 1;
+            before = time[j] <= i;
+            after = time[jj] > i;
+            same = group[j] == group[jj];
+            if ((history && same && before) || ((!same || last) && keep_last && before)) {
+                tweendata.push_back("raw");
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+            if (same && before == after) {
+                tweendata.push_back("transition");
+                tweengroup.push_back(as<std::string>(group[j]));
+                tweenframe.push_back(i);
+            }
+        }
+    }
 
     return DataFrame::create(
         Named("data") = wrap(tweendata),
