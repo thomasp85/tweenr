@@ -5,6 +5,7 @@
 \alias{.get_first_frame}
 \alias{.with_prior_frames}
 \alias{.with_later_frames}
+\alias{.has_frames}
 \title{Helpers for working with tweened data}
 \usage{
 .get_last_frame(data)
@@ -14,6 +15,8 @@
 .with_prior_frames(prior, new_tween, nframes)
 
 .with_later_frames(later, new_tween, nframes)
+
+.has_frames(data)
 }
 \arguments{
 \item{data, prior, later}{A data.frame. If a \code{.frame} column exists it will be interpreted

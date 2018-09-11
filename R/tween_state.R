@@ -163,7 +163,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
     tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
     tweendata <- rbind(
-        cbind(from, .frame = rep(1, nrow(from))),
+        if (nframes > 1) cbind(from, .frame = rep(1, nrow(from))) else NULL,
         tweendata[tweendata$.frame != 1, , drop = FALSE],
         cbind(to, .frame = rep(nframes, nrow(to)))
     )
@@ -361,15 +361,10 @@ find_max_id <- function(data, new) {
 
     list(from = from, to = to, orig_to = orig_to_id)
 }
+#' @rdname dot-get_last_frame
+#' @export
 .has_frames <- function(data) {
-    nframes <- attr(data, 'nframes')
-    if (is.null(nframes) && !is.null(data$.frame)) nframes <- max(data$.frame)
-    if (is.null(nframes)) {
-        FALSE
-    } else {
-        nframes > 1
-    }
-
+    !is.null(attr(data, 'nframes')) || !is.null(data$.frame)
 }
 simple_state <- function(n, ease) {
     data.frame(state = c(0, 1), nframes = c(n - 1, 0), ease = c(ease, 'constant'), stringsAsFactors = FALSE)
