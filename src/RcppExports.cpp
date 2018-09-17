@@ -261,6 +261,76 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// numeric_at_interpolator
+NumericVector numeric_at_interpolator(NumericVector from, NumericVector to, NumericVector at, CharacterVector ease);
+RcppExport SEXP _tweenr_numeric_at_interpolator(SEXP fromSEXP, SEXP toSEXP, SEXP atSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type to(toSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type at(atSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numeric_at_interpolator(from, to, at, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// colour_at_interpolator
+NumericMatrix colour_at_interpolator(NumericMatrix from, NumericMatrix to, NumericVector at, CharacterVector ease);
+RcppExport SEXP _tweenr_colour_at_interpolator(SEXP fromSEXP, SEXP toSEXP, SEXP atSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type to(toSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type at(atSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(colour_at_interpolator(from, to, at, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// constant_at_interpolator
+CharacterVector constant_at_interpolator(CharacterVector from, CharacterVector to, NumericVector at, CharacterVector ease);
+RcppExport SEXP _tweenr_constant_at_interpolator(SEXP fromSEXP, SEXP toSEXP, SEXP atSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type to(toSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type at(atSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(constant_at_interpolator(from, to, at, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// list_at_interpolator
+List list_at_interpolator(List from, List to, NumericVector at, CharacterVector ease);
+RcppExport SEXP _tweenr_list_at_interpolator(SEXP fromSEXP, SEXP toSEXP, SEXP atSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< List >::type to(toSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type at(atSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(list_at_interpolator(from, to, at, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// numlist_at_interpolator
+List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVector ease);
+RcppExport SEXP _tweenr_numlist_at_interpolator(SEXP fromSEXP, SEXP toSEXP, SEXP atSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< List >::type to(toSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type at(atSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numlist_at_interpolator(from, to, at, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_numeric_state_interpolator", (DL_FUNC) &_tweenr_numeric_state_interpolator, 2},
@@ -281,6 +351,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_list_along_interpolator", (DL_FUNC) &_tweenr_list_along_interpolator, 7},
     {"_tweenr_numlist_along_interpolator", (DL_FUNC) &_tweenr_numlist_along_interpolator, 7},
     {"_tweenr_phase_along_interpolator", (DL_FUNC) &_tweenr_phase_along_interpolator, 5},
+    {"_tweenr_numeric_at_interpolator", (DL_FUNC) &_tweenr_numeric_at_interpolator, 4},
+    {"_tweenr_colour_at_interpolator", (DL_FUNC) &_tweenr_colour_at_interpolator, 4},
+    {"_tweenr_constant_at_interpolator", (DL_FUNC) &_tweenr_constant_at_interpolator, 4},
+    {"_tweenr_list_at_interpolator", (DL_FUNC) &_tweenr_list_at_interpolator, 4},
+    {"_tweenr_numlist_at_interpolator", (DL_FUNC) &_tweenr_numlist_at_interpolator, 4},
     {NULL, NULL, 0}
 };
 

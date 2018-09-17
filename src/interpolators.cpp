@@ -1097,3 +1097,74 @@ DataFrame phase_along_interpolator(CharacterVector group, NumericVector time, bo
         Named("stringsAsFactors") = false
     );
 }
+
+//[[Rcpp::export]]
+NumericVector numeric_at_interpolator(NumericVector from, NumericVector to, NumericVector at, CharacterVector ease) {
+    int n = from.size(), i;
+    double pos;
+    NumericVector res(n);
+
+    for (i = 0; i < n; ++i) {
+        pos = easePos(at[i], as<std::string>(ease[i]));
+        res[i] = from[i] + (to[i] - from[i]) * pos;
+    }
+
+    return res;
+}
+//[[Rcpp::export]]
+NumericMatrix colour_at_interpolator(NumericMatrix from, NumericMatrix to, NumericVector at, CharacterVector ease) {
+    int n = from.nrow(), i;
+    double pos;
+    NumericMatrix res(n, from.ncol());
+
+    for (i = 0; i < n; ++i) {
+        pos = easePos(at[i], as<std::string>(ease[i]));
+        res(i, _) = from(i, _) + (to(i, _) - from(i, _)) * pos;
+    }
+
+    return res;
+}
+//[[Rcpp::export]]
+CharacterVector constant_at_interpolator(CharacterVector from, CharacterVector to, NumericVector at, CharacterVector ease) {
+    int n = from.size(), i;
+    double pos;
+    CharacterVector res(n);
+
+    for (i = 0; i < n; ++i) {
+        pos = easePos(at[i], as<std::string>(ease[i]));
+        res[i] = pos < 0.5 ? from[i] : to[i];
+    }
+
+    return res;
+}
+//[[Rcpp::export]]
+List list_at_interpolator(List from, List to, NumericVector at, CharacterVector ease) {
+    int n = from.size(), i;
+    double pos;
+    List res(n);
+
+    for (i = 0; i < n; ++i) {
+        pos = easePos(at[i], as<std::string>(ease[i]));
+        res[i] = pos < 0.5 ? from[i] : to[i];
+    }
+
+    return res;
+}
+//[[Rcpp::export]]
+List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVector ease) {
+    int n = from.size(), i;
+    double pos;
+    List res(n);
+
+    for (i = 0; i < n; ++i) {
+        NumericVector state_from_vec = from[i];
+        NumericVector state_to_vec = to[i];
+        state_from_vec = align_num_elem(state_from_vec, state_to_vec);
+        state_to_vec = align_num_elem(state_to_vec, state_from_vec);
+        pos = easePos(at[i], as<std::string>(ease[i]));
+        NumericVector state_vec = state_from_vec + pos * (state_to_vec - state_from_vec);
+        res[i] = state_vec;
+    }
+
+    return res;
+}

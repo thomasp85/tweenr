@@ -73,3 +73,23 @@ phase_along_interpolator <- function(group, time, history, keep_last, nframes) {
     .Call('_tweenr_phase_along_interpolator', PACKAGE = 'tweenr', group, time, history, keep_last, nframes)
 }
 
+numeric_at_interpolator <- function(from, to, at, ease) {
+    .Call('_tweenr_numeric_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
+}
+
+colour_at_interpolator <- function(from, to, at, ease) {
+    .Call('_tweenr_colour_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
+}
+
+constant_at_interpolator <- function(from, to, at, ease) {
+    .Call('_tweenr_constant_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
+}
+
+list_at_interpolator <- function(from, to, at, ease) {
+    .Call('_tweenr_list_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
+}
+
+numlist_at_interpolator <- function(from, to, at, ease) {
+    .Call('_tweenr_numlist_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
+}
+
