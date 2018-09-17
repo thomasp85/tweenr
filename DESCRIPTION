@@ -24,7 +24,6 @@ Imports:
     farver,
     magrittr,
     rlang
-Remotes: thomasp85/farver
 LinkingTo: Rcpp
 RoxygenNote: 6.1.0
 Roxygen: list(markdown=TRUE)
