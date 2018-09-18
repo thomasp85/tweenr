@@ -22,12 +22,15 @@
 tween_at <- function(from, to, at, ease) {
     single_vec <- !is.data.frame(from)
     if (single_vec) {
+        if (length(from) == 0 || length(to) == 0) return(to[integer()])
         from_df <- data.frame(data = rep(NA, length(from)))
         to_df <- from_df
         from_df$data <- from
         to_df$data <- to
         from <- from_df
         to <- to_df
+    } else {
+        if (nrow(from) == 0 || nrow(to) == 0) return(to[integer(), ])
     }
     if (nrow(from) == 1) from <- from[rep(1, nrow(to)), , drop = FALSE]
     if (nrow(to) == 1) to <- to[rep(1, nrow(from)), , drop = FALSE]
