@@ -24,7 +24,7 @@ tween_at <- function(from, to, at, ease) {
     if (single_vec) {
         if (length(from) == 0 || length(to) == 0) return(to[integer()])
         from_df <- data.frame(data = rep(NA, length(from)))
-        to_df <- from_df
+        to_df <- data.frame(data = rep(NA, length(to)))
         from_df$data <- from
         to_df$data <- to
         from <- from_df
