@@ -8,9 +8,9 @@ interpolate_logical_at <- function(from, to, at, ease) {
 
 interpolate_colour_at <- function(from, to, at, ease) {
     from <- t(col2rgb(from, alpha = TRUE))
-    from[, 1:3] <- convert_colour(from[,1:3, drop = FALSE], from = 'rgb', to = 'lab')
+    from[, 1:3] <- convert_colour(from[, 1:3, drop = FALSE], from = 'rgb', to = 'lab')
     to <- t(col2rgb(to, alpha = TRUE))
-    to[, 1:3] <- convert_colour(to[,1:3, drop = FALSE], from = 'rgb', to = 'lab')
+    to[, 1:3] <- convert_colour(to[, 1:3, drop = FALSE], from = 'rgb', to = 'lab')
     data <- colour_at_interpolator(from, to, at, ease)
     data[, 1:3] <- convert_colour(data[, 1:3, drop = FALSE], from = 'lab', to = 'rgb')
     data[data > 255] <- 255
