@@ -3,7 +3,7 @@
 tweenr <img src="man/figures/logo.png" align="right" />
 =======================================================
 
-[![Travis-CI Build Status](https://travis-ci.org/thomasp85/tweenr.svg?branch=master)](https://travis-ci.org/thomasp85/tweenr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/tweenr?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/tweenr) [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/tweenr)](https://CRAN.R-project.org/package=tweenr) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr)
+[![Travis-CI Build Status](https://travis-ci.org/thomasp85/tweenr.svg?branch=master)](https://travis-ci.org/thomasp85/tweenr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/tweenr?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/tweenr) [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/tweenr)](https://CRAN.R-project.org/package=tweenr) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr) [![Coverage Status](https://img.shields.io/codecov/c/github/thomasp85/tweenr/master.svg)](https://codecov.io/github/thomasp85/tweenr?branch=master)
 
 What is this?
 -------------
