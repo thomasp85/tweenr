@@ -16,9 +16,9 @@ test_that("tween_state works", {
 
 test_that("keep_state works", {
   keep <- keep_state(df1, 5)
-  expect_equal(max(tween$.frame), 5)
-  expect_true(all(tween$.phase[c(9:10)] == 'raw'))
-  expect_true(all(tween$.phase[c(1:8)] == 'static'))
+  expect_equal(max(keep$.frame), 5)
+  expect_true(all(keep$.phase[c(9:10)] == 'raw'))
+  expect_true(all(keep$.phase[c(1:8)] == 'static'))
 })
 
 test_that("enter/exit works", {
