@@ -14,7 +14,7 @@ length/nrow 1 it will get repeated to match the length of the other}
 \code{from}}
 
 \item{ease}{A character vector giving valid easing functions. Recycled to
-match the nrow/length of \code{from}}
+match the ncol of \code{from}}
 }
 \value{
 If \code{from}/\code{to} is a data.frame then a data.frame with the same

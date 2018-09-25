@@ -9,7 +9,7 @@
 #' @param at A numeric between 0 and 1 recycled to match the nrow/length of
 #' `from`
 #' @param ease A character vector giving valid easing functions. Recycled to
-#' match the nrow/length of `from`
+#' match the ncol of `from`
 #'
 #' @return If `from`/`to` is a data.frame then a data.frame with the same
 #' columns. If `from`/`to` is a vector then a vector.
@@ -38,22 +38,22 @@ tween_at <- function(from, to, at, ease) {
         stop('from and to must be same length', call. = FALSE)
     }
     at <- rep(at, length.out = nrow(from))
-    ease <- rep(ease, length.out = nrow(from))
+    ease <- rep(ease, length.out = ncol(from))
     classes <- col_classes(from)
     stopifnot(identical(classes, col_classes(to)))
     tweendata <- lapply(seq_along(classes), function(i) {
         switch(
             classes[i],
-            numeric = interpolate_numeric_at(from[[i]], to[[i]], at, ease),
-            logical = interpolate_logical_at(from[[i]], to[[i]], at, ease),
-            factor = interpolate_factor_at(from[[i]], to[[i]], at, ease),
-            character = interpolate_character_at(from[[i]], to[[i]], at, ease),
-            colour = interpolate_colour_at(from[[i]], to[[i]], at, ease),
-            date = interpolate_date_at(from[[i]], to[[i]], at, ease),
-            datetime = interpolate_datetime_at(from[[i]], to[[i]], at, ease),
-            constant = interpolate_constant_at(from[[i]], to[[i]], at, ease),
-            numlist = interpolate_numlist_at(from[[i]], to[[i]], at, ease),
-            list = interpolate_list_at(from[[i]], to[[i]], at, ease)
+            numeric = interpolate_numeric_at(from[[i]], to[[i]], at, ease[i]),
+            logical = interpolate_logical_at(from[[i]], to[[i]], at, ease[i]),
+            factor = interpolate_factor_at(from[[i]], to[[i]], at, ease[i]),
+            character = interpolate_character_at(from[[i]], to[[i]], at, ease[i]),
+            colour = interpolate_colour_at(from[[i]], to[[i]], at, ease[i]),
+            date = interpolate_date_at(from[[i]], to[[i]], at, ease[i]),
+            datetime = interpolate_datetime_at(from[[i]], to[[i]], at, ease[i]),
+            constant = interpolate_constant_at(from[[i]], to[[i]], at, ease[i]),
+            numlist = interpolate_numlist_at(from[[i]], to[[i]], at, ease[i]),
+            list = interpolate_list_at(from[[i]], to[[i]], at, ease[i])
         )
     })
     if (single_vec) return(tweendata[[1]])
