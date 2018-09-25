@@ -3,3 +3,4 @@
 .RData
 *.Rproj
 .Rbuildignore
+README_cache
