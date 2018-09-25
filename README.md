@@ -1,171 +1,102 @@
-# tweenr <img src="man/figures/logo.png" align="right" />
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+tweenr <img src="man/figures/logo.png" align="right" />
+=======================================================
 
 [![Travis-CI Build Status](https://travis-ci.org/thomasp85/tweenr.svg?branch=master)](https://travis-ci.org/thomasp85/tweenr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/thomasp85/tweenr?branch=master&svg=true)](https://ci.appveyor.com/project/thomasp85/tweenr) [![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/tweenr)](https://CRAN.R-project.org/package=tweenr) [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr)
 
-## What is this?
-tweenr is a small package that makes it easy to interpolate your data between
-different states, specifying the length of each change, the easing of the
-transition and how many intermediary steps should be generated. tweenr works
-particularly well with [gganimate](https://github.com/dgrtwo/gganimate) but can
-be used for any case where interpolation of data is needed. All functions are
-vectorized so in any case you'll get better performance than using `approx` and 
-`colorRamp`.
+What is this?
+-------------
 
-![tweenr](https://www.dropbox.com/s/iau6o90senz2ytv/showreel.gif?raw=1)
+`tweenr` is a package for interpolating data, mainly for animations. It provides a range of functions that take data of different forms and calculate intermediary values. It supports all atomic vector types along with `factor`, `Date`, `POSIXct`, characters representing colours, and `list`. `tweenr` is used extensibly by [`gganimate`](https://github.com/thomasp85/gganimate) to create smooth animations, but can also be used by itself to prepare data for animation in another framework.
 
-*tweening of 9 states of data*
+How do I get it?
+----------------
 
-## How does it work?
-tweenr is available through CRAN using `install.packages('tweenr')`. In order to
-get the development version, you can install directly from GitHub using 
-devtools:
+`tweenr` is available on CRAN and can be installed with `install.packages('tweenr')`. In order to get the development version you can install it from github with `devtools`
 
-```r
-if (!require(devtools)) {
-    install.packages("devtools")
+``` r
+#install.packages('devtools')
+devtools::install_github('thomasp85/tweenr')
+```
+
+An example
+----------
+
+Following is an example of using the pipeable `tween_state()` function with our belowed iris data:
+
+``` r
+library(tweenr)
+library(ggplot2)
+
+# Prepare the data with some extra columns
+fade <- function(df) {
+  df$size <- 0
+  df$alpha <- 0
+  df
 }
-devtools::install_github("thomasp85/tweenr")
+iris$col <- c('firebrick', 'forestgreen', 'steelblue')[as.integer(iris$Species)]
+iris$size <- 4
+iris$alpha <- 1
+iris <- split(iris, iris$Species)
+
+# Here comes tweenr
+iris_tween <- iris$setosa %>% 
+  tween_state(iris$versicolor, ease = 'cubic-in-out', nframes = 30, 
+              enter = fade, exit = fade) %>% 
+  keep_state(10) %>% 
+  tween_state(iris$virginica, ease = 'elastic-out', nframes = 30, 
+              enter = fade, exit = fade) %>% 
+  keep_state(10) %>% 
+  tween_state(iris$setosa, ease = 'quadratic-in', nframes = 30, 
+              enter = fade, exit = fade) %>% 
+  keep_state(10)
+
+# Animate it to show the effect
+p_base <- ggplot() + 
+  geom_point(aes(x = Petal.Length, y = Petal.Width, alpha = alpha, colour = col, 
+                 size = size)) + 
+  scale_colour_identity() +
+  scale_alpha_identity() + 
+  scale_size_identity() + 
+  coord_cartesian(xlim = range(iris_tween$Petal.Length), 
+                  ylim = range(iris_tween$Petal.Width))
+iris_tween <- split(iris_tween, iris_tween$.frame)
+for (d in iris_tween) {
+  p <- p_base %+% d
+  plot(p)
+}
 ```
 
-Once you have it there are currently three ways to tween your data. Furthermore
-there is also access to standard vectorized interpolaters for the following 
-classes:
+![](man/figures/README-unnamed-chunk-3.gif)
 
-- numeric
-- Date
-- POSIXt
-- colour (not really a class - any string that can be considered a colour)
+Other functions
+---------------
 
-### tween_states
-`tween_states` takes a list of data.frames, each representing a state of your
-data, and interpolates the transition between them. Only the first data.frame
-needs to be full, the following only needs to contain the columns that shows any
-change. It is possible to specify the length of each individual transition, as
-well as the length of the pause at each state. Each transition can also have an 
-easing function assiciated with it that describes how the transition should 
-progress.
+Besides the `tween_state()`/`keep_state()` combo showcased above, there are a slew of other functions meant for data in different formats
 
-### tween_appear
-This simple function is for data that describes events in time. It converts the
-data into frames and assigns an age to each observation in each frame. A 
-negative age means that the observation has yet to appear.
+**`tween_components`** takes a single data.frame, a vector of ids identifying recurrent elements, and a vector of timepoints for each row and interpolate each element between its specified time points.
 
-### tween_elements
-This function is the most versatile of them all. It takes a data.frame that 
-contains a time column, an observation id column and an ease column along with 
-the rest of the data. Each observation, defined by the id, is animated through 
-its individual states, using its own easing function:
+**`tween_events`** takes a single data.frame where each row encodes a single unique event, along with a start, and end time and expands the data across a given number of frames.
 
-![tween_elements](https://www.dropbox.com/s/bbi25t699nf1au5/element.gif?raw=1)
+**`tween_along`** takes a single data.frame along with an id and timepoint vector and calculate evenly spaced intermediary values with the possibility of keeping old values at each frame.
 
-## How did I make those two animations?
-Following are the code needed to recreate the two animations shown above. Most
-of the code is concerned with generating the (useless) data, needed for the
-animations, the tweenr use is a simple one-liner. Both code samples require the 
-use of [ggforce](https://github.com/thomasp85/ggforce), but only because I'm 
-lazy... :-)
+**`tween_at`** takes two data.frames or vectors along with a numeric vector giving the interpolation point between the two data.frames to calculate.
 
-### The Dancing Ball
-```r
-library(ggplot2)
-library(gganimate)
-library(ggforce)
-library(tweenr)
+**`tween_fill`** fills missing values in a vector or data.frame by interpolating between previous and next non-missing elements
 
-# Making up data
-t <- data.frame(x=0, y=0, colour = 'forestgreen', size=1, alpha = 1, 
-                stringsAsFactors = FALSE)
-t <- t[rep(1, 12),]
-t$alpha[2:12] <- 0
-t2 <- t
-t2$y <- 1
-t2$colour <- 'firebrick'
-t3 <- t2
-t3$x <- 1
-t3$colour <- 'steelblue'
-t4 <- t3
-t4$y <- 0
-t4$colour <- 'goldenrod'
-t5 <- t4
-c <- ggforce::radial_trans(c(1,1), c(1, 12))$transform(rep(1, 12), 1:12)
-t5$x <- (c$x + 1) / 2
-t5$y <- (c$y + 1) / 2
-t5$alpha <- 1
-t5$size <- 0.5
-t6 <- t5
-t6 <- rbind(t5[12,], t5[1:11, ])
-t6$colour <- 'firebrick'
-t7 <- rbind(t6[12,], t6[1:11, ])
-t7$colour <- 'steelblue'
-t8 <- t7
-t8$x <- 0.5
-t8$y <- 0.5
-t8$size <- 2
-t9 <- t
-ts <- list(t, t2, t3, t4, t5, t6, t7, t8, t9)
+Easing
+------
 
-tweenlogo <- data.frame(x=0.5, y=0.5, label = 'tweenr', stringsAsFactors = F)
-tweenlogo <- tweenlogo[rep(1, 60),]
-tweenlogo$.frame <- 316:375
+In order to get smooth transitions you'd often want a non-linear interpolation. This can be achieved by using an easing function to translate the equidistant interpolation points into new ones. `tweenr` has support for a wide range of different easing functions, all of which can be previewed using `display_ease()` as here where the popular *cubic-in-out* is shown:
 
-# Using tweenr
-tf <- tween_states(ts, tweenlength = 2, statelength = 1, 
-                   ease = c('cubic-in-out', 'elastic-out', 'bounce-out', 
-                            'cubic-out', 'sine-in-out', 'sine-in-out', 
-                            'circular-in', 'back-out'), 
-                   nframes = 375)
-
-# Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
-    geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
-    geom_point(aes(frame = .frame, size=size, alpha = alpha, colour = colour)) + 
-    scale_colour_identity() + 
-    scale_alpha(range = c(0, 1), guide = 'none') +
-    scale_size(range = c(4, 60), guide = 'none') + 
-    expand_limits(x=c(-0.36, 1.36), y=c(-0.36, 1.36)) + 
-    theme_bw()
-animation::ani.options(interval = 1/15)
-gganimate(p, "dancing ball.gif", title_frame = F, ani.width = 400, 
-           ani.height = 400)
+``` r
+tweenr::display_ease('cubic-in-out')
 ```
 
-### The Dropping Balls
-```r
-library(ggplot2)
-library(gganimate)
-library(ggforce)
-library(tweenr)
+![](man/figures/README-unnamed-chunk-4-1.png)
 
-# Making up data
-d <- data.frame(x = rnorm(20), y = rnorm(20), time = sample(100, 20), alpha = 0, 
-                size = 1, ease = 'elastic-out', id = 1:20, 
-                stringsAsFactors = FALSE)
-d2 <- d
-d2$time <- d$time + 10
-d2$alpha <- 1
-d2$size <- 3
-d2$ease <- 'linear'
-d3 <- d2
-d3$time <- d2$time + sample(50:100, 20)
-d3$size = 10
-d3$ease <- 'bounce-out'
-d4 <- d3
-d4$y <- min(d$y) - 0.5
-d4$size <- 2
-d4$time <- d3$time + 10
-d5 <- d4
-d5$time <- max(d5$time)
-df <- rbind(d, d2, d3, d4, d5)
+Spatial interpolations
+----------------------
 
-# Using tweenr
-dt <- tween_elements(df, 'time', 'id', 'ease', nframes = 500)
-
-# Animate with gganimate
-p <- ggplot(data = dt) + 
-    geom_point(aes(x=x, y=y, size=size, alpha=alpha, frame = .frame)) + 
-    scale_size(range = c(0.1, 20), guide = 'none') + 
-    scale_alpha(range = c(0, 1), guide = 'none') + 
-    ggforce::theme_no_axes()
-animation::ani.options(interval = 1/24)
-gganimate(p, 'dropping balls.gif', title_frame = F)
-```
+The purpose of `tweenr` is to interpolate values independently. If paths and polygons needs to be transitioned the [`transformr`](https://github.com/thomasp85/transformr) package should be used as it expands tweenr into the spatial realm
