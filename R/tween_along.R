@@ -21,58 +21,58 @@
 #'
 #' @export
 tween_along <- function(.data, ease, nframes, along, id, range = NULL, history = TRUE, keep_last = FALSE) {
-    along <- enquo(along)
-    along <- as.numeric(eval_tidy(along, .data))
-    id <- enquo(id)
-    id <- eval_tidy(id, .data)
-    .data <- .complete_along(.data, along, id)
+  along <- enquo(along)
+  along <- as.numeric(eval_tidy(along, .data))
+  id <- enquo(id)
+  id <- eval_tidy(id, .data)
+  .data <- .complete_along(.data, along, id)
 
-    if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
-    if (length(ease) == ncol(.data) - 3) {
-        ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
-    } else {
-        stop('Ease must be either a single string or one for each column', call. = FALSE)
-    }
-    stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
+  if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
+  if (length(ease) == ncol(.data) - 3) {
+    ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
+  } else {
+    stop('Ease must be either a single string or one for each column', call. = FALSE)
+  }
+  stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
-    timerange <- if (is.null(range)) range(.data$.time) else range
-    timerange <- as.numeric(timerange)
-    framelength <- diff(timerange) / (nframes - 1)
-    frame <- 1 + (nframes - 1) * (.data$.time - timerange[1]) / diff(timerange)
-    colClasses <- col_classes(.data)
-    tweendata <- lapply(seq_along(.data),  function(i) {
-        d <- .data[[i]]
-        e <- ease[i]
-        switch(
-            colClasses[i],
-            numeric = interpolate_numeric_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            logical = interpolate_logical_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            factor = interpolate_factor_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            character = interpolate_character_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            colour = interpolate_colour_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            date = interpolate_date_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            datetime = interpolate_datetime_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            constant = interpolate_constant_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            numlist = interpolate_numlist_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            list = interpolate_list_along(d, .data$.id, frame, nframes, e, history, keep_last),
-            phase = get_phase_along(.data$.id, frame, nframes, history, keep_last)
-        )
-    })
-    tweenInfo <- tweendata[[1]][, c('group', 'frame')]
-    tweendata <- lapply(tweendata, `[[`, i = 'data')
-    tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
-    tweendata$.frame <- tweenInfo$frame
-    tweendata$.id <- tweenInfo$group
-    attr(tweendata, 'framelength') <- framelength
-    tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
+  timerange <- if (is.null(range)) range(.data$.time) else range
+  timerange <- as.numeric(timerange)
+  framelength <- diff(timerange) / (nframes - 1)
+  frame <- 1 + (nframes - 1) * (.data$.time - timerange[1]) / diff(timerange)
+  colClasses <- col_classes(.data)
+  tweendata <- lapply(seq_along(.data),  function(i) {
+    d <- .data[[i]]
+    e <- ease[i]
+    switch(
+      colClasses[i],
+      numeric = interpolate_numeric_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      logical = interpolate_logical_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      factor = interpolate_factor_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      character = interpolate_character_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      colour = interpolate_colour_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      date = interpolate_date_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      datetime = interpolate_datetime_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      constant = interpolate_constant_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      numlist = interpolate_numlist_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      list = interpolate_list_along(d, .data$.id, frame, nframes, e, history, keep_last),
+      phase = get_phase_along(.data$.id, frame, nframes, history, keep_last)
+    )
+  })
+  tweenInfo <- tweendata[[1]][, c('group', 'frame')]
+  tweendata <- lapply(tweendata, `[[`, i = 'data')
+  tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  tweendata$.frame <- tweenInfo$frame
+  tweendata$.id <- tweenInfo$group
+  attr(tweendata, 'framelength') <- framelength
+  tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
 }
 
 .complete_along <- function(data, along, id) {
-    data <- data[order(id), , drop = FALSE]
-    along <- along[order(id)]
-    id <- sort(id)
-    data$.id <- id
-    data$.phase <- 'raw'
-    data$.time <- along
-    data
+  data <- data[order(id), , drop = FALSE]
+  along <- along[order(id)]
+  id <- sort(id)
+  data$.id <- id
+  data$.phase <- 'raw'
+  data$.time <- along
+  data
 }

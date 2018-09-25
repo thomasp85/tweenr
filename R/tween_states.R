@@ -42,74 +42,74 @@
 #' @export
 #'
 tween_states <- function(data, tweenlength, statelength, ease, nframes) {
-    if (!(is.list(data) && all(sapply(data, is.data.frame)))) {
-        stop('data must be a list of data.frames')
-    }
-    if (length(data) == 1) {
-        stop('data must contain multiple states')
-    }
-    if (length(unique(sapply(data, nrow))) != 1) {
-        stop('All elements in data must have the same number of rows')
-    }
-    data <- lapply(data, function(d) {
-        d$.phase <- 'raw'
-        d
-    })
-    origNames <- names(data[[1]])
-    if (!is.list(ease)) ease <- as.list(ease)
-    allNames <- unlist(lapply(data, names))
-    if (!all(allNames %in% origNames)) {
-        stop('All columns must be specified in the original data.frame')
-    }
-    nstates <- length(data)
-    tweenlength <- rep(tweenlength, nstates)[seq_len(nstates - 1)]
-    statelength <- rep(statelength, nstates)[seq_len(nstates)]
-    ease <- rep(ease, nstates)[seq_len(nstates - 1)]
-    pauseIndex <- which(rep(c(TRUE, FALSE), length.out = 2*nstates - 1))
-    tweenIndex <- which(rep(c(FALSE, TRUE), length.out = 2*nstates - 1))
-    statesOrder <- order(c(pauseIndex, tweenIndex))
-    states <- data.frame(
-        length = c(statelength, tweenlength)[statesOrder],
-        nframes = NA_integer_,
-        state = NA_integer_,
-        stringsAsFactors = FALSE
+  if (!(is.list(data) && all(sapply(data, is.data.frame)))) {
+    stop('data must be a list of data.frames')
+  }
+  if (length(data) == 1) {
+    stop('data must contain multiple states')
+  }
+  if (length(unique(sapply(data, nrow))) != 1) {
+    stop('All elements in data must have the same number of rows')
+  }
+  data <- lapply(data, function(d) {
+    d$.phase <- 'raw'
+    d
+  })
+  origNames <- names(data[[1]])
+  if (!is.list(ease)) ease <- as.list(ease)
+  allNames <- unlist(lapply(data, names))
+  if (!all(allNames %in% origNames)) {
+    stop('All columns must be specified in the original data.frame')
+  }
+  nstates <- length(data)
+  tweenlength <- rep(tweenlength, nstates)[seq_len(nstates - 1)]
+  statelength <- rep(statelength, nstates)[seq_len(nstates)]
+  ease <- rep(ease, nstates)[seq_len(nstates - 1)]
+  pauseIndex <- which(rep(c(TRUE, FALSE), length.out = 2*nstates - 1))
+  tweenIndex <- which(rep(c(FALSE, TRUE), length.out = 2*nstates - 1))
+  statesOrder <- order(c(pauseIndex, tweenIndex))
+  states <- data.frame(
+    length = c(statelength, tweenlength)[statesOrder],
+    nframes = NA_integer_,
+    state = NA_integer_,
+    stringsAsFactors = FALSE
+  )
+  states$state <- rep(seq_len(nstates) - 1, each = 2, length.out = nrow(states))
+  states$ease <- lapply(c(rep(list('constant'), nstates), ease)[statesOrder], function(e) {
+    structure(rep(e, length.out = length(origNames)), names = origNames)
+  })
+  fullLength <- sum(states$length)
+  framelength <- fullLength/nframes
+  states$nframes <- round(states$length / framelength)
+  nframes <- sum(states$nframes)
+  framelength <- fullLength/nframes
+  data <- Reduce(function(l, r) {
+    extraCols <- !names(l[[length(l)]]) %in% names(r);
+    append(l, list(cbind(r, l[[length(l)]][, extraCols])))
+  }, data[-1], data[1])
+  colClasses <- col_classes(data[[1]])
+  tweendata <- lapply(names(data[[1]]),  function(name) {
+    d <- lapply(data, `[[`, i = name)
+    d_states <- states
+    d_states$ease <- vapply(d_states$ease, `[`, character(1), i = name)
+    switch(
+      colClasses[name],
+      numeric = interpolate_numeric_state(d, d_states),
+      logical = interpolate_logical_state(d, d_states),
+      factor = interpolate_factor_state(d, d_states),
+      character = interpolate_character_state(d, d_states),
+      colour = interpolate_colour_state(d, d_states),
+      date = interpolate_date_state(d, d_states),
+      datetime = interpolate_datetime_state(d, d_states),
+      constant = interpolate_constant_state(d, d_states),
+      numlist = interpolate_numlist_state(d, d_states),
+      list = interpolate_list_state(d, d_states),
+      phase = get_phase_state(d, d_states)
     )
-    states$state <- rep(seq_len(nstates) - 1, each = 2, length.out = nrow(states))
-    states$ease <- lapply(c(rep(list('constant'), nstates), ease)[statesOrder], function(e) {
-        structure(rep(e, length.out = length(origNames)), names = origNames)
-    })
-    fullLength <- sum(states$length)
-    framelength <- fullLength/nframes
-    states$nframes <- round(states$length / framelength)
-    nframes <- sum(states$nframes)
-    framelength <- fullLength/nframes
-    data <- Reduce(function(l, r) {
-        extraCols <- !names(l[[length(l)]]) %in% names(r);
-        append(l, list(cbind(r, l[[length(l)]][, extraCols])))
-    }, data[-1], data[1])
-    colClasses <- col_classes(data[[1]])
-    tweendata <- lapply(names(data[[1]]),  function(name) {
-        d <- lapply(data, `[[`, i = name)
-        d_states <- states
-        d_states$ease <- vapply(d_states$ease, `[`, character(1), i = name)
-        switch(
-            colClasses[name],
-            numeric = interpolate_numeric_state(d, d_states),
-            logical = interpolate_logical_state(d, d_states),
-            factor = interpolate_factor_state(d, d_states),
-            character = interpolate_character_state(d, d_states),
-            colour = interpolate_colour_state(d, d_states),
-            date = interpolate_date_state(d, d_states),
-            datetime = interpolate_datetime_state(d, d_states),
-            constant = interpolate_constant_state(d, d_states),
-            numlist = interpolate_numlist_state(d, d_states),
-            list = interpolate_list_state(d, d_states),
-            phase = get_phase_state(d, d_states)
-        )
-    })
-    tweendata <- structure(tweendata, names = names(data[[1]]), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
-    tweendata$.id <- rep(seq_len(nrow(data[[1]])), each = nframes)
-    tweendata$.frame <- rep(seq_len(nframes), each = nrow(data[[1]]))
-    attr(tweendata, 'framelength') <- framelength
-    tweendata
+  })
+  tweendata <- structure(tweendata, names = names(data[[1]]), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  tweendata$.id <- rep(seq_len(nrow(data[[1]])), each = nframes)
+  tweendata$.frame <- rep(seq_len(nframes), each = nrow(data[[1]]))
+  attr(tweendata, 'framelength') <- framelength
+  tweendata
 }

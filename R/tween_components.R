@@ -50,82 +50,82 @@
 #' @importFrom rlang enquo eval_tidy
 #'
 tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
-    time <- enquo(time)
-    time <- eval_tidy(time, .data)
-    id <- enquo(id)
-    id <- eval_tidy(id, .data)
-    if (is.null(enter_length)) enter_length <- 0
-    if (is.null(exit_length)) exit_length <- 0
-    .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
+  time <- enquo(time)
+  time <- eval_tidy(time, .data)
+  id <- enquo(id)
+  id <- eval_tidy(id, .data)
+  if (is.null(enter_length)) enter_length <- 0
+  if (is.null(exit_length)) exit_length <- 0
+  .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
 
-    .tween_individuals(.data, ease, nframes, range)
+  .tween_individuals(.data, ease, nframes, range)
 }
 
 .tween_individuals <- function(.data, ease, nframes, range) {
-    if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
-    if (length(ease) == ncol(.data) - 3) {
-        ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
-    } else {
-        stop('Ease must be either a single string or one for each column', call. = FALSE)
-    }
-    stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
+  if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
+  if (length(ease) == ncol(.data) - 3) {
+    ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
+  } else {
+    stop('Ease must be either a single string or one for each column', call. = FALSE)
+  }
+  stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
-    timerange <- if (is.null(range)) range(.data$.time) else range
-    framelength <- diff(timerange) / (nframes - 1)
-    .data <- .data[order(.data$.id, .data$.time), , drop = FALSE]
-    frame <- round((.data$.time - min(timerange[1])) / framelength) + 1
-    frame[frame < 1] <- 1
-    frame[frame > nframes] <- nframes
-    .data$.time <- NULL
-    colClasses <- col_classes(.data)
-    tweendata <- lapply(seq_along(.data),  function(i) {
-        d <- .data[[i]]
-        e <- rep(ease[i], length(d))
-        switch(
-            colClasses[i],
-            numeric = interpolate_numeric_element(d, .data$.id, frame, e),
-            logical = interpolate_logical_element(d, .data$.id, frame, e),
-            factor = interpolate_factor_element(d, .data$.id, frame, e),
-            character = interpolate_character_element(d, .data$.id, frame, e),
-            colour = interpolate_colour_element(d, .data$.id, frame, e),
-            date = interpolate_date_element(d, .data$.id, frame, e),
-            datetime = interpolate_datetime_element(d, .data$.id, frame, e),
-            constant = interpolate_constant_element(d, .data$.id, frame, e),
-            numlist = interpolate_numlist_element(d, .data$.id, frame, e),
-            list = interpolate_list_element(d, .data$.id, frame, e),
-            phase = get_phase_element(d, .data$.id, frame, e)
-        )
-    })
-    tweenInfo <- tweendata[[1]][, c('group', 'frame')]
-    tweendata <- lapply(tweendata, `[[`, i = 'data')
-    tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
-    tweendata$.frame <- tweenInfo$frame
-    tweendata$.id <- tweenInfo$group
-    attr(tweendata, 'framelength') <- framelength
-    tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
+  timerange <- if (is.null(range)) range(.data$.time) else range
+  framelength <- diff(timerange) / (nframes - 1)
+  .data <- .data[order(.data$.id, .data$.time), , drop = FALSE]
+  frame <- round((.data$.time - min(timerange[1])) / framelength) + 1
+  frame[frame < 1] <- 1
+  frame[frame > nframes] <- nframes
+  .data$.time <- NULL
+  colClasses <- col_classes(.data)
+  tweendata <- lapply(seq_along(.data),  function(i) {
+    d <- .data[[i]]
+    e <- rep(ease[i], length(d))
+    switch(
+      colClasses[i],
+      numeric = interpolate_numeric_element(d, .data$.id, frame, e),
+      logical = interpolate_logical_element(d, .data$.id, frame, e),
+      factor = interpolate_factor_element(d, .data$.id, frame, e),
+      character = interpolate_character_element(d, .data$.id, frame, e),
+      colour = interpolate_colour_element(d, .data$.id, frame, e),
+      date = interpolate_date_element(d, .data$.id, frame, e),
+      datetime = interpolate_datetime_element(d, .data$.id, frame, e),
+      constant = interpolate_constant_element(d, .data$.id, frame, e),
+      numlist = interpolate_numlist_element(d, .data$.id, frame, e),
+      list = interpolate_list_element(d, .data$.id, frame, e),
+      phase = get_phase_element(d, .data$.id, frame, e)
+    )
+  })
+  tweenInfo <- tweendata[[1]][, c('group', 'frame')]
+  tweendata <- lapply(tweendata, `[[`, i = 'data')
+  tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  tweendata$.frame <- tweenInfo$frame
+  tweendata$.id <- tweenInfo$group
+  attr(tweendata, 'framelength') <- framelength
+  tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
 }
 
 .complete_components <- function(data, time, id, enter, exit, enter_length, exit_length) {
-    data$.id <- id
-    data$.phase <- 'raw'
-    data$.time <- time
-    if (any(!is.null(enter), !is.null(exit))) {
-        time_ord <- order(time)
-        if (!is.null(enter)) {
-            enter_data <- enter(data[time_ord[!duplicated(id[time_ord])], , drop = FALSE])
-            enter_data$.phase <- 'enter'
-            enter_data$.time <- enter_data$.time - enter_length
-        } else {
-            enter_data <- data[0, , drop = FALSE]
-        }
-        if (!is.null(exit)) {
-            exit_data <- exit(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
-            exit_data$.phase <- 'exit'
-            exit_data$.time <- exit_data$.time + exit_length
-        } else {
-            exit_data <- data[0, , drop = FALSE]
-        }
-        data <- rbind(enter_data, data, exit_data)
+  data$.id <- id
+  data$.phase <- 'raw'
+  data$.time <- time
+  if (any(!is.null(enter), !is.null(exit))) {
+    time_ord <- order(time)
+    if (!is.null(enter)) {
+      enter_data <- enter(data[time_ord[!duplicated(id[time_ord])], , drop = FALSE])
+      enter_data$.phase <- 'enter'
+      enter_data$.time <- enter_data$.time - enter_length
+    } else {
+      enter_data <- data[0, , drop = FALSE]
     }
-    data
+    if (!is.null(exit)) {
+      exit_data <- exit(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
+      exit_data$.phase <- 'exit'
+      exit_data$.time <- exit_data$.time + exit_length
+    } else {
+      exit_data <- data[0, , drop = FALSE]
+    }
+    data <- rbind(enter_data, data, exit_data)
+  }
+  data
 }

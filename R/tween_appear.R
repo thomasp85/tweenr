@@ -37,21 +37,21 @@
 #' @export
 #'
 tween_appear <- function(data, time, timerange, nframes) {
-    if (missing(timerange) || is.null(timerange)) {
-        timerange <- range(data[[time]])
-    }
-    if (missing(nframes) || is.null(nframes)) {
-        nframes <- ceiling(diff(timerange) + 1)
-    }
-    framelength <- diff(timerange) / nframes
+  if (missing(timerange) || is.null(timerange)) {
+    timerange <- range(data[[time]])
+  }
+  if (missing(nframes) || is.null(nframes)) {
+    nframes <- ceiling(diff(timerange) + 1)
+  }
+  framelength <- diff(timerange) / nframes
 
-    tweendata <- lapply(seq_len(nframes) - 1, function(f) {
-        timepoint <- f * framelength
-        data$.age <- timepoint - data[[time]]
-        data$.frame <- f
-        data
-    })
-    tweendata <- do.call(rbind, tweendata)
-    attr(tweendata, 'framelength') <- framelength
-    tweendata
+  tweendata <- lapply(seq_len(nframes) - 1, function(f) {
+    timepoint <- f * framelength
+    data$.age <- timepoint - data[[time]]
+    data$.frame <- f
+    data
+  })
+  tweendata <- do.call(rbind, tweendata)
+  attr(tweendata, 'framelength') <- framelength
+  tweendata
 }

@@ -50,8 +50,8 @@
 #' @export
 #'
 display_ease <- function(ease) {
-    easepoints <- tween_numeric(c(0, 1), 100, ease)[[1]]
-    progress <- seq(0, 1, length.out = 100)
-    plot(progress, easepoints, type = 'l', main = ease, xlab = 'In',
-         ylab = 'Out', bty = 'n')
+  easepoints <- tween_numeric(c(0, 1), 100, ease)[[1]]
+  progress <- seq(0, 1, length.out = 100)
+  plot(progress, easepoints, type = 'l', main = ease, xlab = 'In',
+       ylab = 'Out', bty = 'n')
 }

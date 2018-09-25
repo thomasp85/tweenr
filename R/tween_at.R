@@ -20,43 +20,43 @@
 #' tween_at(mtcars[1:6, ], mtcars[6:1, ], runif(6), 'cubic-in-out')
 #'
 tween_at <- function(from, to, at, ease) {
-    single_vec <- !is.data.frame(from)
-    if (single_vec) {
-        if (length(from) == 0 || length(to) == 0) return(to[integer()])
-        from_df <- data.frame(data = rep(NA, length(from)))
-        to_df <- data.frame(data = rep(NA, length(to)))
-        from_df$data <- from
-        to_df$data <- to
-        from <- from_df
-        to <- to_df
-    } else {
-        if (nrow(from) == 0 || nrow(to) == 0) return(to[integer(), ])
-    }
-    if (nrow(from) == 1) from <- from[rep(1, nrow(to)), , drop = FALSE]
-    if (nrow(to) == 1) to <- to[rep(1, nrow(from)), , drop = FALSE]
-    if (nrow(from) != nrow(to)) {
-        stop('from and to must be same length', call. = FALSE)
-    }
-    at <- rep(at, length.out = nrow(from))
-    ease <- rep(ease, length.out = ncol(from))
-    classes <- col_classes(from)
-    stopifnot(identical(classes, col_classes(to)))
-    tweendata <- lapply(seq_along(classes), function(i) {
-        switch(
-            classes[i],
-            numeric = interpolate_numeric_at(from[[i]], to[[i]], at, ease[i]),
-            logical = interpolate_logical_at(from[[i]], to[[i]], at, ease[i]),
-            factor = interpolate_factor_at(from[[i]], to[[i]], at, ease[i]),
-            character = interpolate_character_at(from[[i]], to[[i]], at, ease[i]),
-            colour = interpolate_colour_at(from[[i]], to[[i]], at, ease[i]),
-            date = interpolate_date_at(from[[i]], to[[i]], at, ease[i]),
-            datetime = interpolate_datetime_at(from[[i]], to[[i]], at, ease[i]),
-            constant = interpolate_constant_at(from[[i]], to[[i]], at, ease[i]),
-            numlist = interpolate_numlist_at(from[[i]], to[[i]], at, ease[i]),
-            list = interpolate_list_at(from[[i]], to[[i]], at, ease[i])
-        )
-    })
-    if (single_vec) return(tweendata[[1]])
+  single_vec <- !is.data.frame(from)
+  if (single_vec) {
+    if (length(from) == 0 || length(to) == 0) return(to[integer()])
+    from_df <- data.frame(data = rep(NA, length(from)))
+    to_df <- data.frame(data = rep(NA, length(to)))
+    from_df$data <- from
+    to_df$data <- to
+    from <- from_df
+    to <- to_df
+  } else {
+    if (nrow(from) == 0 || nrow(to) == 0) return(to[integer(), ])
+  }
+  if (nrow(from) == 1) from <- from[rep(1, nrow(to)), , drop = FALSE]
+  if (nrow(to) == 1) to <- to[rep(1, nrow(from)), , drop = FALSE]
+  if (nrow(from) != nrow(to)) {
+    stop('from and to must be same length', call. = FALSE)
+  }
+  at <- rep(at, length.out = nrow(from))
+  ease <- rep(ease, length.out = ncol(from))
+  classes <- col_classes(from)
+  stopifnot(identical(classes, col_classes(to)))
+  tweendata <- lapply(seq_along(classes), function(i) {
+    switch(
+      classes[i],
+      numeric = interpolate_numeric_at(from[[i]], to[[i]], at, ease[i]),
+      logical = interpolate_logical_at(from[[i]], to[[i]], at, ease[i]),
+      factor = interpolate_factor_at(from[[i]], to[[i]], at, ease[i]),
+      character = interpolate_character_at(from[[i]], to[[i]], at, ease[i]),
+      colour = interpolate_colour_at(from[[i]], to[[i]], at, ease[i]),
+      date = interpolate_date_at(from[[i]], to[[i]], at, ease[i]),
+      datetime = interpolate_datetime_at(from[[i]], to[[i]], at, ease[i]),
+      constant = interpolate_constant_at(from[[i]], to[[i]], at, ease[i]),
+      numlist = interpolate_numlist_at(from[[i]], to[[i]], at, ease[i]),
+      list = interpolate_list_at(from[[i]], to[[i]], at, ease[i])
+    )
+  })
+  if (single_vec) return(tweendata[[1]])
 
-    structure(tweendata, names = names(from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  structure(tweendata, names = names(from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
 }

@@ -41,52 +41,52 @@
 #'              exit_length = 0.05)
 #'
 tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
-    start <- enquo(start)
-    start <- eval_tidy(start, .data)
-    end <- enquo(end)
-    end <- eval_tidy(end, .data)
-    enter_length <- enquo(enter_length)
-    enter_length <- eval_tidy(enter_length, .data)
-    exit_length <- enquo(exit_length)
-    exit_length <- eval_tidy(exit_length, .data)
+  start <- enquo(start)
+  start <- eval_tidy(start, .data)
+  end <- enquo(end)
+  end <- eval_tidy(end, .data)
+  enter_length <- enquo(enter_length)
+  enter_length <- eval_tidy(enter_length, .data)
+  exit_length <- enquo(exit_length)
+  exit_length <- eval_tidy(exit_length, .data)
 
-    if (is.null(enter_length)) enter_length <- 0
-    if (is.null(exit_length)) exit_length <- 0
-    .data <- .complete_events(.data, start, end, enter, exit, enter_length, exit_length)
+  if (is.null(enter_length)) enter_length <- 0
+  if (is.null(exit_length)) exit_length <- 0
+  .data <- .complete_events(.data, start, end, enter, exit, enter_length, exit_length)
 
-    .tween_individuals(.data, ease, nframes, range)
+  .tween_individuals(.data, ease, nframes, range)
 }
 
 .complete_events <- function(data, start, end, enter, exit, enter_length, exit_length) {
-    data$.id <- seq_len(nrow(data))
-    data$.phase <- "raw"
-    start <- rep(start, length.out = nrow(data))
-    if (is.null(end)) {
-        event_end <- data[0, , drop = FALSE]
-        end <- start[0]
-    } else {
-        event_end <- data
-        end <- rep(end, length.out = nrow(data))
-        data$.phase <- 'static'
-    }
-    if (is.null(enter)) {
-        enter_data <- data[0, , drop = FALSE]
-        enter_time <- start[0]
-    } else {
-        enter_data <- enter(data)
-        enter_data$.phase <- 'enter'
-        enter_time <- start - enter_length
-    }
-    if (is.null(exit)) {
-        exit_data <- data[0, , drop = FALSE]
-        exit_time <- start[0]
-    } else {
-        exit_data <- exit(data)
-        exit_data$.phase <- 'exit'
-        exit_time <- (if (length(end) == 0) start else end) + exit_length
-    }
-    data <- rbind(enter_data, data, event_end, exit_data)
-    time <- c(enter_time, start, end, exit_time)
-    data$.time <- time
-    data
+  data$.id <- seq_len(nrow(data))
+  data$.phase <- "raw"
+  start <- rep(start, length.out = nrow(data))
+  if (is.null(end)) {
+    event_end <- data[0, , drop = FALSE]
+    end <- start[0]
+  } else {
+    event_end <- data
+    end <- rep(end, length.out = nrow(data))
+    data$.phase <- 'static'
+  }
+  if (is.null(enter)) {
+    enter_data <- data[0, , drop = FALSE]
+    enter_time <- start[0]
+  } else {
+    enter_data <- enter(data)
+    enter_data$.phase <- 'enter'
+    enter_time <- start - enter_length
+  }
+  if (is.null(exit)) {
+    exit_data <- data[0, , drop = FALSE]
+    exit_time <- start[0]
+  } else {
+    exit_data <- exit(data)
+    exit_data$.phase <- 'exit'
+    exit_time <- (if (length(end) == 0) start else end) + exit_length
+  }
+  data <- rbind(enter_data, data, event_end, exit_data)
+  time <- c(enter_time, start, end, exit_time)
+  data$.time <- time
+  data
 }
