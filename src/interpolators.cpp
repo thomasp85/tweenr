@@ -1102,10 +1102,11 @@ DataFrame phase_along_interpolator(CharacterVector group, NumericVector time, bo
 NumericVector numeric_at_interpolator(NumericVector from, NumericVector to, NumericVector at, CharacterVector ease) {
     int n = from.size(), i;
     double pos;
+    std::string easer = as<std::string>(ease);
     NumericVector res(n);
 
     for (i = 0; i < n; ++i) {
-        pos = easePos(at[i], as<std::string>(ease[i]));
+        pos = easePos(at[i], easer);
         res[i] = from[i] + (to[i] - from[i]) * pos;
     }
 
@@ -1115,10 +1116,11 @@ NumericVector numeric_at_interpolator(NumericVector from, NumericVector to, Nume
 NumericMatrix colour_at_interpolator(NumericMatrix from, NumericMatrix to, NumericVector at, CharacterVector ease) {
     int n = from.nrow(), i;
     double pos;
+    std::string easer = as<std::string>(ease);
     NumericMatrix res(n, from.ncol());
 
     for (i = 0; i < n; ++i) {
-        pos = easePos(at[i], as<std::string>(ease[i]));
+        pos = easePos(at[i], easer);
         res(i, _) = from(i, _) + (to(i, _) - from(i, _)) * pos;
     }
 
@@ -1128,10 +1130,11 @@ NumericMatrix colour_at_interpolator(NumericMatrix from, NumericMatrix to, Numer
 CharacterVector constant_at_interpolator(CharacterVector from, CharacterVector to, NumericVector at, CharacterVector ease) {
     int n = from.size(), i;
     double pos;
+    std::string easer = as<std::string>(ease);
     CharacterVector res(n);
 
     for (i = 0; i < n; ++i) {
-        pos = easePos(at[i], as<std::string>(ease[i]));
+        pos = easePos(at[i], easer);
         res[i] = pos < 0.5 ? from[i] : to[i];
     }
 
@@ -1141,10 +1144,11 @@ CharacterVector constant_at_interpolator(CharacterVector from, CharacterVector t
 List list_at_interpolator(List from, List to, NumericVector at, CharacterVector ease) {
     int n = from.size(), i;
     double pos;
+    std::string easer = as<std::string>(ease);
     List res(n);
 
     for (i = 0; i < n; ++i) {
-        pos = easePos(at[i], as<std::string>(ease[i]));
+        pos = easePos(at[i], easer);
         res[i] = pos < 0.5 ? from[i] : to[i];
     }
 
@@ -1154,6 +1158,7 @@ List list_at_interpolator(List from, List to, NumericVector at, CharacterVector 
 List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVector ease) {
     int n = from.size(), i;
     double pos;
+    std::string easer = as<std::string>(ease);
     List res(n);
 
     for (i = 0; i < n; ++i) {
@@ -1161,10 +1166,119 @@ List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVect
         NumericVector state_to_vec = to[i];
         state_from_vec = align_num_elem(state_from_vec, state_to_vec);
         state_to_vec = align_num_elem(state_to_vec, state_from_vec);
-        pos = easePos(at[i], as<std::string>(ease[i]));
+        pos = easePos(at[i], easer);
         NumericVector state_vec = state_from_vec + pos * (state_to_vec - state_from_vec);
         res[i] = state_vec;
     }
 
+    return res;
+}
+//[[Rcpp::export]]
+NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease) {
+    NumericVector res(data.size());
+    int i,j,last = -1;
+    std::string easer = as<std::string>(ease);
+    std::vector<double> easepos;
+
+    for (i = 0; i < data.size(); ++i) {
+        if (NumericVector::is_na(data[i])) continue;
+        if (last != -1) {
+            easepos = easeSeq(easer, i - last);
+            for (j = 0; j < easepos.size(); ++j) {
+                res[last + j] = data[last] + easepos[j] * (data[i] - data[last]);
+            }
+        }
+        last = i;
+    }
+    res[res.size() - 1] = data[data.size() - 1];
+
+    return res;
+}
+//[[Rcpp::export]]
+NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease) {
+    NumericMatrix res(data.nrow(), data.ncol());
+    int i,j,last = -1;
+    std::string easer = as<std::string>(ease);
+    std::vector<double> easepos;
+
+    for (i = 0; i < data.nrow(); ++i) {
+        if (NumericVector::is_na(data(i, 0))) continue;
+        if (last != -1) {
+            easepos = easeSeq(easer, i - last);
+            for (j = 0; j < easepos.size(); ++j) {
+                res(last + j, _) = data(last, _) + easepos[j] * (data(i, _) - data(last, _));
+            }
+        }
+        last = i;
+    }
+    res(res.nrow() - 1, _) = data(data.nrow() - 1, _);
+
+    return res;
+}
+//[[Rcpp::export]]
+CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector ease) {
+    CharacterVector res(data.size());
+    int i,j,last = -1;
+    std::string easer = as<std::string>(ease);
+    std::vector<double> easepos;
+
+    for (i = 0; i < data.size(); ++i) {
+        if (CharacterVector::is_na(data[i])) continue;
+        if (last != -1) {
+            easepos = easeSeq(easer, i - last);
+            for (j = 0; j < easepos.size(); ++j) {
+                res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
+            }
+        }
+        last = i;
+    }
+    res[res.size() - 1] = data[data.size() - 1];
+
+    return res;
+}
+//[[Rcpp::export]]
+List list_fill_interpolator(List data, CharacterVector ease) {
+    List res(data.size());
+    int i,j,last = -1;
+    std::string easer = as<std::string>(ease);
+    std::vector<double> easepos;
+
+    for (i = 0; i < data.size(); ++i) {
+        if (data[i]==R_NilValue) continue;
+        if (last != -1) {
+            easepos = easeSeq(easer, i - last);
+            for (j = 0; j < easepos.size(); ++j) {
+                res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
+            }
+        }
+        last = i;
+    }
+    res[res.size() - 1] = data[data.size() - 1];
+    return res;
+}
+//[[Rcpp::export]]
+List numlist_fill_interpolator(List data, CharacterVector ease) {
+    List res(data.size());
+    int i,j,last = -1;
+    std::string easer = as<std::string>(ease);
+    std::vector<double> easepos;
+
+    for (i = 0; i < data.size(); ++i) {
+        if (data[i]==R_NilValue) continue;
+        if (last != -1) {
+            easepos = easeSeq(easer, i - last);
+            NumericVector state_from_vec = data[last];
+            NumericVector state_to_vec = data[i];
+            state_from_vec = align_num_elem(state_from_vec, state_to_vec);
+            state_to_vec = align_num_elem(state_to_vec, state_from_vec);
+            res[last] = data[last];
+            for (j = 1; j < easepos.size(); ++j) {
+                NumericVector state_vec = state_from_vec + easepos[j] * (state_to_vec - state_from_vec);
+                res[last + j] = state_vec;
+            }
+        }
+        last = i;
+    }
+    res[res.size() - 1] = data[data.size() - 1];
     return res;
 }

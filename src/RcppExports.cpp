@@ -331,6 +331,66 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// numeric_fill_interpolator
+NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease);
+RcppExport SEXP _tweenr_numeric_fill_interpolator(SEXP dataSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numeric_fill_interpolator(data, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// colour_fill_interpolator
+NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease);
+RcppExport SEXP _tweenr_colour_fill_interpolator(SEXP dataSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(colour_fill_interpolator(data, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// constant_fill_interpolator
+CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector ease);
+RcppExport SEXP _tweenr_constant_fill_interpolator(SEXP dataSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(constant_fill_interpolator(data, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// list_fill_interpolator
+List list_fill_interpolator(List data, CharacterVector ease);
+RcppExport SEXP _tweenr_list_fill_interpolator(SEXP dataSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(list_fill_interpolator(data, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
+// numlist_fill_interpolator
+List numlist_fill_interpolator(List data, CharacterVector ease);
+RcppExport SEXP _tweenr_numlist_fill_interpolator(SEXP dataSEXP, SEXP easeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ease(easeSEXP);
+    rcpp_result_gen = Rcpp::wrap(numlist_fill_interpolator(data, ease));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_numeric_state_interpolator", (DL_FUNC) &_tweenr_numeric_state_interpolator, 2},
@@ -356,6 +416,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_constant_at_interpolator", (DL_FUNC) &_tweenr_constant_at_interpolator, 4},
     {"_tweenr_list_at_interpolator", (DL_FUNC) &_tweenr_list_at_interpolator, 4},
     {"_tweenr_numlist_at_interpolator", (DL_FUNC) &_tweenr_numlist_at_interpolator, 4},
+    {"_tweenr_numeric_fill_interpolator", (DL_FUNC) &_tweenr_numeric_fill_interpolator, 2},
+    {"_tweenr_colour_fill_interpolator", (DL_FUNC) &_tweenr_colour_fill_interpolator, 2},
+    {"_tweenr_constant_fill_interpolator", (DL_FUNC) &_tweenr_constant_fill_interpolator, 2},
+    {"_tweenr_list_fill_interpolator", (DL_FUNC) &_tweenr_list_fill_interpolator, 2},
+    {"_tweenr_numlist_fill_interpolator", (DL_FUNC) &_tweenr_numlist_fill_interpolator, 2},
     {NULL, NULL, 0}
 };
 

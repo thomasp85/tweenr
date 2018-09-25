@@ -93,3 +93,23 @@ numlist_at_interpolator <- function(from, to, at, ease) {
     .Call('_tweenr_numlist_at_interpolator', PACKAGE = 'tweenr', from, to, at, ease)
 }
 
+numeric_fill_interpolator <- function(data, ease) {
+    .Call('_tweenr_numeric_fill_interpolator', PACKAGE = 'tweenr', data, ease)
+}
+
+colour_fill_interpolator <- function(data, ease) {
+    .Call('_tweenr_colour_fill_interpolator', PACKAGE = 'tweenr', data, ease)
+}
+
+constant_fill_interpolator <- function(data, ease) {
+    .Call('_tweenr_constant_fill_interpolator', PACKAGE = 'tweenr', data, ease)
+}
+
+list_fill_interpolator <- function(data, ease) {
+    .Call('_tweenr_list_fill_interpolator', PACKAGE = 'tweenr', data, ease)
+}
+
+numlist_fill_interpolator <- function(data, ease) {
+    .Call('_tweenr_numlist_fill_interpolator', PACKAGE = 'tweenr', data, ease)
+}
+
