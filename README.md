@@ -30,11 +30,6 @@ library(tweenr)
 library(ggplot2)
 
 # Prepare the data with some extra columns
-fade <- function(df) {
-  df$size <- 0
-  df$alpha <- 0
-  df
-}
 iris$col <- c('firebrick', 'forestgreen', 'steelblue')[as.integer(iris$Species)]
 iris$size <- 4
 iris$alpha <- 1
@@ -42,14 +37,11 @@ iris <- split(iris, iris$Species)
 
 # Here comes tweenr
 iris_tween <- iris$setosa %>% 
-  tween_state(iris$versicolor, ease = 'cubic-in-out', nframes = 30, 
-              enter = fade, exit = fade) %>% 
+  tween_state(iris$versicolor, ease = 'cubic-in-out', nframes = 30) %>% 
   keep_state(10) %>% 
-  tween_state(iris$virginica, ease = 'elastic-out', nframes = 30, 
-              enter = fade, exit = fade) %>% 
+  tween_state(iris$virginica, ease = 'elastic-out', nframes = 30) %>% 
   keep_state(10) %>% 
-  tween_state(iris$setosa, ease = 'quadratic-in', nframes = 30, 
-              enter = fade, exit = fade) %>% 
+  tween_state(iris$setosa, ease = 'quadratic-in', nframes = 30) %>% 
   keep_state(10)
 
 # Animate it to show the effect
