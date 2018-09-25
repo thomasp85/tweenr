@@ -19,12 +19,13 @@
 #'
 #' @family data.frame tween
 #'
+#' @importFrom rlang enquo quo_is_null eval_tidy
 #' @export
-tween_along <- function(.data, ease, nframes, along, id, range = NULL, history = TRUE, keep_last = FALSE) {
+tween_along <- function(.data, ease, nframes, along, id = NULL, range = NULL, history = TRUE, keep_last = FALSE) {
   along <- enquo(along)
   along <- as.numeric(eval_tidy(along, .data))
   id <- enquo(id)
-  id <- eval_tidy(id, .data)
+  id <- if (quo_is_null(id)) rep(1, nrow(.data)) else eval_tidy(id, .data)
   .data <- .complete_along(.data, along, id)
 
   if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
@@ -37,6 +38,7 @@ tween_along <- function(.data, ease, nframes, along, id, range = NULL, history =
 
   timerange <- if (is.null(range)) range(.data$.time) else range
   timerange <- as.numeric(timerange)
+  if (diff(timerange) == 0) stop('range must have a length', call. = FALSE)
   framelength <- diff(timerange) / (nframes - 1)
   frame <- 1 + (nframes - 1) * (.data$.time - timerange[1]) / diff(timerange)
   colClasses <- col_classes(.data)
@@ -68,6 +70,9 @@ tween_along <- function(.data, ease, nframes, along, id, range = NULL, history =
 }
 
 .complete_along <- function(data, along, id) {
+  if (length(along) != nrow(data) || length(id) != nrow(data)) {
+    stop('along and id must be the same length as the number of rows in data', call. = FALSE)
+  }
   data <- data[order(id), , drop = FALSE]
   along <- along[order(id)]
   id <- sort(id)

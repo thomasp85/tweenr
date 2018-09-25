@@ -4,7 +4,7 @@
 \alias{tween_along}
 \title{Interpolate data along a given dimension}
 \usage{
-tween_along(.data, ease, nframes, along, id, range = NULL,
+tween_along(.data, ease, nframes, along, id = NULL, range = NULL,
   history = TRUE, keep_last = FALSE)
 }
 \arguments{
