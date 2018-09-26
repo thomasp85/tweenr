@@ -33,7 +33,7 @@ test_that("enter/exit works", {
     df
   }, enter_length = 3)
   expect_equal(nrow(tween), 20)
-  expect_equal(tween$x[3], 2/3)
+  expect_equal(tween$x[3], 2/3, tolerance = 1e-7)
   expect_equal(tween$col[2], '#A41A0AFF')
   expect_equal(max(tween$.frame), 20)
   expect_true(all(tween$.phase[1:3] == 'enter'))
