@@ -24,3 +24,10 @@ test_that("tween_at handles weird input", {
   expect_error(tween_at(df1, df2, numeric(), 'linear'))
   expect_error(tween_at(df1, df2, 0.5, character()))
 })
+
+test_that('tween_at works with vectors', {
+  tween <- tween_at(df1$x, df2$x, 0.5, 'linear')
+  expect_is(tween, 'numeric')
+  expect_equal(tween, c(6,7))
+  expect_error(tween_at(df1$x, df2$col))
+})
