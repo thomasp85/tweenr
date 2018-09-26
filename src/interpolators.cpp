@@ -1175,7 +1175,7 @@ List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVect
 }
 //[[Rcpp::export]]
 NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease) {
-  NumericVector res(data.size());
+  NumericVector res(data.size(), NA_REAL);
   int i,j,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
@@ -1184,19 +1184,20 @@ NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease
     if (NumericVector::is_na(data[i])) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 0; j < easepos.size(); ++j) {
+      for (j = 1; j < easepos.size(); ++j) {
         res[last + j] = data[last] + easepos[j] * (data[i] - data[last]);
       }
     }
+    res[i] = data[i];
     last = i;
   }
-  res[res.size() - 1] = data[data.size() - 1];
 
   return res;
 }
 //[[Rcpp::export]]
 NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease) {
   NumericMatrix res(data.nrow(), data.ncol());
+  std::fill(res.begin(), res.end(), NA_REAL);
   int i,j,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
@@ -1205,19 +1206,19 @@ NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease)
     if (NumericVector::is_na(data(i, 0))) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 0; j < easepos.size(); ++j) {
+      for (j = 1; j < easepos.size(); ++j) {
         res(last + j, _) = data(last, _) + easepos[j] * (data(i, _) - data(last, _));
       }
     }
+    res(i, _) = data(i, _);
     last = i;
   }
-  res(res.nrow() - 1, _) = data(data.nrow() - 1, _);
 
   return res;
 }
 //[[Rcpp::export]]
 CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector ease) {
-  CharacterVector res(data.size());
+  CharacterVector res(data.size(), NA_STRING);
   int i,j,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
@@ -1226,13 +1227,13 @@ CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector
     if (CharacterVector::is_na(data[i])) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 0; j < easepos.size(); ++j) {
+      for (j = 1; j < easepos.size(); ++j) {
         res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
       }
     }
+    res[i] = data[i];
     last = i;
   }
-  res[res.size() - 1] = data[data.size() - 1];
 
   return res;
 }
@@ -1247,13 +1248,13 @@ List list_fill_interpolator(List data, CharacterVector ease) {
     if (data[i]==R_NilValue) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 0; j < easepos.size(); ++j) {
+      for (j = 1; j < easepos.size(); ++j) {
         res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
       }
     }
+    res[i] = data[i];
     last = i;
   }
-  res[res.size() - 1] = data[data.size() - 1];
   return res;
 }
 //[[Rcpp::export]]
@@ -1277,8 +1278,8 @@ List numlist_fill_interpolator(List data, CharacterVector ease) {
         res[last + j] = state_vec;
       }
     }
+    res[i] = data[i];
     last = i;
   }
-  res[res.size() - 1] = data[data.size() - 1];
   return res;
 }

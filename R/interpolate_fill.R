@@ -12,10 +12,13 @@ interpolate_colour_fill <- function(data, ease) {
   data[, 1:3] <- convert_colour(data[, 1:3, drop = FALSE], from = 'rgb', to = 'lab')
   data[NA_col,] <- NA
   data <- colour_fill_interpolator(data, ease)
-  data[, 1:3] <- convert_colour(data[, 1:3, drop = FALSE], from = 'lab', to = 'rgb')
+  NA_col <- is.na(data[, 1])
+  data[NA_col, 1:3] <- convert_colour(data[NA_col, 1:3, drop = FALSE], from = 'lab', to = 'rgb')
   data[data > 255] <- 255
   data[data < 0] <- 0
-  rgb(data, alpha = data[, 4], maxColorValue = 255L)
+  all_data <- rep(NA, nrow(data))
+  all_data[!NA_col] <- rgb(data[!NA_col, , drop = FALSE], alpha = data[!NA_col, 4], maxColorValue = 255L)
+  all_data
 }
 interpolate_constant_fill <- function(data, ease) {
   constant_fill_interpolator(data, ease)
