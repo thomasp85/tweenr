@@ -49,11 +49,11 @@
 #' @export
 #' @importFrom rlang enquo eval_tidy
 #'
-tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
+tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
   time <- enquo(time)
   time <- eval_tidy(time, .data)
   id <- enquo(id)
-  id <- eval_tidy(id, .data)
+  id <- if (quo_is_null(id)) rep(1, nrow(.data)) else eval_tidy(id, .data)
   if (is.null(enter_length)) enter_length <- 0
   if (is.null(exit_length)) exit_length <- 0
   .data <- .complete_components(.data, time, id, enter, exit, enter_length, exit_length)
@@ -62,6 +62,8 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
 }
 
 .tween_individuals <- function(.data, ease, nframes, range) {
+  if (nframes == 0) return(.data[integer(), , drop = FALSE])
+  if (nrow(.data) == 0) return(.data)
   if (length(ease) == 1) ease <- rep(ease, ncol(.data) - 3)
   if (length(ease) == ncol(.data) - 3) {
     ease <- c(ease, 'linear', 'linear', 'linear') # To account for .phase and .id columns
@@ -71,6 +73,7 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
   stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
   timerange <- if (is.null(range)) range(.data$.time) else range
+  if (diff(timerange) == 0) stop('range must have a length', call. = FALSE)
   framelength <- diff(timerange) / (nframes - 1)
   .data <- .data[order(.data$.id, .data$.time), , drop = FALSE]
   frame <- round((.data$.time - min(timerange[1])) / framelength) + 1
@@ -106,8 +109,11 @@ tween_components <- function(.data, ease, nframes, time, id, range = NULL, enter
 }
 
 .complete_components <- function(data, time, id, enter, exit, enter_length, exit_length) {
+  if (length(id) != nrow(data) || length(time) != nrow(data)) {
+    stop('id and time must have the same length as the number of rows in data', call. = FALSE)
+  }
   data$.id <- id
-  data$.phase <- 'raw'
+  data$.phase <- rep('raw', nrow(data))
   data$.time <- time
   if (any(!is.null(enter), !is.null(exit))) {
     time_ord <- order(time)
