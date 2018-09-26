@@ -18,6 +18,7 @@
 #'
 #' @family data.frame tween
 #'
+#' @importFrom rlang enquo quo_is_missing eval_tidy
 #' @export
 #'
 #' @examples
@@ -42,6 +43,7 @@
 #'
 tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, enter = NULL, exit = NULL, enter_length = 0, exit_length = 0) {
   start <- enquo(start)
+  if (quo_is_missing(start)) stop('start must be provided', call. = FALSE)
   start <- eval_tidy(start, .data)
   end <- enquo(end)
   end <- eval_tidy(end, .data)
@@ -59,7 +61,7 @@ tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, 
 
 .complete_events <- function(data, start, end, enter, exit, enter_length, exit_length) {
   data$.id <- seq_len(nrow(data))
-  data$.phase <- "raw"
+  data$.phase <- rep("raw", nrow(data))
   start <- rep(start, length.out = nrow(data))
   if (is.null(end)) {
     event_end <- data[0, , drop = FALSE]
