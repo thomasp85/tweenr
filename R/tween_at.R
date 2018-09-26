@@ -32,6 +32,7 @@ tween_at <- function(from, to, at, ease) {
   } else {
     if (nrow(from) == 0 || nrow(to) == 0) return(to[integer(), ])
   }
+  if (length(at) == 0) stop('at must have length > 0', call. = FALSE)
   if (nrow(from) == 1) from <- from[rep(1, nrow(to)), , drop = FALSE]
   if (nrow(to) == 1) to <- to[rep(1, nrow(from)), , drop = FALSE]
   if (nrow(from) != nrow(to)) {
