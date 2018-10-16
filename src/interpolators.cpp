@@ -179,7 +179,7 @@ std::vector<double> easeSeq(std::string easer, int length) {
   return res;
 }
 double easePos(double p, std::string easer) {
-  double p_new;
+  double p_new = 0;
   switch (hashEase(easer)) {
   case linear:
     p_new = LinearInterpolation(p);
