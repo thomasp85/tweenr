@@ -23,7 +23,7 @@ devtools::install_github('thomasp85/tweenr')
 An example
 ----------
 
-Following is an example of using the pipeable `tween_state()` function with our belowed iris data:
+Following is an example of using the pipeable `tween_state()` function with our beloved iris data:
 
 ``` r
 library(tweenr)
