@@ -115,9 +115,9 @@
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
   from <- .get_last_frame(.data)
-  from$.phase <- rep('raw', length = nrow(from))
-  to$.phase <- rep('raw', length = nrow(to))
-  to$.id <- rep(NA_integer_, length = nrow(to))
+  from$.phase <- rep('raw', length.out = nrow(from))
+  to$.phase <- rep('raw', length.out = nrow(to))
+  to$.id <- rep(NA_integer_, length.out = nrow(to))
   id <- enquo(id)
   if (.has_frames(.data)) nframes <- nframes + 1
   if (!setequal(names(from), names(to))) {
@@ -173,7 +173,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
 #' @export
 keep_state <- function(.data, nframes) {
   state <- .get_last_frame(.data)
-  state$.phase <- rep('raw', length = nrow(state))
+  state$.phase <- rep('raw', length.out = nrow(state))
   if (.has_frames(.data)) nframes <- nframes + 1
   if (nrow(state) == 0) {
     return(.with_prior_frames(.data, state, nframes))
