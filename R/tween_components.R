@@ -77,8 +77,6 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   framelength <- diff(timerange) / (nframes - 1)
   .data <- .data[order(.data$.id, .data$.time), , drop = FALSE]
   frame <- round((.data$.time - min(timerange[1])) / framelength) + 1
-  frame[frame < 1] <- 1
-  frame[frame > nframes] <- nframes
   .data$.time <- NULL
   colClasses <- col_classes(.data)
   tweendata <- lapply(seq_along(.data),  function(i) {
@@ -104,6 +102,7 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
   tweendata$.frame <- tweenInfo$frame
   tweendata$.id <- tweenInfo$group
+  tweendata <- tweendata[tweendata$.frame >= 1 & tweendata$.frame <= nframes, , drop = FALSE]
   attr(tweendata, 'framelength') <- framelength
   tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
 }
