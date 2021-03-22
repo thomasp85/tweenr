@@ -42,7 +42,19 @@ tween_at <- function(from, to, at, ease) {
   at <- rep(at, length.out = nrow(from))
   ease <- rep(ease, length.out = ncol(from))
   classes <- col_classes(from)
-  stopifnot(identical(classes, col_classes(to)))
+  to_classes <- col_classes(to)
+  mismatch <- to_classes != classes
+  for (i in which(mismatch)) {
+    all_na_to <- all(is.na(to[[i]]))
+    all_na_from <- all(is.na(from[[i]]))
+    if (all_na_from) {
+      storage.mode(from[[i]]) <- storage.mode(to[[i]])
+    } else if (all_na_to) {
+      storage.mode(to[[i]]) <- storage.mode(from[[i]])
+    } else {
+      stop('The ', names(to)[i], 'column differs in type between the two inputs', call. = FALSE)
+    }
+  }
   tweendata <- lapply(seq_along(classes), function(i) {
     switch(
       classes[i],

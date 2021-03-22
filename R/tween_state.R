@@ -138,7 +138,21 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
   stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
 
   classes <- if (nrow(from) == 0) col_classes(to) else col_classes(from)
-  if (nrow(from) > 0 && nrow(to) > 0) stopifnot(identical(classes, col_classes(to)))
+  if (nrow(from) > 0 && nrow(to) > 0) {
+    to_classes <- col_classes(to)
+    mismatch <- to_classes != classes
+    for (i in which(mismatch)) {
+      all_na_to <- all(is.na(to[[i]]))
+      all_na_from <- all(is.na(from[[i]]))
+      if (all_na_from) {
+        storage.mode(from[[i]]) <- storage.mode(to[[i]])
+      } else if (all_na_to) {
+        storage.mode(to[[i]]) <- storage.mode(from[[i]])
+      } else {
+        stop('The ', names(to)[i], 'column differs in type between the two inputs', call. = FALSE)
+      }
+    }
+  }
   full_set <- .complete_states(from, to, id, enter, exit, .max_id(.data))
   to$.id <- full_set$orig_to
 
