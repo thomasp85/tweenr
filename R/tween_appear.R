@@ -44,11 +44,11 @@ tween_appear <- function(data, time, timerange, nframes) {
     nframes <- ceiling(diff(timerange) + 1)
   }
   framelength <- diff(timerange) / nframes
+  frametimes <- seq(timerange[1], timerange[2], length.out = nframes)
 
-  tweendata <- lapply(seq_len(nframes) - 1, function(f) {
-    timepoint <- f * framelength
-    data$.age <- timepoint - data[[time]]
-    data$.frame <- f
+  tweendata <- lapply(seq_along(frametimes), function(i) {
+    data$.age <- frametimes[i] - data[[time]]
+    data$.frame <- i
     data
   })
   tweendata <- do.call(rbind, tweendata)
