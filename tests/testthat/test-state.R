@@ -15,7 +15,10 @@ test_that("tween_state works", {
 })
 
 test_that("keep_state works", {
-  keep <- keep_state(df1, 5)
+  expect_warning(
+    keep <- keep_state(df1, 5),
+    NA
+  )
   expect_equal(max(keep$.frame), 5)
   expect_true(all(keep$.phase[c(9:10)] == 'raw'))
   expect_true(all(keep$.phase[c(1:8)] == 'static'))
