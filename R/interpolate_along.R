@@ -38,17 +38,20 @@ interpolate_date_along <- function(data, group, frame, nframes, ease, history, k
 interpolate_datetime_along <- function(data, group, frame, nframes, ease, history, keep_last) {
   if (inherits(data, 'POSIXlt')) {
     warning("POSIXlt converted to POSIXct")
+    data <- as.POSIXct(data)
   }
+  tz <- attr(data, 'tzone')
   data <- as.numeric(data)
   res <- interpolate_numeric_along(data, group, frame, nframes, ease, history, keep_last)
-  res[['data']] <-  as.POSIXct(res[['data']], origin = BASEDATETIME)
+  res[['data']] <-  as.POSIXct(res[['data']], origin = BASEDATETIME, tz = tz)
   res
 }
 interpolate_factor_along <- function(data, group, frame, nframes, ease, history, keep_last) {
   all_levels <- levels(data)
+  ord <- is.ordered(data)
   data <- as.character(data)
   res <- interpolate_character_along(data, group, frame, nframes, ease, history, keep_last)
-  res[['data']] <- factor(res[['data']], all_levels)
+  res[['data']] <- if (ord) ordered(res[['data']], all_levels) else factor(res[['data']], all_levels)
   res
 }
 interpolate_list_along <- function(data, group, frame, nframes, ease, history, keep_last) {

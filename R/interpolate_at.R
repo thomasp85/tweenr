@@ -34,15 +34,17 @@ interpolate_date_at <- function(from, to, at, ease) {
 interpolate_datetime_at <- function(from, to, at, ease) {
   if (inherits(from, 'POSIXlt')) {
     warning("POSIXlt converted to POSIXct")
+    from <- as.POSIXct(from)
   }
+  tz <- attr(from, 'tzone')
   data <- numeric_at_interpolator(as.numeric(from), as.numeric(to), at, ease)
-  as.POSIXct(data, origin = BASEDATETIME)
+  as.POSIXct(data, origin = BASEDATETIME, tz = tz)
 }
 
 interpolate_factor_at <- function(from, to, at, ease) {
   all_levels <- unique(c(levels(from), levels(to)))
   data <- constant_at_interpolator(as.character(from), as.character(to), at, ease)
-  factor(data, all_levels)
+  if (is.ordered(from)) ordered(data, all_levels) else factor(data, all_levels)
 }
 
 interpolate_list_at <- function(from, to, at, ease) {

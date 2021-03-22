@@ -34,14 +34,18 @@ interpolate_date_state <- function(data, states) {
 interpolate_datetime_state <- function(data, states) {
   if (inherits(data[[1]], 'POSIXlt')) {
     warning("POSIXlt converted to POSIXct")
+    data[[1]] <- as.POSIXct(data[[1]])
   }
+  tz <- attr(data[[1]], 'tzone')
   data <- lapply(data, as.numeric)
-  as.POSIXct(interpolate_numeric_state(data, states), origin = BASEDATETIME)
+  as.POSIXct(interpolate_numeric_state(data, states), origin = BASEDATETIME, tz = tz)
 }
 interpolate_factor_state <- function(data, states) {
   all_levels <- Reduce(union, lapply(data, levels))
+  ord <- is.ordered(data[[1]])
   data <- lapply(data, as.character)
-  factor(interpolate_character_state(data, states), all_levels)
+  data <- interpolate_character_state(data, states)
+  if (ord) ordered(data, all_levels) else factor(data, all_levels)
 }
 interpolate_list_state <- function(data, states) {
   new_data <- list_state_interpolator(data, states)

@@ -33,12 +33,15 @@ interpolate_date_fill <- function(data, ease) {
 interpolate_datetime_fill <- function(data, ease) {
   if (inherits(data, 'POSIXlt')) {
     warning("POSIXlt converted to POSIXct")
+    data <- as.POSIXct(data)
   }
-  as.POSIXct(interpolate_numeric_fill(as.numeric(data), ease), origin = BASEDATETIME)
+  as.POSIXct(interpolate_numeric_fill(as.numeric(data), ease), origin = BASEDATETIME, tz = attr(data, 'tzone'))
 }
 interpolate_factor_fill <- function(data, ease) {
   all_levels <- levels(data)
-  factor(interpolate_character_fill(as.character(data), ease), all_levels)
+  ord <- is.ordered(data)
+  data <- interpolate_character_fill(as.character(data), ease)
+  if (ord) ordered(data, all_levels) else factor(data, all_levels)
 }
 interpolate_list_fill <- function(data, ease) {
   new_data <- list_fill_interpolator(data, ease)
