@@ -108,7 +108,7 @@ prepareTweenTranspose <- function(data, n, ease) {
     overhead <- n - sum(s)
     if (overhead) {
       s <- s + rep(floor(overhead / l), l)
-      addInd <- sample(length(s), overhead %% l)
+      addInd <- seq_len(n - sum(s))
       s[addInd] <- s[addInd] + 1
     }
     c(s, 1)
