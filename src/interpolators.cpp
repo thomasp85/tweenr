@@ -179,7 +179,7 @@ std::vector<double> easeSeq(std::string easer, int length) {
   return res;
 }
 double easePos(double p, std::string easer) {
-  double p_new;
+  double p_new = 0;
   switch (hashEase(easer)) {
   case linear:
     p_new = LinearInterpolation(p);
@@ -555,7 +555,7 @@ DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group
   std::deque<double> tweendata;
   std::deque<std::string> tweengroup;
   std::deque<int> tweenframe;
-  int i, j, nframes;
+  int i, nframes;
   std::string groupString;
   std::string currentGroup = as<std::string>(group[0]);
 
@@ -564,7 +564,7 @@ DataFrame numeric_element_interpolator(NumericVector data, CharacterVector group
     if (currentGroup.compare(groupString) == 0) {
       nframes = frame[i] - frame[i-1];
       std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
-      for (j = 0; j < ease_points.size(); ++j) {
+      for (size_t j = 0; j < ease_points.size(); ++j) {
         tweendata.push_back(data[i - 1] + ease_points[j] * (data[i] - data[i - 1]));
         tweengroup.push_back(groupString);
         tweenframe.push_back(j + frame[i-1]);
@@ -596,7 +596,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
   std::deque<double> tweendata4;
   std::deque<std::string> tweengroup;
   std::deque<int> tweenframe;
-  int i, j, nframes;
+  int i, nframes;
   std::string groupString;
   std::string currentGroup = as<std::string>(group[0]);
 
@@ -605,7 +605,7 @@ DataFrame colour_element_interpolator(NumericMatrix data, CharacterVector group,
     if (currentGroup.compare(groupString) == 0) {
       nframes = frame[i] - frame[i-1];
       std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
-      for (j = 0; j < ease_points.size(); ++j) {
+      for (size_t j = 0; j < ease_points.size(); ++j) {
         tweendata1.push_back(data(i - 1, 0) + ease_points[j] * (data(i, 0) - data(i - 1, 0)));
         tweendata2.push_back(data(i - 1, 1) + ease_points[j] * (data(i, 1) - data(i - 1, 1)));
         tweendata3.push_back(data(i - 1, 2) + ease_points[j] * (data(i, 2) - data(i - 1, 2)));
@@ -646,7 +646,7 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
   std::deque<std::string> tweendata;
   std::deque<std::string> tweengroup;
   std::deque<int> tweenframe;
-  int i, j, nframes;
+  int i, nframes;
   std::string groupString;
   std::string currentGroup = as<std::string>(group[0]);
 
@@ -655,7 +655,7 @@ DataFrame constant_element_interpolator(CharacterVector data, CharacterVector gr
     if (currentGroup.compare(groupString) == 0) {
       nframes = frame[i] - frame[i-1];
       std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
-      for (j = 0; j < ease_points.size(); ++j) {
+      for (size_t j = 0; j < ease_points.size(); ++j) {
         if (ease_points[j] < 0.5) {
           tweendata.push_back(as<std::string>(data[i - 1]));
         } else {
@@ -689,7 +689,7 @@ List list_element_interpolator(List data, CharacterVector group, IntegerVector f
   std::deque<SEXP> tweendata;
   std::deque<std::string> tweengroup;
   std::deque<int> tweenframe;
-  int i, j, nframes;
+  int i, nframes;
   std::string groupString;
   std::string currentGroup = as<std::string>(group[0]);
 
@@ -698,7 +698,7 @@ List list_element_interpolator(List data, CharacterVector group, IntegerVector f
     if (currentGroup.compare(groupString) == 0) {
       nframes = frame[i] - frame[i-1];
       std::vector<double> ease_points = easeSeq(as<std::string>(ease[i-1]), nframes);
-      for (j = 0; j < ease_points.size(); ++j) {
+      for (size_t j = 0; j < ease_points.size(); ++j) {
         if (ease_points[j] < 0.5) {
           tweendata.push_back(data[i - 1]);
         } else {
@@ -736,7 +736,7 @@ List numlist_element_interpolator(List data, CharacterVector group, IntegerVecto
   std::deque<NumericVector> tweendata;
   std::deque<std::string> tweengroup;
   std::deque<int> tweenframe;
-  int i, j, nframes;
+  int i, nframes;
   std::string groupString;
   std::string currentGroup = as<std::string>(group[0]);
 
@@ -749,7 +749,7 @@ List numlist_element_interpolator(List data, CharacterVector group, IntegerVecto
       NumericVector state_to_vec = data[i];
       state_from_vec = align_num_elem(state_from_vec, state_to_vec);
       state_to_vec = align_num_elem(state_to_vec, state_from_vec);
-      for (j = 0; j < ease_points.size(); ++j) {
+      for (size_t j = 0; j < ease_points.size(); ++j) {
         NumericVector state_vec = state_from_vec + ease_points[j] * (state_to_vec - state_from_vec);
         tweendata.push_back(state_vec);
         tweengroup.push_back(groupString);
@@ -1176,7 +1176,7 @@ List numlist_at_interpolator(List from, List to, NumericVector at, CharacterVect
 //[[Rcpp::export]]
 NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease) {
   NumericVector res(data.size(), NA_REAL);
-  int i,j,last = -1;
+  int i,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
 
@@ -1184,7 +1184,7 @@ NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease
     if (NumericVector::is_na(data[i])) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 1; j < easepos.size(); ++j) {
+      for (size_t j = 1; j < easepos.size(); ++j) {
         res[last + j] = data[last] + easepos[j] * (data[i] - data[last]);
       }
     }
@@ -1198,7 +1198,7 @@ NumericVector numeric_fill_interpolator(NumericVector data, CharacterVector ease
 NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease) {
   NumericMatrix res(data.nrow(), data.ncol());
   std::fill(res.begin(), res.end(), NA_REAL);
-  int i,j,last = -1;
+  int i,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
 
@@ -1206,7 +1206,7 @@ NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease)
     if (NumericVector::is_na(data(i, 0))) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 1; j < easepos.size(); ++j) {
+      for (size_t j = 1; j < easepos.size(); ++j) {
         res(last + j, _) = data(last, _) + easepos[j] * (data(i, _) - data(last, _));
       }
     }
@@ -1219,7 +1219,7 @@ NumericMatrix colour_fill_interpolator(NumericMatrix data, CharacterVector ease)
 //[[Rcpp::export]]
 CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector ease) {
   CharacterVector res(data.size(), NA_STRING);
-  int i,j,last = -1;
+  int i,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
 
@@ -1227,7 +1227,7 @@ CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector
     if (CharacterVector::is_na(data[i])) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 1; j < easepos.size(); ++j) {
+      for (size_t j = 1; j < easepos.size(); ++j) {
         res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
       }
     }
@@ -1240,7 +1240,7 @@ CharacterVector constant_fill_interpolator(CharacterVector data, CharacterVector
 //[[Rcpp::export]]
 List list_fill_interpolator(List data, CharacterVector ease) {
   List res(data.size());
-  int i,j,last = -1;
+  int i,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
 
@@ -1248,7 +1248,7 @@ List list_fill_interpolator(List data, CharacterVector ease) {
     if (data[i]==R_NilValue) continue;
     if (last != -1) {
       easepos = easeSeq(easer, i - last);
-      for (j = 1; j < easepos.size(); ++j) {
+      for (size_t j = 1; j < easepos.size(); ++j) {
         res[last + j] = easepos[j] < 0.5 ? data[last] : data[i];
       }
     }
@@ -1260,7 +1260,7 @@ List list_fill_interpolator(List data, CharacterVector ease) {
 //[[Rcpp::export]]
 List numlist_fill_interpolator(List data, CharacterVector ease) {
   List res(data.size());
-  int i,j,last = -1;
+  int i,last = -1;
   std::string easer = as<std::string>(ease);
   std::vector<double> easepos;
 
@@ -1273,7 +1273,7 @@ List numlist_fill_interpolator(List data, CharacterVector ease) {
       state_from_vec = align_num_elem(state_from_vec, state_to_vec);
       state_to_vec = align_num_elem(state_to_vec, state_from_vec);
       res[last] = data[last];
-      for (j = 1; j < easepos.size(); ++j) {
+      for (size_t j = 1; j < easepos.size(); ++j) {
         NumericVector state_vec = state_from_vec + easepos[j] * (state_to_vec - state_from_vec);
         res[last + j] = state_vec;
       }
