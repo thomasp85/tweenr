@@ -2,10 +2,12 @@ Package: tweenr
 Type: Package
 Title: Interpolate Data for Smooth Animations
 Version: 1.0.1.9000
-Date: 2018-12-14
-Authors@R: c(
-    person('Thomas Lin', 'Pedersen', , 'thomasp85@gmail.com', c('aut', 'cre'))
-    )
+Authors@R: 
+    c(person(given = "Thomas Lin",
+             family = "Pedersen",
+             role = c("aut", "cre"),
+             email = "thomasp85@gmail.com",
+             comment = c(ORCID = "0000-0002-5147-4711")))
 Maintainer: Thomas Lin Pedersen <thomasp85@gmail.com>
 Description: In order to create smooth animation between states of data,
     tweening is necessary. This package provides a range of functions for
