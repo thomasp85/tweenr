@@ -46,7 +46,7 @@ in the last half it is reversed}
 }
 
 In addition to this function a good animated explanation can be found
-\href{http://easings.net}{here}.
+\href{https://easings.net}{here}.
 }
 \examples{
 # The default - identity

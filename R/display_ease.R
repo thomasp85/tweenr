@@ -33,7 +33,7 @@
 #' }
 #'
 #' In addition to this function a good animated explanation can be found
-#' [here](http://easings.net).
+#' [here](https://easings.net).
 #'
 #' @param ease The name of the easing function to display (see details)
 #'

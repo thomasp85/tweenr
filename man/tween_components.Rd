@@ -4,8 +4,18 @@
 \alias{tween_components}
 \title{Interpolate individual component}
 \usage{
-tween_components(.data, ease, nframes, time, id = NULL, range = NULL,
-  enter = NULL, exit = NULL, enter_length = 0, exit_length = 0)
+tween_components(
+  .data,
+  ease,
+  nframes,
+  time,
+  id = NULL,
+  range = NULL,
+  enter = NULL,
+  exit = NULL,
+  enter_length = 0,
+  exit_length = 0
+)
 }
 \arguments{
 \item{.data}{A data.frame with components at different stages}
@@ -75,8 +85,11 @@ data <- tween_components(data, 'cubic-in-out', nframes = 100, time = time,
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_along}},
-  \code{\link{tween_appear}}, \code{\link{tween_elements}},
-  \code{\link{tween_events}}, \code{\link{tween_states}}
+Other data.frame tween: 
+\code{\link{tween_along}()},
+\code{\link{tween_appear}()},
+\code{\link{tween_elements}()},
+\code{\link{tween_events}()},
+\code{\link{tween_states}()}
 }
 \concept{data.frame tween}

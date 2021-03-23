@@ -4,8 +4,16 @@
 \alias{tween_along}
 \title{Interpolate data along a given dimension}
 \usage{
-tween_along(.data, ease, nframes, along, id = NULL, range = NULL,
-  history = TRUE, keep_last = FALSE)
+tween_along(
+  .data,
+  ease,
+  nframes,
+  along,
+  id = NULL,
+  range = NULL,
+  history = TRUE,
+  keep_last = FALSE
+)
 }
 \arguments{
 \item{.data}{A data.frame with components at different stages}
@@ -42,9 +50,11 @@ also be used for other dimensions as well (even dimensions not corresponding
 to any axis).
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_appear}},
-  \code{\link{tween_components}},
-  \code{\link{tween_elements}}, \code{\link{tween_events}},
-  \code{\link{tween_states}}
+Other data.frame tween: 
+\code{\link{tween_appear}()},
+\code{\link{tween_components}()},
+\code{\link{tween_elements}()},
+\code{\link{tween_events}()},
+\code{\link{tween_states}()}
 }
 \concept{data.frame tween}

@@ -4,8 +4,18 @@
 \alias{tween_events}
 \title{Transition in and out of events}
 \usage{
-tween_events(.data, ease, nframes, start, end = NULL, range = NULL,
-  enter = NULL, exit = NULL, enter_length = 0, exit_length = 0)
+tween_events(
+  .data,
+  ease,
+  nframes,
+  start,
+  end = NULL,
+  range = NULL,
+  enter = NULL,
+  exit = NULL,
+  enter_length = 0,
+  exit_length = 0
+)
 }
 \arguments{
 \item{.data}{A data.frame with components at different stages}
@@ -80,9 +90,11 @@ tween_events(d, 'cubic-in-out', 50, start = time, end = time + duration,
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_along}},
-  \code{\link{tween_appear}},
-  \code{\link{tween_components}},
-  \code{\link{tween_elements}}, \code{\link{tween_states}}
+Other data.frame tween: 
+\code{\link{tween_along}()},
+\code{\link{tween_appear}()},
+\code{\link{tween_components}()},
+\code{\link{tween_elements}()},
+\code{\link{tween_states}()}
 }
 \concept{data.frame tween}

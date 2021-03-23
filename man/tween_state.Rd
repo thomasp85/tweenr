@@ -7,8 +7,7 @@
 \alias{close_state}
 \title{Compose tweening between states}
 \usage{
-tween_state(.data, to, ease, nframes, id = NULL, enter = NULL,
-  exit = NULL)
+tween_state(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL)
 
 keep_state(.data, nframes)
 

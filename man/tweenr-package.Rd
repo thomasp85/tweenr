@@ -6,7 +6,7 @@
 \alias{tweenr-package}
 \title{tweenr: Interpolate Data for Smooth Animations}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 In order to create smooth animation between states of data,
     tweening is necessary. This package provides a range of functions for
@@ -21,7 +21,7 @@ As such it's a great match for packages such as animate and gganimate, since
 it can work directly with data.frames of data, but it also provide fast and
 efficient interpolaters for numeric, date, datetime and colour that are
 vectorized and thus more efficient to use than the build in interpolation
-functions (mainly \code{\link[stats:approx]{stats::approx()}} and
+functions (mainly \code{\link[stats:approxfun]{stats::approx()}} and
 \code{\link[grDevices:colorRamp]{grDevices::colorRamp()}}).
 
 The main functions for data.frames are \code{\link[=tween_states]{tween_states()}},
@@ -37,6 +37,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Thomas Lin Pedersen \email{thomasp85@gmail.com}
+\strong{Maintainer}: Thomas Lin Pedersen \email{thomasp85@gmail.com} (\href{https://orcid.org/0000-0002-5147-4711}{ORCID})
 
 }

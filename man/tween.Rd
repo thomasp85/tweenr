@@ -104,8 +104,8 @@ The will both be recycled to \code{length(data)}.
 \section{Difference Between \code{tween_numeric} and \code{approx()}}{
 
 \code{tween_numeric} (and \code{tween_numeric_t}) is superficially equivalent to
-\code{\link[stats:approx]{stats::approx()}}, but there are differences.
-\code{\link[stats:approx]{stats::approx()}} will create evenly spaced points, at the expense
+\code{\link[stats:approxfun]{stats::approx()}}, but there are differences.
+\code{\link[stats:approxfun]{stats::approx()}} will create evenly spaced points, at the expense
 of not including the actual points in the input, while the reverse is true
 for \code{tween_numeric}. Apart from that \code{tween_numeric} of course supports easing
 functions and is vectorized.

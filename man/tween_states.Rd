@@ -48,9 +48,11 @@ data <- tween_states(list(data1, data2), 3, 1, 'cubic-in-out', 100)
 
 }
 \seealso{
-Other data.frame tween: \code{\link{tween_along}},
-  \code{\link{tween_appear}},
-  \code{\link{tween_components}},
-  \code{\link{tween_elements}}, \code{\link{tween_events}}
+Other data.frame tween: 
+\code{\link{tween_along}()},
+\code{\link{tween_appear}()},
+\code{\link{tween_components}()},
+\code{\link{tween_elements}()},
+\code{\link{tween_events}()}
 }
 \concept{data.frame tween}
