@@ -98,6 +98,9 @@ time, and creates frames with the correct events present at any given time." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -131,8 +134,18 @@ identification. The tweener treats each row in the data as unique events in
 time, and creates frames with the correct events present at any given time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tween_events</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>ease</span>, <span class='va'>nframes</span>, <span class='va'>start</span>, end <span class='op'>=</span> <span class='cn'>NULL</span>, range <span class='op'>=</span> <span class='cn'>NULL</span>,
-  enter <span class='op'>=</span> <span class='cn'>NULL</span>, exit <span class='op'>=</span> <span class='cn'>NULL</span>, enter_length <span class='op'>=</span> <span class='fl'>0</span>, exit_length <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tween_events</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  <span class='va'>ease</span>,
+  <span class='va'>nframes</span>,
+  <span class='va'>start</span>,
+  end <span class='op'>=</span> <span class='cn'>NULL</span>,
+  range <span class='op'>=</span> <span class='cn'>NULL</span>,
+  enter <span class='op'>=</span> <span class='cn'>NULL</span>,
+  exit <span class='op'>=</span> <span class='cn'>NULL</span>,
+  enter_length <span class='op'>=</span> <span class='fl'>0</span>,
+  exit_length <span class='op'>=</span> <span class='fl'>0</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,10 +216,12 @@ the component id, <code>.phase</code> giving the state of each component in each
 and <code>.frame</code> giving the frame membership of each row.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other data.frame tween: <code><a href='tween_along.html'>tween_along</a></code>,
-  <code><a href='tween_appear.html'>tween_appear</a></code>,
-  <code><a href='tween_components.html'>tween_components</a></code>,
-  <code><a href='tween_elements.html'>tween_elements</a></code>, <code><a href='tween_states.html'>tween_states</a></code></p></div>
+    <div class='dont-index'><p>Other data.frame tween: 
+<code><a href='tween_along.html'>tween_along</a>()</code>,
+<code><a href='tween_appear.html'>tween_appear</a>()</code>,
+<code><a href='tween_components.html'>tween_components</a>()</code>,
+<code><a href='tween_elements.html'>tween_elements</a>()</code>,
+<code><a href='tween_states.html'>tween_states</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>

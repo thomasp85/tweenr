@@ -101,6 +101,9 @@ to any axis)." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -137,8 +140,16 @@ also be used for other dimensions as well (even dimensions not corresponding
 to any axis).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tween_along</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>ease</span>, <span class='va'>nframes</span>, <span class='va'>along</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, range <span class='op'>=</span> <span class='cn'>NULL</span>,
-  history <span class='op'>=</span> <span class='cn'>TRUE</span>, keep_last <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tween_along</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  <span class='va'>ease</span>,
+  <span class='va'>nframes</span>,
+  <span class='va'>along</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  range <span class='op'>=</span> <span class='cn'>NULL</span>,
+  history <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  keep_last <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,10 +198,12 @@ the component id, <code>.phase</code> giving the state of each component in each
 and <code>.frame</code> giving the frame membership of each row.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other data.frame tween: <code><a href='tween_appear.html'>tween_appear</a></code>,
-  <code><a href='tween_components.html'>tween_components</a></code>,
-  <code><a href='tween_elements.html'>tween_elements</a></code>, <code><a href='tween_events.html'>tween_events</a></code>,
-  <code><a href='tween_states.html'>tween_states</a></code></p></div>
+    <div class='dont-index'><p>Other data.frame tween: 
+<code><a href='tween_appear.html'>tween_appear</a>()</code>,
+<code><a href='tween_components.html'>tween_components</a>()</code>,
+<code><a href='tween_elements.html'>tween_elements</a>()</code>,
+<code><a href='tween_events.html'>tween_events</a>()</code>,
+<code><a href='tween_states.html'>tween_states</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
