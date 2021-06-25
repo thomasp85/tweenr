@@ -158,7 +158,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
 
   tweendata <- lapply(seq_along(classes), function(i) {
     d <- list(full_set$from[[i]], full_set$to[[i]])
-    state <- simple_state(nframes, ease[i])
+    state <- simple_state(as.integer(nframes), ease[i])
     switch(
       classes[i],
       numeric = interpolate_numeric_state(d, state),
@@ -381,7 +381,7 @@ find_max_id <- function(data, new) {
   !is.null(attr(data, 'nframes')) || !is.null(data$.frame)
 }
 simple_state <- function(n, ease) {
-  data.frame(state = c(0, 1), nframes = c(n - 1, 0), ease = c(ease, 'constant'), stringsAsFactors = FALSE)
+  data.frame(state = c(0L, 1L), nframes = c(n - 1L, 0L), ease = c(ease, 'constant'), stringsAsFactors = FALSE)
 }
 
 count_occourance <- function(x) {

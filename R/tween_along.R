@@ -41,23 +41,25 @@ tween_along <- function(.data, ease, nframes, along, id = NULL, range = NULL, hi
   if (diff(timerange) == 0) stop('range must have a length', call. = FALSE)
   framelength <- diff(timerange) / (nframes - 1)
   frame <- 1 + (nframes - 1) * (.data$.time - timerange[1]) / diff(timerange)
+  groups <- unique(.data$.id)
+  group <- match(.data$.id, groups)
   colClasses <- col_classes(.data)
   tweendata <- lapply(seq_along(.data),  function(i) {
     d <- .data[[i]]
     e <- ease[i]
     switch(
       colClasses[i],
-      numeric = interpolate_numeric_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      logical = interpolate_logical_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      factor = interpolate_factor_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      character = interpolate_character_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      colour = interpolate_colour_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      date = interpolate_date_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      datetime = interpolate_datetime_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      constant = interpolate_constant_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      numlist = interpolate_numlist_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      list = interpolate_list_along(d, .data$.id, frame, nframes, e, history, keep_last),
-      phase = get_phase_along(.data$.id, frame, nframes, history, keep_last)
+      numeric = interpolate_numeric_along(d, group, frame, nframes, e, history, keep_last),
+      logical = interpolate_logical_along(d, group, frame, nframes, e, history, keep_last),
+      factor = interpolate_factor_along(d, group, frame, nframes, e, history, keep_last),
+      character = interpolate_character_along(d, group, frame, nframes, e, history, keep_last),
+      colour = interpolate_colour_along(d, group, frame, nframes, e, history, keep_last),
+      date = interpolate_date_along(d, group, frame, nframes, e, history, keep_last),
+      datetime = interpolate_datetime_along(d, group, frame, nframes, e, history, keep_last),
+      constant = interpolate_constant_along(d, group, frame, nframes, e, history, keep_last),
+      numlist = interpolate_numlist_along(d, group, frame, nframes, e, history, keep_last),
+      list = interpolate_list_along(d, group, frame, nframes, e, history, keep_last),
+      phase = get_phase_along(group, frame, nframes, history, keep_last)
     )
   })
   tweenInfo <- tweendata[[1]][, c('group', 'frame')]

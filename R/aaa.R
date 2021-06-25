@@ -83,8 +83,8 @@ prepareTween <- function(data, n, ease) {
   n <- c(rep(n, length.out = length(data) - 1) - 1, 1)
   ease <- c(rep(ease, length.out = length(data) - 1), 'constant')
   states <- data.frame(
-    state = seq_along(data) - 1,
-    nframes = n,
+    state = seq_along(data) - 1L,
+    nframes = as.integer(n),
     ease = ease,
     stringsAsFactors = FALSE
   )
@@ -120,8 +120,8 @@ prepareTweenTranspose <- function(data, n, ease) {
   ease <- unlist(lapply(easeSplit, append, values = 'constant'))
   data <- as.list(unlist(data))
   states <- data.frame(
-    state = seq_along(data) - 1,
-    nframes = n,
+    state = seq_along(data) - 1L,
+    nframes = as.integer(n),
     ease = ease,
     stringsAsFactors = FALSE
   )

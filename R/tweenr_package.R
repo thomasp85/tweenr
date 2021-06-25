@@ -12,6 +12,5 @@
 #' [tween_elements()] and [tween_appear()], while the
 #' standard interpolaters can be found at [tween()]
 #'
-#' @useDynLib tweenr
-#' @importFrom Rcpp sourceCpp
+#' @useDynLib tweenr, .registration = TRUE
 '_PACKAGE'

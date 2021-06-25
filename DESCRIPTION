@@ -21,13 +21,15 @@ Encoding: UTF-8
 LazyData: TRUE
 Depends: R (>= 3.2.0)
 Imports:
-    Rcpp (>= 0.12.3),
     grDevices,
     farver,
     magrittr,
-    rlang
-LinkingTo: Rcpp
+    rlang,
+    vctrs
+LinkingTo: 
+    cpp11
 RoxygenNote: 7.1.1.9001
 Roxygen: list(markdown=TRUE)
 Suggests: testthat,
     covr
+SystemRequirements: C++11

@@ -8,7 +8,7 @@ test_that("tween_at works", {
   expect_equal(nrow(tween), 2)
   expect_named(tween, names(df1))
   expect_equal(tween$x, c(6, 7))
-  expect_equal(tween$col[1], '#767676FF')
+  expect_equal(tween$col[1], '#777777')
 })
 
 test_that("tween_at handles weird input", {

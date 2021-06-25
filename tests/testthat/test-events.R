@@ -28,7 +28,7 @@ test_that("tween_events works", {
   expect_true(all(tween$.phase[c(6, 13, 17, 23)] == 'raw'))
   expect_true(all(tween$.phase[-c(6, 13, 17, 23)] == 'enter'))
   expect_equal(tween$x[2], 0.2)
-  expect_equal(tween$col[3], '#931B0BFF')
+  expect_equal(tween$col[3], '#931B0B')
 })
 
 test_that("weird input gets handled", {

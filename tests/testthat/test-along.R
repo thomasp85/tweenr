@@ -11,12 +11,12 @@ df <- data.frame(
 test_that("tween_along works", {
   tween <- tween_along(df, ease = 'linear', nframes = 10, along = x)
   expect_equal(nrow(tween), 30)
-  expect_equal(tween$col[22], '#77B784FF')
+  expect_equal(tween$col[22], '#78B785')
   expect_equal(tween$y[8], 3.25)
 
   tween <- tween_along(df, ease = 'linear', nframes = 10, along = x, history = FALSE)
   expect_equal(nrow(tween), 9)
-  expect_equal(tween$col[8], '#77B784FF')
+  expect_equal(tween$col[8], '#78B785')
   expect_equal(tween$y[2], 3.75)
 })
 

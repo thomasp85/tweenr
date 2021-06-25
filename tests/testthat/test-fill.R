@@ -10,7 +10,7 @@ test_that("tween_fill works", {
   tween <- tween_fill(df, 'linear')
   expect_equal(dim(df), dim(tween))
   expect_equal(tween$x[3], 3.5)
-  expect_equal(tween$col[10], '#110010FF')
+  expect_equal(tween$col[10], '#183112')
 
   expect_equal(tween_fill(df$col, 'linear'), tween$col)
 

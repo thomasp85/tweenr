@@ -67,7 +67,8 @@ tween_at <- function(from, to, at, ease) {
       datetime = interpolate_datetime_at(from[[i]], to[[i]], at, ease[i]),
       constant = interpolate_constant_at(from[[i]], to[[i]], at, ease[i]),
       numlist = interpolate_numlist_at(from[[i]], to[[i]], at, ease[i]),
-      list = interpolate_list_at(from[[i]], to[[i]], at, ease[i])
+      list = interpolate_list_at(from[[i]], to[[i]], at, ease[i]),
+      phase = ifelse(from[[i]] == "enter", "enter", ifelse(to[[i]] == "exit", "exit", "transition"))
     )
   })
   if (single_vec) return(tweendata[[1]])
