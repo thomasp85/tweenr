@@ -21,7 +21,6 @@ Encoding: UTF-8
 LazyData: TRUE
 Depends: R (>= 3.2.0)
 Imports:
-    grDevices,
     farver,
     magrittr,
     rlang,

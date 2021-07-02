@@ -91,7 +91,6 @@ tween_t <- function(data, n, ease = 'linear') {
     tween_constant_t(data, n, ease)
   )
 }
-#' @importFrom utils head
 guessType <- function(data) {
   data <- unlist(data)
   col_classes(list(data))
