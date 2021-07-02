@@ -94,23 +94,5 @@ tween_t <- function(data, n, ease = 'linear') {
 #' @importFrom utils head
 guessType <- function(data) {
   data <- unlist(data)
-  if (is.character(data)) {
-    convert <- try(suppressWarnings(col2rgb(head(data, 100))),
-                   silent = TRUE)
-    if (!inherits(convert, 'try-error')) {
-      if (!anyNA(convert)) {
-        return('colour')
-      }
-    }
-  }
-  if (inherits(data, 'Date')) {
-    return('date')
-  }
-  if (inherits(data, 'POSIXt')) {
-    return('datetime')
-  }
-  if (is.numeric(data)) {
-    return('numeric')
-  }
-  'unknown'
+  col_classes(list(data))
 }

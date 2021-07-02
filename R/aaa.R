@@ -39,6 +39,7 @@ validEase <- c(
 #' @export
 magrittr::`%>%`
 
+#' @importFrom farver decode_colour
 col_classes <- function(data) {
   classes <- vapply(data, function(d) {
     if (is.numeric(d)) {
@@ -48,8 +49,8 @@ col_classes <- function(data) {
     } else if (is.factor(d)) {
       'factor'
     } else if (is.character(d)) {
-      colour <- try(suppressWarnings(col2rgb(d)), silent = TRUE)
-      if (all(is.na(d)) || inherits(colour, 'try-error') || anyNA(colour) || all(grepl('^(\\d|\\.)+$', d))) {
+      colour <- try(suppressWarnings(decode_colour(d)), silent = TRUE)
+      if (all(is.na(d)) || inherits(colour, 'try-error') || any(is.na(d) != is.na(colour[, 1])) || all(grepl('^(\\d|\\.)+$', d))) {
         'character'
       } else {
         'colour'
@@ -129,4 +130,15 @@ prepareTweenTranspose <- function(data, n, ease) {
     data = data,
     states = states
   )
+}
+
+first <- function(x) x[[1]]
+`first<-` <- function(x, value) {
+  x[[1]] <- value
+  x
+}
+last <- function(x) x[[length(x)]]
+`last<-` <- function(x, value) {
+  x[[length(x)]] <- value
+  x
 }

@@ -74,13 +74,13 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
     state = NA_integer_,
     stringsAsFactors = FALSE
   )
-  states$state <- rep(seq_len(nstates) - 1, each = 2, length.out = nrow(states))
+  states$state <- rep(seq_len(nstates) - 1L, each = 2, length.out = nrow(states))
   states$ease <- lapply(c(rep(list('constant'), nstates), ease)[statesOrder], function(e) {
     structure(rep(e, length.out = length(origNames)), names = origNames)
   })
   fullLength <- sum(states$length)
   framelength <- fullLength/nframes
-  states$nframes <- round(states$length / framelength)
+  states$nframes <- as.integer(round(states$length / framelength))
   nframes <- sum(states$nframes)
   framelength <- fullLength/nframes
   data <- Reduce(function(l, r) {

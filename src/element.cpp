@@ -194,8 +194,8 @@ cpp11::writable::data_frame numlist_element_interpolator(cpp11::list_of<cpp11::d
       state_to_vec = align_num_elem(state_to_vec, state_from_vec);
       for (size_t j = 0; j < ease_points.size(); ++j) {
         cpp11::writable::doubles state_vec(state_from_vec.size());
-        for (R_xlen_t i = 0; i < state_from_vec.size(); ++i) {
-          state_vec[i] = state_from_vec[i] + ease_points[j] * (state_to_vec[i] - state_from_vec[i]);
+        for (R_xlen_t k = 0; k < state_from_vec.size(); ++k) {
+          state_vec[k] = state_from_vec[k] + ease_points[j] * (state_to_vec[k] - state_from_vec[k]);
         }
         tweendata.push_back(state_vec);
         tweengroup.push_back(current_group);
