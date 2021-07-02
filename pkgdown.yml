@@ -2,5 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-07-02T11:36Z
+last_built: 2021-07-02T11:44Z
+urls:
+  reference: https://tweenr.data-imaginist.com/reference
+  article: https://tweenr.data-imaginist.com/articles
 
