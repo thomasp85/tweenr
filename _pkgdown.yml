@@ -1,0 +1,10 @@
+destination: docs
+url: https://tweenr.data-imaginist.com
+
+authors:
+  Thomas Lin Pedersen:
+    href: https://data-imaginist.com
+
+template:
+  params:
+    bootswatch: yeti

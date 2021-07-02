@@ -4,3 +4,4 @@
 *.Rproj
 .Rbuildignore
 README_cache
+docs
