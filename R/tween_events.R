@@ -59,6 +59,7 @@ tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, 
   .tween_individuals(.data, ease, nframes, range)
 }
 
+#' @importFrom vctrs vec_rbind
 .complete_events <- function(data, start, end, enter, exit, enter_length, exit_length) {
   data$.id <- seq_len(nrow(data))
   data$.phase <- rep("raw", nrow(data))
@@ -87,7 +88,7 @@ tween_events <- function(.data, ease, nframes, start, end = NULL, range = NULL, 
     exit_data$.phase <- 'exit'
     exit_time <- (if (length(end) == 0) start else end) + exit_length
   }
-  data <- rbind(enter_data, data, event_end, exit_data)
+  data <- vec_rbind(enter_data, data, event_end, exit_data)
   time <- c(enter_time, start, end, exit_time)
   data$.time <- time
   data

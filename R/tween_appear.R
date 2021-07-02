@@ -25,6 +25,8 @@
 #'
 #' @family data.frame tween
 #'
+#' @importFrom vctrs vec_rbind
+#'
 #' @examples
 #' data <- data.frame(
 #'   x = rnorm(100),
@@ -51,7 +53,7 @@ tween_appear <- function(data, time, timerange, nframes) {
     data$.frame <- i
     data
   })
-  tweendata <- do.call(rbind, tweendata)
+  tweendata <- do.call(vec_rbind, tweendata)
   attr(tweendata, 'framelength') <- framelength
   tweendata
 }

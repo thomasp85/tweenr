@@ -107,6 +107,7 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   tweendata[order(tweendata$.frame, tweendata$.id), , drop = FALSE]
 }
 
+#' @importFrom vctrs vec_rbind
 .complete_components <- function(data, time, id, enter, exit, enter_length, exit_length) {
   if (length(id) != nrow(data) || length(time) != nrow(data)) {
     stop('id and time must have the same length as the number of rows in data', call. = FALSE)
@@ -130,7 +131,7 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
     } else {
       exit_data <- data[0, , drop = FALSE]
     }
-    data <- rbind(enter_data, data, exit_data)
+    data <- vec_rbind(enter_data, data, exit_data)
   }
   data
 }

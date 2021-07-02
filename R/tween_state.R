@@ -73,6 +73,7 @@
 #' appear in the last frame of the tween. This is the default.
 #'
 #' @importFrom rlang enquo
+#' @importFrom vctrs vec_rbind
 #' @export
 #'
 #' @examples
@@ -176,7 +177,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
   })
   tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
   tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
-  tweendata <- rbind(
+  tweendata <- vec_rbind(
     if (nframes > 1) cbind(from, .frame = rep(1, nrow(from))) else NULL,
     tweendata[tweendata$.frame != 1, , drop = FALSE],
     cbind(to, .frame = rep(nframes, nrow(to)))
@@ -262,7 +263,7 @@ close_state <- function(.data, ease, nframes, exit) {
   frames <- if (!is.null(nframes_before)) {
     prior <- prior[prior$.frame != nframes_before, , drop = FALSE]
     new_tween$.frame <- new_tween$.frame + nframes_before - 1
-    rbind(prior, new_tween)
+    vec_rbind(prior, new_tween)
   } else {
     nframes_before <- 1
     new_tween
@@ -279,7 +280,7 @@ close_state <- function(.data, ease, nframes, exit) {
   frames <- if ('.frame' %in% names(later)) {
     later <- later[later$.frame != 1, , drop = FALSE]
     later$.frame <- later$.frame + max(new_tween$.frame)
-    rbind(new_tween, later)
+    vec_rbind(new_tween, later)
   } else {
     new_tween
   }
@@ -363,9 +364,9 @@ find_max_id <- function(data, new) {
       exits$.phase <- 'exit'
       exit_id <- from_id[exiting]
     }
-    from <- rbind(from, enters)
+    from <- vec_rbind(from, enters)
     from_id <- c(from_id, enter_id)
-    to <- rbind(to, exits)
+    to <- vec_rbind(to, exits)
     to_id <- c(to_id, exit_id)
   }
   from$.id[is.na(from$.id)] <- seq_len(sum(is.na(from$.id))) + max_id
