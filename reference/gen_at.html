@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tween a list of data.frames representing states — tween_states • tweenr</title>
+<title>Generator for interpolating between two data frames — gen_at • tweenr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,11 @@
 
 
 
-<meta property="og:title" content="Tween a list of data.frames representing states — tween_states" />
-<meta property="og:description" content="This function is intended to create smooth transitions between states of
-data. States are defined as full data.frames or data.frames containing only
-the columns with change. Each state can have a defined period of pause, the
-transition length between each states can be defined as well as the easing
-function." />
+<meta property="og:title" content="Generator for interpolating between two data frames — gen_at" />
+<meta property="og:description" content="This is a generator version of tween_at() with the additional functionality
+of supporting enter and exit functions. It returns a generator that can be
+used with get_frame() and get_raw_frames() to extract frames for a
+specific time point scaled between 0 and 1." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -123,78 +122,95 @@ function." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tween a list of data.frames representing states</h1>
-    <small class="dont-index">Source: <a href='https://github.com/thomasp85/tweenr/blob/master/R/tween_states.R'><code>R/tween_states.R</code></a></small>
-    <div class="hidden name"><code>tween_states.Rd</code></div>
+    <h1>Generator for interpolating between two data frames</h1>
+    <small class="dont-index">Source: <a href='https://github.com/thomasp85/tweenr/blob/master/R/gen_at.R'><code>R/gen_at.R</code></a></small>
+    <div class="hidden name"><code>gen_at.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is intended to create smooth transitions between states of
-data. States are defined as full data.frames or data.frames containing only
-the columns with change. Each state can have a defined period of pause, the
-transition length between each states can be defined as well as the easing
-function.</p>
+    <p>This is a generator version of <code><a href='tween_at.html'>tween_at()</a></code> with the additional functionality
+of supporting enter and exit functions. It returns a generator that can be
+used with <code><a href='get_frame.html'>get_frame()</a></code> and <code><a href='get_frame.html'>get_raw_frames()</a></code> to extract frames for a
+specific time point scaled between 0 and 1.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tween_states</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>tweenlength</span>, <span class='va'>statelength</span>, <span class='va'>ease</span>, <span class='va'>nframes</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gen_at</span><span class='op'>(</span><span class='va'>from</span>, <span class='va'>to</span>, <span class='va'>ease</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, enter <span class='op'>=</span> <span class='cn'>NULL</span>, exit <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A list of data.frames. Each data.frame must contain the same
-number of rows, but only the first data.frame needs to contain all columns.
-Subsequent data.frames need only contain the columns that shows change.</p></td>
+      <th>from</th>
+      <td><p>A data.frame or vector of the same type. If either is of
+length/nrow 1 it will get repeated to match the length of the other</p></td>
     </tr>
     <tr>
-      <th>tweenlength</th>
-      <td><p>The lengths of the transitions between each state.</p></td>
-    </tr>
-    <tr>
-      <th>statelength</th>
-      <td><p>The length of the pause at each state.</p></td>
+      <th>to</th>
+      <td><p>A data.frame or vector of the same type. If either is of
+length/nrow 1 it will get repeated to match the length of the other</p></td>
     </tr>
     <tr>
       <th>ease</th>
-      <td><p>The easing functions to use for the transitions. See details.</p></td>
+      <td><p>A character vector giving valid easing functions. Recycled to
+match the ncol of <code>from</code></p></td>
     </tr>
     <tr>
-      <th>nframes</th>
-      <td><p>The number of frames to generate. The actual number of frames
-might end up being higher depending on the regularity of <code>tweenlength</code>
-and <code>statelength</code>.</p></td>
+      <th>id</th>
+      <td><p>The column to match observations on. If <code>NULL</code> observations will be
+matched by position. See the <em>Match, Enter, and Exit</em> section for more
+information.</p></td>
+    </tr>
+    <tr>
+      <th>enter</th>
+      <td><p>functions that calculate a start state for new observations
+that appear in <code>to</code> or an end state for observations that are not present in
+<code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The
+function gets a data.frame with either the start state of the exiting
+observations, or the end state of the entering observations and must return
+a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
+section for more information.</p></td>
+    </tr>
+    <tr>
+      <th>exit</th>
+      <td><p>functions that calculate a start state for new observations
+that appear in <code>to</code> or an end state for observations that are not present in
+<code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The
+function gets a data.frame with either the start state of the exiting
+observations, or the end state of the entering observations and must return
+a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
+section for more information.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame with the same columns as the first data.frame in
-<code>data</code>, but replicated <code>nframes</code> times. An additional column called
-<code>.frame</code> will be added giving the frame number.</p>
+    <p>A <code>keyframe_generator</code> object</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other data.frame tween: 
-<code><a href='tween_along.html'>tween_along</a>()</code>,
-<code><a href='tween_appear.html'>tween_appear</a>()</code>,
-<code><a href='tween_components.html'>tween_components</a>()</code>,
-<code><a href='tween_elements.html'>tween_elements</a>()</code>,
-<code><a href='tween_events.html'>tween_events</a>()</code></p></div>
+    <div class='dont-index'><p>Other Other generators: 
+<code><a href='gen_along.html'>gen_along</a>()</code>,
+<code><a href='gen_components.html'>gen_components</a>()</code>,
+<code><a href='gen_events.html'>gen_events</a>()</code>,
+<code><a href='gen_keyframe.html'>gen_keyframe</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span>,
-  y <span class='op'>=</span> <span class='fl'>0</span>,
-  colour <span class='op'>=</span> <span class='st'>'forestgreen'</span>,
-  stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-<span class='va'>data2</span> <span class='op'>&lt;-</span> <span class='va'>data1</span>
-<span class='va'>data2</span><span class='op'>$</span><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>1</span>
-<span class='va'>data2</span><span class='op'>$</span><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+    <pre class="examples"><div class='input'><span class='va'>gen</span> <span class='op'>&lt;-</span> <span class='fu'>gen_at</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>, <span class='op'>]</span>, <span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>:</span><span class='fl'>1</span>, <span class='op'>]</span>, <span class='st'>'cubic-in-out'</span><span class='op'>)</span>
 
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>tween_states</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>data1</span>, <span class='va'>data2</span><span class='op'>)</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='st'>'cubic-in-out'</span>, <span class='fl'>100</span><span class='op'>)</span>
-
-</div></pre>
+<span class='fu'><a href='get_frame.html'>get_frame</a></span><span class='op'>(</span><span class='va'>gen</span>, <span class='fl'>0.3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       mpg   cyl   disp      hp    drat      wt     qsec    vs    am  gear  carb
+#&gt; 1 20.6868 6.000 167.02 109.460 3.77688 2.71072 16.86608 0.108 0.892 3.892 3.676
+#&gt; 2 20.7516 6.216 181.60 117.020 3.81900 2.93602 17.02000 0.000 0.892 3.892 3.784
+#&gt; 3 22.6488 4.216 124.20  94.836 3.76684 2.41666 18.69964 1.000 0.892 3.892 1.000
+#&gt; 4 21.5512 5.784 241.80 108.164 3.16316 3.11834 19.35036 1.000 0.108 3.108 1.000
+#&gt; 5 18.9484 7.784 338.40 167.980 3.23100 3.37898 17.02000 0.000 0.108 3.108 2.216
+#&gt; 6 18.4132 6.000 217.98 105.540 2.88312 3.36928 19.81392 0.892 0.108 3.108 1.324
+#&gt;       .phase
+#&gt; 1 transition
+#&gt; 2 transition
+#&gt; 3 transition
+#&gt; 4 transition
+#&gt; 5 transition
+#&gt; 6 transition</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
