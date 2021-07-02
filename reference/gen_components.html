@@ -234,11 +234,9 @@ transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in
 
 <span class='va'>gen</span> <span class='op'>&lt;-</span> <span class='fu'>gen_components</span><span class='op'>(</span><span class='va'>data</span>, <span class='st'>'cubic-in-out'</span>, time <span class='op'>=</span> <span class='va'>time</span>, id <span class='op'>=</span> <span class='va'>id</span>,
                       enter <span class='op'>=</span> <span class='va'>from_zero</span>, enter_length <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='error'>Error in as_function(enter): could not find function "as_function"</span></div><div class='input'>
 <span class='fu'><a href='get_frame.html'>get_frame</a></span><span class='op'>(</span><span class='va'>gen</span>, <span class='fl'>0.3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           x y time id .phase
-#&gt; 1 0.9999375 1    1  1  enter
-#&gt; 2 0.0455625 2    4  2  enter</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in get_frame(gen, 0.3): object 'gen' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

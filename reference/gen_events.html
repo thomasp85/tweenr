@@ -239,16 +239,9 @@ transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in
 <span class='va'>gen</span> <span class='op'>&lt;-</span> <span class='fu'>gen_events</span><span class='op'>(</span><span class='va'>d</span>, <span class='st'>'cubic-in-out'</span>, start <span class='op'>=</span> <span class='va'>time</span>, end <span class='op'>=</span> <span class='va'>time</span> <span class='op'>+</span> <span class='va'>duration</span>,
                   enter <span class='op'>=</span> <span class='va'>from_left</span>, exit <span class='op'>=</span> <span class='va'>to_right</span>, enter_length <span class='op'>=</span> <span class='fl'>0.1</span>,
                   exit_length <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='error'>Error in as_function(enter): could not find function "as_function"</span></div><div class='input'>
 <span class='fu'><a href='get_frame.html'>get_frame</a></span><span class='op'>(</span><span class='va'>gen</span>, <span class='fl'>0.65</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;             x          y      time    duration .phase
-#&gt; 1  0.08075014 0.28989230 0.6801629 0.082519942 static
-#&gt; 2  0.60077958 0.73531960 0.6416793 0.057004495   exit
-#&gt; 3  0.16513933 0.19595673 0.6602843 0.033571908   exit
-#&gt; 4 -0.34874073 0.74152153 0.7656002 0.019151803  enter
-#&gt; 5 -0.39358075 0.05144628 0.7696748 0.094776394  enter
-#&gt; 6 -0.47692325 0.43217126 0.7793086 0.002006522  enter
-#&gt; 7  0.05767481 0.94857658 0.7133973 0.055991284  enter</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in get_frame(gen, 0.65): object 'gen' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
