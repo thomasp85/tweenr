@@ -26,6 +26,8 @@
 #'
 #' @family data.frame tween
 #'
+#' @importFrom vctrs vec_cbind
+#'
 #' @examples
 #' data1 <- data.frame(
 #'   x = 1:20,
@@ -85,7 +87,7 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
   framelength <- fullLength/nframes
   data <- Reduce(function(l, r) {
     extraCols <- !names(l[[length(l)]]) %in% names(r);
-    append(l, list(cbind(r, l[[length(l)]][, extraCols])))
+    append(l, list(vec_cbind(r, l[[length(l)]][, extraCols])))
   }, data[-1], data[1])
   colClasses <- col_classes(data[[1]])
   tweendata <- lapply(names(data[[1]]),  function(name) {

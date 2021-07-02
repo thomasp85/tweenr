@@ -73,7 +73,7 @@
 #' appear in the last frame of the tween. This is the default.
 #'
 #' @importFrom rlang enquo
-#' @importFrom vctrs vec_rbind
+#' @importFrom vctrs vec_rbind vec_cbind
 #' @export
 #'
 #' @examples
@@ -178,9 +178,9 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
   tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
   tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
   tweendata <- vec_rbind(
-    if (nframes > 1) cbind(from, .frame = rep(1, nrow(from))) else NULL,
+    if (nframes > 1) vec_cbind(from, .frame = rep(1, nrow(from))) else NULL,
     tweendata[tweendata$.frame != 1, , drop = FALSE],
-    cbind(to, .frame = rep(nframes, nrow(to)))
+    vec_cbind(to, .frame = rep(nframes, nrow(to)))
   )
   .with_prior_frames(.data, tweendata, nframes)
 }
