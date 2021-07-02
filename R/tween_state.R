@@ -326,7 +326,7 @@ find_max_id <- function(data, new) {
 #' versions of `from` and `to`
 #'
 #' @keywords internal
-#' @importFrom rlang eval_tidy %||%
+#' @importFrom rlang eval_tidy %||% as_function
 #' @export
 .complete_states <- function(from, to, id, enter, exit, max_id) {
   from_id <- eval_tidy(id, from) %||% seq_len(nrow(from))
@@ -348,8 +348,7 @@ find_max_id <- function(data, new) {
       enters <- to[0, , drop = FALSE]
       enter_id <- to_id[0]
     } else {
-      stopifnot(is.function(enter))
-      enters <- enter(to[entering, , drop = FALSE])
+      enters <- as_function(enter)(to[entering, , drop = FALSE])
       enters$.phase <- 'enter'
       enter_id <- to_id[entering]
     }
@@ -359,8 +358,7 @@ find_max_id <- function(data, new) {
       exits <- from[0, , drop = FALSE]
       exit_id <- from_id[0]
     } else {
-      stopifnot(is.function(exit))
-      exits <- exit(from[exiting, , drop = FALSE])
+      exits <- as_function(exit)(from[exiting, , drop = FALSE])
       exits$.phase <- 'exit'
       exit_id <- from_id[exiting]
     }

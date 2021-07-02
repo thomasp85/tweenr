@@ -108,6 +108,7 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
 }
 
 #' @importFrom vctrs vec_rbind
+#' @importFrom rlang as_function
 .complete_components <- function(data, time, id, enter, exit, enter_length, exit_length) {
   if (length(id) != nrow(data) || length(time) != nrow(data)) {
     stop('id and time must have the same length as the number of rows in data', call. = FALSE)
@@ -118,14 +119,14 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   if (any(!is.null(enter), !is.null(exit))) {
     time_ord <- order(time)
     if (!is.null(enter)) {
-      enter_data <- enter(data[time_ord[!duplicated(id[time_ord])], , drop = FALSE])
+      enter_data <- as_function(enter)(data[time_ord[!duplicated(id[time_ord])], , drop = FALSE])
       enter_data$.phase <- 'enter'
       enter_data$.time <- enter_data$.time - enter_length
     } else {
       enter_data <- data[0, , drop = FALSE]
     }
     if (!is.null(exit)) {
-      exit_data <- exit(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
+      exit_data <- as_function(exit)(data[time_ord[!duplicated(id[time_ord], fromLast = TRUE)], , drop = FALSE])
       exit_data$.phase <- 'exit'
       exit_data$.time <- exit_data$.time + exit_length
     } else {
