@@ -4,7 +4,7 @@
 #' letting you gradually build up a scene by composing state changes one by one.
 #' This setup lets you take more control over each state change and allows you
 #' to work with datasets with uneven number of rows, flexibly specifying what
-#' should happen with entering and exiting data. `keep_state()` is a simpel
+#' should happen with entering and exiting data. `keep_state()` is a simple
 #' helper for letting you pause at a state. `open_state()` is a shortcut from
 #' tweening from an empty dataset with a given `enter()` function while
 #' `close_state()` is the same but will instead tween into an empty dataset with
