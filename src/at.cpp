@@ -22,11 +22,11 @@ cpp11::doubles numeric_at_interpolator(cpp11::doubles from, cpp11::doubles to,
   return res;
 }
 [[cpp11::register]]
-cpp11::doubles_matrix colour_at_interpolator(cpp11::doubles_matrix from, cpp11::doubles_matrix to,
+cpp11::doubles_matrix<> colour_at_interpolator(cpp11::doubles_matrix<> from, cpp11::doubles_matrix<> to,
                                              cpp11::doubles at, cpp11::strings ease) {
   R_xlen_t n = from.nrow(), m = from.ncol();
   std::string easer = ease[0];
-  cpp11::writable::doubles_matrix res(n, m);
+  cpp11::writable::doubles_matrix<> res(n, m);
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double pos = ease_pos(at[i], easer);

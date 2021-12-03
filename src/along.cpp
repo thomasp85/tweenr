@@ -54,7 +54,7 @@ cpp11::writable::data_frame numeric_along_interpolator(cpp11::doubles data,
   });
 }
 [[cpp11::register]]
-cpp11::writable::data_frame colour_along_interpolator(cpp11::doubles_matrix data,
+cpp11::writable::data_frame colour_along_interpolator(cpp11::doubles_matrix<> data,
                                                       cpp11::integers group,
                                                       cpp11::doubles time,
                                                       bool history,
