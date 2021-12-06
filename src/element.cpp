@@ -47,7 +47,7 @@ cpp11::writable::data_frame numeric_element_interpolator(cpp11::doubles data, cp
 }
 
 [[cpp11::register]]
-cpp11::writable::data_frame colour_element_interpolator(cpp11::doubles_matrix data, cpp11::integers group, cpp11::integers frame, cpp11::strings ease) {
+cpp11::writable::data_frame colour_element_interpolator(cpp11::doubles_matrix<> data, cpp11::integers group, cpp11::integers frame, cpp11::strings ease) {
   cpp11::writable::doubles tweendata1;
   cpp11::writable::doubles tweendata2;
   cpp11::writable::doubles tweendata3;

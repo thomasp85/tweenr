@@ -29,8 +29,8 @@ cpp11::doubles numeric_fill_interpolator(cpp11::doubles data, cpp11::strings eas
   return res;
 }
 [[cpp11::register]]
-cpp11::doubles_matrix colour_fill_interpolator(cpp11::doubles_matrix data, cpp11::strings ease) {
-  cpp11::writable::doubles_matrix res(data.nrow(), data.ncol());
+cpp11::doubles_matrix<> colour_fill_interpolator(cpp11::doubles_matrix<> data, cpp11::strings ease) {
+  cpp11::writable::doubles_matrix<> res(data.nrow(), data.ncol());
   for (int i = 0; i < res.nrow(); ++i) {
     for (int j = 0; j < res.ncol(); ++j) {
       res(i, j) = R_NaReal;
