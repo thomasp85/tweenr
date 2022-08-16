@@ -49,6 +49,10 @@ col_classes <- function(data) {
   classes
 }
 
+#' Get the nominal class of a vector
+#'
+#' @param x a vector
+#'
 #' @export
 #' @keywords internal
 vec_tween_class <- function(x) {

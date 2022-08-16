@@ -265,6 +265,12 @@ frame_at <- function(from, to, at, ease, classes) {
   structure(data, names = names(from), row.names = .set_row_names(length(data[[1]])), class = 'data.frame')
 }
 
+#' Fallback for keyframe vector support
+#'
+#' @param from,to vectors to interpolate between
+#' @param at value between 0 and 1 defining the point
+#' @param ease the easing function to use
+#'
 #' @export
 #' @keywords internal
 interpolate_custom_at <- function(from, to, at, ease) {
