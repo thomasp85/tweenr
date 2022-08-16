@@ -64,12 +64,7 @@ specific time point scaled between 0 and 1.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>from</dt>
-<dd><p>A data.frame or vector of the same type. If either is of
-length/nrow 1 it will get repeated to match the length of the other</p></dd>
-
-
-<dt>to</dt>
+    <dl><dt>from, to</dt>
 <dd><p>A data.frame or vector of the same type. If either is of
 length/nrow 1 it will get repeated to match the length of the other</p></dd>
 
@@ -85,17 +80,7 @@ matched by position. See the <em>Match, Enter, and Exit</em> section for more
 information.</p></dd>
 
 
-<dt>enter</dt>
-<dd><p>functions that calculate a start state for new observations
-that appear in <code>to</code> or an end state for observations that are not present in
-<code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The
-function gets a data.frame with either the start state of the exiting
-observations, or the end state of the entering observations and must return
-a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
-section for more information.</p></dd>
-
-
-<dt>exit</dt>
+<dt>enter, exit</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
 <code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The

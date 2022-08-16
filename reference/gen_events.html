@@ -81,14 +81,7 @@ for a specific time point scaled between 0 and 1.</p>
 each column in the data set.</p></dd>
 
 
-<dt>start</dt>
-<dd><p>The start (and potential end) of the event encoded in the
-row, as unquoted expressions. Will be evaluated in the context of <code>.data</code> so
-can refer to columns in it. If <code>end = NULL</code> the event will be without extend
-and only visible in a single frame, unless <code>enter</code> and/or <code>exit</code> is given.</p></dd>
-
-
-<dt>end</dt>
+<dt>start, end</dt>
 <dd><p>The start (and potential end) of the event encoded in the
 row, as unquoted expressions. Will be evaluated in the context of <code>.data</code> so
 can refer to columns in it. If <code>end = NULL</code> the event will be without extend
@@ -100,7 +93,7 @@ and only visible in a single frame, unless <code>enter</code> and/or <code>exit<
 will use the range of <code>time</code></p></dd>
 
 
-<dt>enter</dt>
+<dt>enter, exit</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
 <code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The
@@ -110,23 +103,7 @@ a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
 
 
-<dt>exit</dt>
-<dd><p>functions that calculate a start state for new observations
-that appear in <code>to</code> or an end state for observations that are not present in
-<code>to</code>. If <code>NULL</code> the new/old observations will not be part of the tween. The
-function gets a data.frame with either the start state of the exiting
-observations, or the end state of the entering observations and must return
-a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
-section for more information.</p></dd>
-
-
-<dt>enter_length</dt>
-<dd><p>The lenght of the opening and closing
-transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in the same units as
-<code>time</code></p></dd>
-
-
-<dt>exit_length</dt>
+<dt>enter_length, exit_length</dt>
 <dd><p>The lenght of the opening and closing
 transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in the same units as
 <code>time</code></p></dd>
@@ -169,14 +146,12 @@ transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in
 <span class="r-in"><span>                  exit_length <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.65</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x         y      time    duration .phase</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.21371673 0.1705658 0.6768048 0.094268151 static</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.48653873 0.9861911 0.8227586 0.004652371  enter</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -0.48505461 0.6027095 0.8232461 0.080477973  enter</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.07211044 0.9560900 0.6992036 0.046081049 static</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.77625166 0.8101764 0.7242256 0.096757572 static</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  0.31324148 0.1162088 0.7751622 0.008147230  enter</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -0.41328367 0.8813449 0.8119288 0.072921022  enter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            x         y      time   duration .phase</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.3437779 0.8728345 0.6893814 0.07400027 static</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.4611135 0.6067052 0.6316915 0.02077299   exit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.4151976 0.9844996 0.6992030 0.09952566  enter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -0.4407947 0.6741051 0.7650143 0.08265404  enter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.4436797 0.1593778 0.7176856 0.08145068  enter</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
