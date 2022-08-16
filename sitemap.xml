@@ -52,6 +52,9 @@
     <loc>https://tweenr.data-imaginist.com/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://tweenr.data-imaginist.com/reference/interpolate_custom_at.html</loc>
+  </url>
+  <url>
     <loc>https://tweenr.data-imaginist.com/reference/prepare_keyframes.html</loc>
   </url>
   <url>
@@ -89,5 +92,8 @@
   </url>
   <url>
     <loc>https://tweenr.data-imaginist.com/reference/tweenr-package.html</loc>
+  </url>
+  <url>
+    <loc>https://tweenr.data-imaginist.com/reference/vec_tween_class.html</loc>
   </url>
 </urlset>
