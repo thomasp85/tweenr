@@ -57,40 +57,55 @@ a specific time point scaled between 0 and 1.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gen_along</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">ease</span>,
-  <span class="va">along</span>,
-  id <span class="op">=</span> <span class="cn">NULL</span>,
-  range <span class="op">=</span> <span class="cn">NULL</span>,
-  history <span class="op">=</span> <span class="cn">TRUE</span>,
-  keep_last <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gen_along</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">ease</span>,</span>
+<span>  <span class="va">along</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  history <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A data.frame with components at different stages</p></dd>
+
+
 <dt>ease</dt>
 <dd><p>The easing function to use. Either a single string or one for
 each column in the data set.</p></dd>
+
+
 <dt>along</dt>
 <dd><p>The "time" point for each row</p></dd>
+
+
 <dt>id</dt>
 <dd><p>An unquoted expression giving the component id for each row. Will
 be evaluated in the context of <code>.data</code> so can refer to a column from that</p></dd>
+
+
 <dt>range</dt>
 <dd><p>The range of time points to include in the tween. If <code>NULL</code> it
 will use the range of <code>time</code></p></dd>
+
+
 <dt>history</dt>
 <dd><p>Should earlier datapoints be kept in subsequent frames</p></dd>
+
+
 <dt>keep_last</dt>
 <dd><p>Should the last point of each id be kept beyond its time</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An <code>along_generator</code> object</p>
+    
+
+<p>An <code>along_generator</code> object</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -103,9 +118,9 @@ will use the range of <code>time</code></p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Default behaviour</span></span>
-<span class="r-in"><span class="va">gen</span> <span class="op">&lt;-</span> <span class="fu">gen_along</span><span class="op">(</span><span class="va">airquality</span>, ease <span class="op">=</span> <span class="st">"linear"</span>, along <span class="op">=</span> <span class="va">Day</span>, id <span class="op">=</span> <span class="va">Month</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.22</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Default behaviour</span></span></span>
+<span class="r-in"><span><span class="va">gen</span> <span class="op">&lt;-</span> <span class="fu">gen_along</span><span class="op">(</span><span class="va">airquality</span>, ease <span class="op">=</span> <span class="st">"linear"</span>, along <span class="op">=</span> <span class="va">Day</span>, id <span class="op">=</span> <span class="va">Month</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.22</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Ozone Solar.R  Wind Temp Month Day     .phase</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   41.0   190.0  7.40 67.0     5 1.0        raw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   36.0   118.0  8.00 72.0     5 2.0        raw</span>
@@ -147,9 +162,9 @@ will use the range of <code>time</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38  32.0    92.0 15.50 84.0     9 6.0        raw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 39  20.0   252.0 10.90 80.0     9 7.0        raw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40  21.8   232.8 10.54 78.8     9 7.6 transition</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Overwrite keep_last or history in get_frame</span></span>
-<span class="r-in"><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.67</span>, history <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Overwrite keep_last or history in get_frame</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.67</span>, history <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Ozone Solar.R  Wind Temp Month  Day     .phase</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   2.0    39.2 10.39 60.4     5 21.1 transition</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA   140.9  5.84 76.9     6 21.1 transition</span>
@@ -170,7 +185,7 @@ will use the range of <code>time</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

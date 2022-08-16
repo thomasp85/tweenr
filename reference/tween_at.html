@@ -57,7 +57,7 @@ single vectors and each row/element can have its own position and easing.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tween_at</span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, <span class="va">at</span>, <span class="va">ease</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tween_at</span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, <span class="va">at</span>, <span class="va">ease</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,37 +65,44 @@ single vectors and each row/element can have its own position and easing.</p>
     <dl><dt>from, to</dt>
 <dd><p>A data.frame or vector of the same type. If either is of
 length/nrow 1 it will get repeated to match the length of the other</p></dd>
+
+
 <dt>at</dt>
 <dd><p>A numeric between 0 and 1 recycled to match the nrow/length of
 <code>from</code></p></dd>
+
+
 <dt>ease</dt>
 <dd><p>A character vector giving valid easing functions. Recycled to
 match the ncol of <code>from</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>from</code>/<code>to</code> is a data.frame then a data.frame with the same
+    
+
+<p>If <code>from</code>/<code>to</code> is a data.frame then a data.frame with the same
 columns. If <code>from</code>/<code>to</code> is a vector then a vector.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">tween_at</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="st">'cubic-in-out'</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp        hp     drat       wt     qsec        vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 18.51227 6.000000 215.7594 105.71081 2.922066 3.340583 19.68547 0.8578372</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 20.15804 6.732137 233.2137 133.79445 3.625449 3.081829 17.02000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 21.63436 5.665207 232.8905 107.15426 3.208895 3.065180 19.30106 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 22.73492 4.092968 114.9726  93.79023 3.814207 2.361603 18.64858 1.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 18.86211 7.859038 345.9038 170.41874 3.202861 3.400178 17.02000 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 18.50885 6.000000 215.8362 105.70491 2.920719 3.341576 19.68991 0.8590185</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tween_at</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="st">'cubic-in-out'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp       hp     drat       wt     qsec        vs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 20.17995 6.000000 178.3804 108.5861 3.577635 2.857532 17.52324 0.2827761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 20.77484 6.195795 179.5795 116.3633 3.826577 2.930312 17.02000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 21.41607 5.977049 256.2786 109.8049 3.088836 3.204729 19.43048 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 21.44365 5.937640 253.3230 109.4699 3.104009 3.187094 19.41412 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 20.47584 6.455791 205.5791 124.8132 3.729078 3.003761 17.02000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 19.66825 6.000000 189.8495 107.7039 3.376485 3.005748 18.18668 0.4592236</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           am     gear     carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.14216283 3.142163 1.426488</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.63393152 3.633932 3.267863</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.16739660 3.167397 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.95351588 3.953516 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.07048088 3.070481 2.140962</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.14098151 3.140982 1.422945</span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.71722389 3.717224 3.151672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.90210231 3.902102 3.804205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.01147567 3.011476 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.03118000 3.031180 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.77210448 3.772104 3.544209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.54077637 3.540776 2.622329</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -110,7 +117,7 @@ columns. If <code>from</code>/<code>to</code> is a vector then a vector.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

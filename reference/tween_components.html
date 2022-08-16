@@ -65,39 +65,51 @@ needed for each transition then <code><a href="tween_elements.html">tween_elemen
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tween_components</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">ease</span>,
-  <span class="va">nframes</span>,
-  <span class="va">time</span>,
-  id <span class="op">=</span> <span class="cn">NULL</span>,
-  range <span class="op">=</span> <span class="cn">NULL</span>,
-  enter <span class="op">=</span> <span class="cn">NULL</span>,
-  exit <span class="op">=</span> <span class="cn">NULL</span>,
-  enter_length <span class="op">=</span> <span class="fl">0</span>,
-  exit_length <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tween_components</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">ease</span>,</span>
+<span>  <span class="va">nframes</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exit <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enter_length <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  exit_length <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A data.frame with components at different stages</p></dd>
+
+
 <dt>ease</dt>
 <dd><p>The easing function to use. Either a single string or one for
 each column in the data set.</p></dd>
+
+
 <dt>nframes</dt>
 <dd><p>The number of frames to calculate for the tween</p></dd>
+
+
 <dt>time</dt>
 <dd><p>An unquoted expression giving the timepoint for the different
 stages of the components. Will be evaluated in the context of <code>.data</code> so can
 refer to a column from that</p></dd>
+
+
 <dt>id</dt>
 <dd><p>An unquoted expression giving the component id for each row. Will
 be evaluated in the context of <code>.data</code> so can refer to a column from that</p></dd>
+
+
 <dt>range</dt>
 <dd><p>The range of time points to include in the tween. If <code>NULL</code> it
 will use the range of <code>time</code></p></dd>
+
+
 <dt>enter</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -106,6 +118,8 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
+
 <dt>exit</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -114,14 +128,19 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
+
 <dt>enter_length, exit_length</dt>
 <dd><p>The lenght of the opening and closing
 transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in the same units as
 <code>time</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
+    
+
+<p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
 the component id, <code>.phase</code> giving the state of each component in each frame,
 and <code>.frame</code> giving the frame membership of each row.</p>
     </div>
@@ -137,20 +156,19 @@ and <code>.frame</code> giving the frame membership of each row.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">from_zero</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0</span>; <span class="va">x</span><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span class="r-in">  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">10</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span>
-<span class="r-in">  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">tween_components</span><span class="op">(</span><span class="va">data</span>, <span class="st">'cubic-in-out'</span>, nframes <span class="op">=</span> <span class="fl">100</span>, time <span class="op">=</span> <span class="va">time</span>,</span>
-<span class="r-in">                         id <span class="op">=</span> <span class="va">id</span>, enter <span class="op">=</span> <span class="va">from_zero</span>, enter_length <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as_function(enter):</span> could not find function "as_function"</span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">from_zero</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">0</span>; <span class="va">x</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">10</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">tween_components</span><span class="op">(</span><span class="va">data</span>, <span class="st">'cubic-in-out'</span>, nframes <span class="op">=</span> <span class="fl">100</span>, time <span class="op">=</span> <span class="va">time</span>,</span></span>
+<span class="r-in"><span>                         id <span class="op">=</span> <span class="va">id</span>, enter <span class="op">=</span> <span class="va">from_zero</span>, enter_length <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -165,7 +183,7 @@ and <code>.frame</code> giving the frame membership of each row.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

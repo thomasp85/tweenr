@@ -63,29 +63,40 @@ time for that row. A negative age means that the row has not appeared yet.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tween_appear</span><span class="op">(</span><span class="va">data</span>, <span class="va">time</span>, <span class="va">timerange</span>, <span class="va">nframes</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tween_appear</span><span class="op">(</span><span class="va">data</span>, <span class="va">time</span>, <span class="va">timerange</span>, <span class="va">nframes</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>A data.frame to tween</p></dd>
+
+
 <dt>time</dt>
 <dd><p>The name of the column that holds the time dimension. This does
 not need to hold time data in the strictest sence - any numerical type will
 do</p></dd>
+
+
 <dt>timerange</dt>
 <dd><p>The range of time to create the tween for. If missing it
 will defaults to the range of the time column</p></dd>
+
+
 <dt>nframes</dt>
 <dd><p>The number of frames to create for the tween. If missing it
 will create a frame for each full unit in <code>timerange</code> (e.g.
 <code>timerange = c(1, 10)</code> will give <code>nframes = 10</code>)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame as <code>data</code> but repeated <code>nframes</code> times and
+    
+
+<p>A data.frame as <code>data</code> but repeated <code>nframes</code> times and
 with the additional columns <code>.age</code> and <code>.frame</code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -99,14 +110,14 @@ with the additional columns <code>.age</code> and <code>.frame</code></p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">tween_appear</span><span class="op">(</span><span class="va">data</span>, <span class="st">'time'</span>, nframes <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">tween_appear</span><span class="op">(</span><span class="va">data</span>, <span class="st">'time'</span>, nframes <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -121,7 +132,7 @@ with the additional columns <code>.age</code> and <code>.frame</code></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

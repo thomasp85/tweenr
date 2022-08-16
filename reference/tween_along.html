@@ -65,43 +65,60 @@ to any axis).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tween_along</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">ease</span>,
-  <span class="va">nframes</span>,
-  <span class="va">along</span>,
-  id <span class="op">=</span> <span class="cn">NULL</span>,
-  range <span class="op">=</span> <span class="cn">NULL</span>,
-  history <span class="op">=</span> <span class="cn">TRUE</span>,
-  keep_last <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tween_along</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">ease</span>,</span>
+<span>  <span class="va">nframes</span>,</span>
+<span>  <span class="va">along</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  history <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  keep_last <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A data.frame with components at different stages</p></dd>
+
+
 <dt>ease</dt>
 <dd><p>The easing function to use. Either a single string or one for
 each column in the data set.</p></dd>
+
+
 <dt>nframes</dt>
 <dd><p>The number of frames to calculate for the tween</p></dd>
+
+
 <dt>along</dt>
 <dd><p>The "time" point for each row</p></dd>
+
+
 <dt>id</dt>
 <dd><p>An unquoted expression giving the component id for each row. Will
 be evaluated in the context of <code>.data</code> so can refer to a column from that</p></dd>
+
+
 <dt>range</dt>
 <dd><p>The range of time points to include in the tween. If <code>NULL</code> it
 will use the range of <code>time</code></p></dd>
+
+
 <dt>history</dt>
 <dd><p>Should earlier datapoints be kept in subsequent frames</p></dd>
+
+
 <dt>keep_last</dt>
 <dd><p>Should the last point of each id be kept beyond its time</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
+    
+
+<p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
 the component id, <code>.phase</code> giving the state of each component in each frame,
 and <code>.frame</code> giving the frame membership of each row.</p>
     </div>
@@ -127,7 +144,7 @@ and <code>.frame</code> giving the frame membership of each row.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

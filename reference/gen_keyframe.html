@@ -59,40 +59,52 @@ returns a generator that can be used with <code><a href="get_frame.html">get_fra
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gen_keyframe</span><span class="op">(</span>keyframe <span class="op">=</span> <span class="cn">NULL</span>, pause <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-
-<span class="fu">add_pause</span><span class="op">(</span><span class="va">.data</span>, pause <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-
-<span class="fu">add_keyframe</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">keyframe</span>,
-  <span class="va">ease</span>,
-  <span class="va">length</span>,
-  id <span class="op">=</span> <span class="cn">NULL</span>,
-  enter <span class="op">=</span> <span class="cn">NULL</span>,
-  exit <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gen_keyframe</span><span class="op">(</span>keyframe <span class="op">=</span> <span class="cn">NULL</span>, pause <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_pause</span><span class="op">(</span><span class="va">.data</span>, pause <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_keyframe</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">keyframe</span>,</span>
+<span>  <span class="va">ease</span>,</span>
+<span>  <span class="va">length</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exit <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>keyframe</dt>
 <dd><p>A data frame to use as a keyframe state</p></dd>
+
+
 <dt>pause</dt>
 <dd><p>The length of the pause at the current keyframe</p></dd>
+
+
 <dt>.data</dt>
 <dd><p>A data.frame to start from. If <code>.data</code> is the result of a prior
 tween, only the last frame will be used for the tween. The new tween will
 then be added to the prior tween</p></dd>
+
+
 <dt>ease</dt>
 <dd><p>The easing function to use. Either a single string or one for
 each column in the data set.</p></dd>
+
+
 <dt>length</dt>
 <dd><p>The length of the transition</p></dd>
+
+
 <dt>id</dt>
 <dd><p>The column to match observations on. If <code>NULL</code> observations will be
 matched by position. See the <em>Match, Enter, and Exit</em> section for more
 information.</p></dd>
+
+
 <dt>enter</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -101,6 +113,8 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
+
 <dt>exit</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -109,10 +123,13 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>keyframe_generator</code> object</p>
+    
+
+<p>A <code>keyframe_generator</code> object</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -125,32 +142,35 @@ section for more information.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Sweden'</span>, <span class="st">'Norway'</span><span class="op">)</span>,</span>
-<span class="r-in">  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5e6</span>, <span class="fl">10e6</span>, <span class="fl">3.5e6</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Sweden'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span><span class="op">)</span>,</span>
-<span class="r-in">  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6e6</span>, <span class="fl">10.5e6</span>, <span class="fl">4e6</span>, <span class="fl">3e6</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">df3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Norway'</span><span class="op">)</span>,</span>
-<span class="r-in">  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10e6</span>, <span class="fl">6e6</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">to_zero</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">x</span><span class="op">$</span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span class="r-in">  <span class="va">x</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">gen</span> <span class="op">&lt;-</span> <span class="fu">gen_keyframe</span><span class="op">(</span><span class="va">df1</span>, <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">add_keyframe</span><span class="op">(</span><span class="va">df2</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">35</span>, id <span class="op">=</span> <span class="va">country</span>, enter <span class="op">=</span> <span class="va">to_zero</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">add_pause</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">add_keyframe</span><span class="op">(</span><span class="va">df3</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">35</span>, id <span class="op">=</span> <span class="va">country</span>, enter <span class="op">=</span> <span class="va">to_zero</span>,</span>
-<span class="r-in">               exit <span class="op">=</span> <span class="va">to_zero</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">add_pause</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as_function(enter):</span> could not find function "as_function"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.25</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_frame(gen, 0.25):</span> object 'gen' not found</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Sweden'</span>, <span class="st">'Norway'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5e6</span>, <span class="fl">10e6</span>, <span class="fl">3.5e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Sweden'</span>, <span class="st">'Norway'</span>, <span class="st">'Finland'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6e6</span>, <span class="fl">10.5e6</span>, <span class="fl">4e6</span>, <span class="fl">3e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Denmark'</span>, <span class="st">'Norway'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10e6</span>, <span class="fl">6e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">to_zero</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span><span class="op">$</span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">gen</span> <span class="op">&lt;-</span> <span class="fu">gen_keyframe</span><span class="op">(</span><span class="va">df1</span>, <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">add_keyframe</span><span class="op">(</span><span class="va">df2</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">35</span>, id <span class="op">=</span> <span class="va">country</span>, enter <span class="op">=</span> <span class="va">to_zero</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">add_pause</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">add_keyframe</span><span class="op">(</span><span class="va">df3</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">35</span>, id <span class="op">=</span> <span class="va">country</span>, enter <span class="op">=</span> <span class="va">to_zero</span>,</span></span>
+<span class="r-in"><span>               exit <span class="op">=</span> <span class="va">to_zero</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">add_pause</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="get_frame.html">get_frame</a></span><span class="op">(</span><span class="va">gen</span>, <span class="fl">0.25</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   country population     .phase</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Denmark  5314868.8 transition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Sweden 10157434.4 transition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Norway  3657434.4 transition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Finland   944606.4      enter</span>
 </code></pre></div>
     </div>
   </div>
@@ -165,7 +185,7 @@ section for more information.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

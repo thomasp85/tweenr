@@ -80,7 +80,6 @@
 <div class="page-header"><h1 id="tweenr-">tweenr <img src="reference/figures/logo.png" align="right"><a class="anchor" aria-label="anchor" href="#tweenr-"></a>
 </h1></div>
 <!-- badges: start -->
-
 <div class="section level2">
 <h2 id="what-is-this">What is this?<a class="anchor" aria-label="anchor" href="#what-is-this"></a>
 </h2>
@@ -91,46 +90,46 @@
 </h2>
 <p><code>tweenr</code> is available on CRAN and can be installed with <code>install.packages('tweenr')</code>. In order to get the development version you can install it from github with <code>devtools</code></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#install.packages('devtools')</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'thomasp85/tweenr'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#install.packages('devtools')</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'thomasp85/tweenr'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="an-example">An example<a class="anchor" aria-label="anchor" href="#an-example"></a>
 </h2>
 <p>Following is an example of using the pipeable <code><a href="reference/tween_state.html">tween_state()</a></code> function with our belowed iris data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/thomasp85/tweenr" class="external-link">tweenr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-
-<span class="co"># Prepare the data with some extra columns</span>
-<span class="va">iris</span><span class="op">$</span><span class="va">col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="st">'forestgreen'</span>, <span class="st">'steelblue'</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">]</span>
-<span class="va">iris</span><span class="op">$</span><span class="va">size</span> <span class="op">&lt;-</span> <span class="fl">4</span>
-<span class="va">iris</span><span class="op">$</span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-<span class="va">iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span>
-
-<span class="co"># Here comes tweenr</span>
-<span class="va">iris_tween</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">$</span><span class="va">setosa</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">versicolor</span>, ease <span class="op">=</span> <span class="st">'cubic-in-out'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">virginica</span>, ease <span class="op">=</span> <span class="st">'elastic-out'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">setosa</span>, ease <span class="op">=</span> <span class="st">'quadratic-in'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
-
-<span class="co"># Animate it to show the effect</span>
-<span class="va">p_base</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Petal.Length</span>, y <span class="op">=</span> <span class="va">Petal.Width</span>, alpha <span class="op">=</span> <span class="va">alpha</span>, colour <span class="op">=</span> <span class="va">col</span>, 
-                 size <span class="op">=</span> <span class="va">size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_colour_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">scale_alpha_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_size_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">iris_tween</span><span class="op">$</span><span class="va">Petal.Length</span><span class="op">)</span>, 
-                  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">iris_tween</span><span class="op">$</span><span class="va">Petal.Width</span><span class="op">)</span><span class="op">)</span>
-<span class="va">iris_tween</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">iris_tween</span>, <span class="va">iris_tween</span><span class="op">$</span><span class="va">.frame</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">d</span> <span class="kw">in</span> <span class="va">iris_tween</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p_base</span> <span class="op">%+%</span> <span class="va">d</span>
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/thomasp85/tweenr" class="external-link">tweenr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Prepare the data with some extra columns</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'firebrick'</span>, <span class="st">'forestgreen'</span>, <span class="st">'steelblue'</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">size</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">iris</span><span class="op">$</span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Here comes tweenr</span></span>
+<span><span class="va">iris_tween</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">$</span><span class="va">setosa</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">versicolor</span>, ease <span class="op">=</span> <span class="st">'cubic-in-out'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">virginica</span>, ease <span class="op">=</span> <span class="st">'elastic-out'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">tween_state</a></span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">setosa</span>, ease <span class="op">=</span> <span class="st">'quadratic-in'</span>, nframes <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/tween_state.html">keep_state</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Animate it to show the effect</span></span>
+<span><span class="va">p_base</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Petal.Length</span>, y <span class="op">=</span> <span class="va">Petal.Width</span>, alpha <span class="op">=</span> <span class="va">alpha</span>, colour <span class="op">=</span> <span class="va">col</span>, </span>
+<span>                 size <span class="op">=</span> <span class="va">size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">scale_colour_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_alpha_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">scale_size_identity</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">iris_tween</span><span class="op">$</span><span class="va">Petal.Length</span><span class="op">)</span>, </span>
+<span>                  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">iris_tween</span><span class="op">$</span><span class="va">Petal.Width</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">iris_tween</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">iris_tween</span>, <span class="va">iris_tween</span><span class="op">$</span><span class="va">.frame</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">d</span> <span class="kw">in</span> <span class="va">iris_tween</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">p_base</span> <span class="op">%+%</span> <span class="va">d</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3.gif"></p>
 </div>
 <div class="section level2">
@@ -148,7 +147,7 @@
 </h2>
 <p>In order to get smooth transitions you’d often want a non-linear interpolation. This can be achieved by using an easing function to translate the equidistant interpolation points into new ones. <code>tweenr</code> has support for a wide range of different easing functions, all of which can be previewed using <code><a href="reference/display_ease.html">display_ease()</a></code> as here where the popular <em>cubic-in-out</em> is shown:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tweenr</span><span class="fu">::</span><span class="fu"><a href="reference/display_ease.html">display_ease</a></span><span class="op">(</span><span class="st">'cubic-in-out'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">tweenr</span><span class="fu">::</span><span class="fu"><a href="reference/display_ease.html">display_ease</a></span><span class="op">(</span><span class="st">'cubic-in-out'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png"><!-- --></p>
 </div>
 <div class="section level2">
@@ -216,7 +215,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

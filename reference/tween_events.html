@@ -59,37 +59,47 @@ time, and creates frames with the correct events present at any given time.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tween_events</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  <span class="va">ease</span>,
-  <span class="va">nframes</span>,
-  <span class="va">start</span>,
-  end <span class="op">=</span> <span class="cn">NULL</span>,
-  range <span class="op">=</span> <span class="cn">NULL</span>,
-  enter <span class="op">=</span> <span class="cn">NULL</span>,
-  exit <span class="op">=</span> <span class="cn">NULL</span>,
-  enter_length <span class="op">=</span> <span class="fl">0</span>,
-  exit_length <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tween_events</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">ease</span>,</span>
+<span>  <span class="va">nframes</span>,</span>
+<span>  <span class="va">start</span>,</span>
+<span>  end <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exit <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enter_length <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  exit_length <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A data.frame with components at different stages</p></dd>
+
+
 <dt>ease</dt>
 <dd><p>The easing function to use. Either a single string or one for
 each column in the data set.</p></dd>
+
+
 <dt>nframes</dt>
 <dd><p>The number of frames to calculate for the tween</p></dd>
+
+
 <dt>start, end</dt>
 <dd><p>The start (and potential end) of the event encoded in the
 row, as unquoted expressions. Will be evaluated in the context of <code>.data</code> so
 can refer to columns in it. If <code>end = NULL</code> the event will be without extend
 and only visible in a single frame, unless <code>enter</code> and/or <code>exit</code> is given.</p></dd>
+
+
 <dt>range</dt>
 <dd><p>The range of time points to include in the tween. If <code>NULL</code> it
 will use the range of <code>time</code></p></dd>
+
+
 <dt>enter</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -98,6 +108,8 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
+
 <dt>exit</dt>
 <dd><p>functions that calculate a start state for new observations
 that appear in <code>to</code> or an end state for observations that are not present in
@@ -106,18 +118,25 @@ function gets a data.frame with either the start state of the exiting
 observations, or the end state of the entering observations and must return
 a modified version of that data.frame. See the <em>Match, Enter, and Exit</em>
 section for more information.</p></dd>
+
+
 <dt>enter_length</dt>
 <dd><p>The lenght of the opening and closing
 transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in the same units as
 <code>time</code></p></dd>
+
+
 <dt>exit_length</dt>
 <dd><p>The lenght of the opening and closing
 transitions if <code>enter</code> and/or <code>exit</code> is given. Measured in the same units as
 <code>time</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
+    
+
+<p>A data.frame with the same columns as <code>.data</code> along with <code>.id</code> giving
 the component id, <code>.phase</code> giving the state of each component in each frame,
 and <code>.frame</code> giving the frame membership of each row.</p>
     </div>
@@ -133,26 +152,233 @@ and <code>.frame</code> giving the frame membership of each row.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span>
-<span class="r-in">  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span>
-<span class="r-in">  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span>
-<span class="r-in">  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span>, max <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">from_left</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">0.5</span></span>
-<span class="r-in">  <span class="va">x</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">to_right</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
-<span class="r-in">  <span class="va">x</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tween_events</span><span class="op">(</span><span class="va">d</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">50</span>, start <span class="op">=</span> <span class="va">time</span>, end <span class="op">=</span> <span class="va">time</span> <span class="op">+</span> <span class="va">duration</span>,</span>
-<span class="r-in">             enter <span class="op">=</span> <span class="va">from_left</span>, exit <span class="op">=</span> <span class="va">to_right</span>, enter_length <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span class="r-in">             exit_length <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as_function(enter):</span> could not find function "as_function"</span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span>, max <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">from_left</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">0.5</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">to_right</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tween_events</span><span class="op">(</span><span class="va">d</span>, <span class="st">'cubic-in-out'</span>, <span class="fl">50</span>, start <span class="op">=</span> <span class="va">time</span>, end <span class="op">=</span> <span class="va">time</span> <span class="op">+</span> <span class="va">duration</span>,</span></span>
+<span class="r-in"><span>             enter <span class="op">=</span> <span class="va">from_left</span>, exit <span class="op">=</span> <span class="va">to_right</span>, enter_length <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
+<span class="r-in"><span>             exit_length <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                x          y       time    duration .id .phase .frame</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 96  -0.500000000 0.54524506 0.09245657 0.007491694  10  enter      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97  -0.454133352 0.54524506 0.09245657 0.007491694  10  enter      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 169 -0.500000000 0.39613608 0.11701265 0.014395456  17  enter      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98  -0.133066819 0.54524506 0.09245657 0.007491694  10  enter      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 170 -0.483848844 0.39613608 0.11701265 0.014395456  17  enter      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99   0.566399557 0.54524506 0.09245657 0.007491694  10  enter      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 146 -0.500000000 0.82182576 0.15797363 0.053700030  15  enter      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 171 -0.370790754 0.39613608 0.11701265 0.014395456  17  enter      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100  0.887466090 0.54524506 0.09245657 0.007491694  10  enter      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 147 -0.459114613 0.82182576 0.15797363 0.053700030  15  enter      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 172 -0.124485629 0.39613608 0.11701265 0.014395456  17  enter      5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 101  0.933332738 0.54524506 0.09245657 0.007491694  10    raw      6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 148 -0.172916901 0.82182576 0.15797363 0.053700030  15  enter      6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 173 -0.011427538 0.39613608 0.11701265 0.014395456  17  enter      6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 102  1.216666369 0.54524506 0.09245657 0.007491694  10   exit      7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 149  0.450585256 0.82182576 0.15797363 0.053700030  15  enter      7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 174  0.004723618 0.39613608 0.11701265 0.014395456  17 static      7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85  -0.500000000 0.08186153 0.24870477 0.057198536   9  enter      8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 103  1.500000000 0.54524506 0.09245657 0.007491694  10   exit      8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150  0.736782967 0.82182576 0.15797363 0.053700030  15  enter      8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 175  0.004723618 0.39613608 0.11701265 0.014395456  17    raw      8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86  -0.457043743 0.08186153 0.24870477 0.057198536   9  enter      9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 151  0.777668354 0.82182576 0.15797363 0.053700030  15 static      9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 176  0.752361809 0.39613608 0.11701265 0.014395456  17   exit      9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87  -0.156349945 0.08186153 0.24870477 0.057198536   9  enter     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 152  0.777668354 0.82182576 0.15797363 0.053700030  15 static     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 177  1.500000000 0.39613608 0.11701265 0.014395456  17   exit     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88   0.498732972 0.08186153 0.24870477 0.057198536   9  enter     11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 153  0.777668354 0.82182576 0.15797363 0.053700030  15    raw     11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89   0.799426770 0.08186153 0.24870477 0.057198536   9  enter     12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 154  0.884680450 0.82182576 0.15797363 0.053700030  15   exit     12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64  -0.500000000 0.12500265 0.33837448 0.051938470   7  enter     13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90   0.842383027 0.08186153 0.24870477 0.057198536   9 static     13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 155  1.392987904 0.82182576 0.15797363 0.053700030  15   exit     13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65  -0.435535450 0.12500265 0.33837448 0.051938470   7  enter     14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91   0.842383027 0.08186153 0.24870477 0.057198536   9 static     14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 156  1.500000000 0.82182576 0.15797363 0.053700030  15   exit     14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66   0.015716398 0.12500265 0.33837448 0.051938470   7  enter     15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92   0.842383027 0.08186153 0.24870477 0.057198536   9 static     15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67   0.466968247 0.12500265 0.33837448 0.051938470   7  enter     16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93   0.842383027 0.08186153 0.24870477 0.057198536   9    raw     16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68   0.531432797 0.12500265 0.33837448 0.051938470   7 static     17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74  -0.500000000 0.91625194 0.43373561 0.063994016   8  enter     17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94   1.171191513 0.08186153 0.24870477 0.057198536   9   exit     17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 178 -0.500000000 0.84463410 0.42371958 0.071639226  18  enter     17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69   0.531432797 0.12500265 0.33837448 0.051938470   7 static     18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75  -0.465012856 0.91625194 0.43373561 0.063994016   8  enter     18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95   1.500000000 0.08186153 0.24870477 0.057198536   9   exit     18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 157 -0.500000000 0.65744056 0.46189914 0.072038273  16  enter     18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 179 -0.406726710 0.84463410 0.42371958 0.071639226  18  enter     18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  -0.500000000 0.31126828 0.47436285 0.042816520   3  enter     19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70   0.531432797 0.12500265 0.33837448 0.051938470   7 static     19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76  -0.220102844 0.91625194 0.43373561 0.063994016   8  enter     19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 158 -0.472851048 0.65744056 0.46189914 0.072038273  16  enter     19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 180  0.246186317 0.84463410 0.42371958 0.071639226  18  enter     19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   -0.500000000 0.24981905 0.50313321 0.066587885   1  enter     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  -0.465172313 0.31126828 0.47436285 0.042816520   3  enter     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71   0.531432797 0.12500265 0.33837448 0.051938470   7    raw     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77   0.313451109 0.91625194 0.43373561 0.063994016   8  enter     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 159 -0.282808385 0.65744056 0.46189914 0.072038273  16  enter     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 181  0.899099345 0.84463410 0.42371958 0.071639226  18  enter     20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   -0.481802470 0.24981905 0.50313321 0.066587885   1  enter     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  -0.221378505 0.31126828 0.47436285 0.042816520   3  enter     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72   1.015716398 0.12500265 0.33837448 0.051938470   7   exit     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78   0.558361120 0.91625194 0.43373561 0.063994016   8  enter     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 160  0.131213131 0.65744056 0.46189914 0.072038273  16  enter     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 182  0.992372634 0.84463410 0.42371958 0.071639226  18 static     21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   -0.354419757 0.24981905 0.50313321 0.066587885   1  enter     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   0.309743720 0.31126828 0.47436285 0.042816520   3  enter     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73   1.500000000 0.12500265 0.33837448 0.051938470   7   exit     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79   0.593348264 0.91625194 0.43373561 0.063994016   8 static     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 161  0.321255795 0.65744056 0.46189914 0.072038273  16  enter     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 183  0.992372634 0.84463410 0.42371958 0.071639226  18 static     22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   -0.076907418 0.24981905 0.50313321 0.066587885   1  enter     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26   0.553537528 0.31126828 0.47436285 0.042816520   3  enter     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80   0.593348264 0.91625194 0.43373561 0.063994016   8 static     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 162  0.348404747 0.65744056 0.46189914 0.072038273  16 static     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 184  0.992372634 0.84463410 0.42371958 0.071639226  18 static     23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0.050475295 0.24981905 0.50313321 0.066587885   1  enter     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27   0.588365215 0.31126828 0.47436285 0.042816520   3 static     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81   0.593348264 0.91625194 0.43373561 0.063994016   8 static     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 163  0.348404747 0.65744056 0.46189914 0.072038273  16 static     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 185  0.992372634 0.84463410 0.42371958 0.071639226  18 static     24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    0.068672825 0.24981905 0.50313321 0.066587885   1 static     25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28   0.588365215 0.31126828 0.47436285 0.042816520   3 static     25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82   0.593348264 0.91625194 0.43373561 0.063994016   8    raw     25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 164  0.348404747 0.65744056 0.46189914 0.072038273  16 static     25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 186  0.992372634 0.84463410 0.42371958 0.071639226  18    raw     25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    0.068672825 0.24981905 0.50313321 0.066587885   1 static     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   0.588365215 0.31126828 0.47436285 0.042816520   3    raw     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83   1.046674132 0.91625194 0.43373561 0.063994016   8   exit     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 165  0.348404747 0.65744056 0.46189914 0.072038273  16    raw     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 187  1.246186317 0.84463410 0.42371958 0.071639226  18   exit     26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    0.068672825 0.24981905 0.50313321 0.066587885   1 static     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   1.044182607 0.31126828 0.47436285 0.042816520   3   exit     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84   1.500000000 0.91625194 0.43373561 0.063994016   8   exit     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 166  0.519011451 0.65744056 0.46189914 0.072038273  16   exit     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 188  1.500000000 0.84463410 0.42371958 0.071639226  18   exit     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 198 -0.500000000 0.75936890 0.64222981 0.055785868  20  enter     27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    0.068672825 0.24981905 0.50313321 0.066587885   1    raw     28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31   1.500000000 0.31126828 0.47436285 0.042816520   3   exit     28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 167  1.329393296 0.65744056 0.46189914 0.072038273  16   exit     28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 199 -0.430056499 0.75936890 0.64222981 0.055785868  20  enter     28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   0.784336413 0.24981905 0.50313321 0.066587885   1   exit     29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 168  1.500000000 0.65744056 0.46189914 0.072038273  16   exit     29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200  0.059548005 0.75936890 0.64222981 0.055785868  20  enter     29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11   1.500000000 0.24981905 0.50313321 0.066587885   1   exit     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 201  0.549152509 0.75936890 0.64222981 0.055785868  20  enter     30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 136 -0.500000000 0.09406659 0.73277134 0.049931901  14  enter     31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 189 -0.500000000 0.54652374 0.73339749 0.019173902  19  enter     31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 202  0.619096010 0.75936890 0.64222981 0.055785868  20 static     31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  -0.500000000 0.22517505 0.74397948 0.050543083   4  enter     32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 137 -0.480714869 0.09406659 0.73277134 0.049931901  14  enter     32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 190 -0.470817896 0.54652374 0.73339749 0.019173902  19  enter     32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 203  0.619096010 0.75936890 0.64222981 0.055785868  20 static     32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  -0.464702162 0.22517505 0.74397948 0.050543083   4  enter     33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 138 -0.345718949 0.09406659 0.73277134 0.049931901  14  enter     33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 191 -0.266543166 0.54652374 0.73339749 0.019173902  19  enter     33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 204  0.619096010 0.75936890 0.64222981 0.055785868  20 static     33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  -0.217617293 0.22517505 0.74397948 0.050543083   4  enter     34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 104 -0.500000000 0.91269112 0.80274723 0.022691750  11  enter     34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 139 -0.051620696 0.09406659 0.73277134 0.049931901  14  enter     34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 192  0.178483923 0.54652374 0.73339749 0.019173902  19  enter     34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 205  0.619096010 0.75936890 0.64222981 0.055785868  20    raw     34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35   0.029467575 0.22517505 0.74397948 0.050543083   4  enter     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53  -0.500000000 0.53436505 0.81980757 0.059172467   6  enter     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 105 -0.474049852 0.91269112 0.80274723 0.022691750  11  enter     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 140  0.083375223 0.09406659 0.73277134 0.049931901  14  enter     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 193  0.382758653 0.54652374 0.73339749 0.019173902  19  enter     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 206  1.059548005 0.75936890 0.64222981 0.055785868  20   exit     35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36   0.064765414 0.22517505 0.74397948 0.050543083   4 static     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54  -0.460076817 0.53436505 0.81980757 0.059172467   6  enter     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 106 -0.292398818 0.91269112 0.80274723 0.022691750  11  enter     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 141  0.102660355 0.09406659 0.73277134 0.049931901  14 static     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 194  0.411940757 0.54652374 0.73339749 0.019173902  19 static     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 207  1.500000000 0.75936890 0.64222981 0.055785868  20   exit     36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  -0.500000000 0.99024546 0.86340076 0.038464226   2  enter     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37   0.064765414 0.22517505 0.74397948 0.050543083   4 static     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55  -0.180614536 0.53436505 0.81980757 0.059172467   6  enter     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 107  0.103340934 0.91269112 0.80274723 0.022691750  11  enter     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 113 -0.500000000 0.21018664 0.86342903 0.089697751  12  enter     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 142  0.102660355 0.09406659 0.73277134 0.049931901  14 static     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 195  0.411940757 0.54652374 0.73339749 0.019173902  19    raw     37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  -0.455802393 0.99024546 0.86340076 0.038464226   2  enter     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38   0.064765414 0.22517505 0.74397948 0.050543083   4 static     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56   0.428214004 0.53436505 0.81980757 0.059172467   6  enter     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 108  0.284991968 0.91269112 0.80274723 0.022691750  11  enter     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 114 -0.459137278 0.21018664 0.86342903 0.089697751  12  enter     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 143  0.102660355 0.09406659 0.73277134 0.049931901  14    raw     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 196  0.955970379 0.54652374 0.73339749 0.019173902  19   exit     38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  -0.146419145 0.99024546 0.86340076 0.038464226   2  enter     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39   0.064765414 0.22517505 0.74397948 0.050543083   4    raw     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  -0.500000000 0.42936992 0.90370510 0.058994069   5  enter     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57   0.707676284 0.53436505 0.81980757 0.059172467   6  enter     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 109  0.310942115 0.91269112 0.80274723 0.022691750  11 static     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 115 -0.173098221 0.21018664 0.86342903 0.089697751  12  enter     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 144  0.801330177 0.09406659 0.73277134 0.049931901  14   exit     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 197  1.500000000 0.54652374 0.73339749 0.019173902  19   exit     39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   0.527594360 0.99024546 0.86340076 0.038464226   2  enter     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40   0.782382707 0.22517505 0.74397948 0.050543083   4   exit     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  -0.477310146 0.42936992 0.90370510 0.058994069   5  enter     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58   0.747599467 0.53436505 0.81980757 0.059172467   6 static     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 110  0.310942115 0.91269112 0.80274723 0.022691750  11    raw     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 116  0.450058295 0.21018664 0.86342903 0.089697751  12  enter     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 125 -0.500000000 0.88565723 0.92406699 0.064733850  13  enter     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 145  1.500000000 0.09406659 0.73277134 0.049931901  14   exit     40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   0.836977608 0.99024546 0.86340076 0.038464226   2  enter     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41   1.500000000 0.22517505 0.74397948 0.050543083   4   exit     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  -0.318481165 0.42936992 0.90370510 0.058994069   5  enter     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59   0.747599467 0.53436505 0.81980757 0.059172467   6 static     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 111  0.905471058 0.91269112 0.80274723 0.022691750  11   exit     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 117  0.736097352 0.21018664 0.86342903 0.089697751  12  enter     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 126 -0.469940315 0.88565723 0.92406699 0.064733850  13  enter     41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   0.881175215 0.99024546 0.86340076 0.038464226   2 static     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45   0.027539116 0.42936992 0.90370510 0.058994069   5  enter     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60   0.747599467 0.53436505 0.81980757 0.059172467   6 static     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 112  1.500000000 0.91269112 0.80274723 0.022691750  11   exit     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 118  0.776960074 0.21018664 0.86342903 0.089697751  12 static     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 127 -0.259522520 0.88565723 0.92406699 0.064733850  13  enter     42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   0.881175215 0.99024546 0.86340076 0.038464226   2 static     43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46   0.186368097 0.42936992 0.90370510 0.058994069   5  enter     43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61   0.747599467 0.53436505 0.81980757 0.059172467   6    raw     43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 119  0.776960074 0.21018664 0.86342903 0.089697751  12 static     43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 128  0.198887677 0.88565723 0.92406699 0.064733850  13  enter     43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   0.881175215 0.99024546 0.86340076 0.038464226   2    raw     44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47   0.209057951 0.42936992 0.90370510 0.058994069   5 static     44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62   1.123799734 0.53436505 0.81980757 0.059172467   6   exit     44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 120  0.776960074 0.21018664 0.86342903 0.089697751  12 static     44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 129  0.409305472 0.88565723 0.92406699 0.064733850  13  enter     44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   1.190587607 0.99024546 0.86340076 0.038464226   2   exit     45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48   0.209057951 0.42936992 0.90370510 0.058994069   5 static     45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63   1.500000000 0.53436505 0.81980757 0.059172467   6   exit     45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 121  0.776960074 0.21018664 0.86342903 0.089697751  12 static     45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 130  0.439365157 0.88565723 0.92406699 0.064733850  13 static     45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   1.500000000 0.99024546 0.86340076 0.038464226   2   exit     46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49   0.209057951 0.42936992 0.90370510 0.058994069   5    raw     46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 122  0.776960074 0.21018664 0.86342903 0.089697751  12    raw     46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 131  0.439365157 0.88565723 0.92406699 0.064733850  13 static     46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50   0.400308625 0.42936992 0.90370510 0.058994069   5   exit     47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 123  1.138480037 0.21018664 0.86342903 0.089697751  12   exit     47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 132  0.439365157 0.88565723 0.92406699 0.064733850  13 static     47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51   1.308749326 0.42936992 0.90370510 0.058994069   5   exit     48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 124  1.500000000 0.21018664 0.86342903 0.089697751  12   exit     48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 133  0.439365157 0.88565723 0.92406699 0.064733850  13    raw     48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52   1.500000000 0.42936992 0.90370510 0.058994069   5   exit     49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 134  0.969682579 0.88565723 0.92406699 0.064733850  13   exit     49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 135  1.500000000 0.88565723 0.92406699 0.064733850  13   exit     50</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -167,7 +393,7 @@ and <code>.frame</code> giving the frame membership of each row.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
