@@ -110,3 +110,19 @@ get_raw_frames.along_generator <- function(generator, at, before = 0, after = 0,
     after = d$data[after, , drop = FALSE]
   )
 }
+
+#' @export
+convert_generator.along_generator <- function(x) {
+  data <- gen_data(x)
+  settings <- list(
+    attributes = attributes(x),
+    data = data.frame(x),
+    converter = function(x, settings) {
+      data <- settings$data
+      attributes(data) <- settings$attributes
+      gen_data(data) <- data.frame(x)
+      data
+    }
+  )
+  list(data = data, settings = settings)
+}

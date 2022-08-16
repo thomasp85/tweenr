@@ -128,3 +128,7 @@ get_raw_frames.component_generator <- function(generator, at, before = 0, after 
     after = d$data[after & raw, , drop = FALSE]
   )
 }
+
+
+#' @export
+convert_generator.component_generator <- convert_generator.along_generator
