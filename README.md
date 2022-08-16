@@ -5,13 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/thomasp85/tweenr/workflows/R-CMD-check/badge.svg)](https://github.com/thomasp85/tweenr/actions)
-[![CRAN\_Release\_Badge](http://www.r-pkg.org/badges/version-ago/tweenr)](https://CRAN.R-project.org/package=tweenr)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/thomasp85/tweenr/master.svg)](https://codecov.io/github/thomasp85/tweenr?branch=master)
-[![Codecov test
-coverage](https://codecov.io/gh/thomasp85/tweenr/branch/master/graph/badge.svg)](https://codecov.io/gh/thomasp85/tweenr?branch=master)
+[![R-CMD-check](https://github.com/thomasp85/tweenr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thomasp85/tweenr/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/tweenr)](https://CRAN.R-project.org/package=tweenr)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/tweenr)](https://CRAN.R-project.org/package=tweenr)
 <!-- badges: end -->
 
 ## What is this?
