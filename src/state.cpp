@@ -50,7 +50,7 @@ cpp11::doubles numeric_state_interpolator(cpp11::list_of<cpp11::doubles> data, c
 }
 
 [[cpp11::register]]
-cpp11::doubles_matrix colour_state_interpolator(cpp11::list_of<cpp11::doubles_matrix> data, cpp11::data_frame states) {
+cpp11::doubles_matrix<> colour_state_interpolator(cpp11::list_of<cpp11::doubles_matrix<>> data, cpp11::data_frame states) {
   cpp11::integers state_index = states["state"];
   cpp11::integers nframes_per_state = states["nframes"];
   cpp11::strings easer = states["ease"];
@@ -58,11 +58,11 @@ cpp11::doubles_matrix colour_state_interpolator(cpp11::list_of<cpp11::doubles_ma
   R_xlen_t nstates = states.nrow();
   int nframes = std::accumulate(nframes_per_state.begin(), nframes_per_state.end(), 0);
   int frame = 0;
-  cpp11::writable::doubles_matrix res(nelements * nframes, 4);
+  cpp11::writable::doubles_matrix<> res(nelements * nframes, 4);
 
   for (R_xlen_t state = 0; state < nstates; ++state) {
     if (easer[state] == "constant") {
-      cpp11::doubles_matrix state_from = data[state_index[state]];
+      cpp11::doubles_matrix<> state_from = data[state_index[state]];
       for (int currentframe = 0; currentframe < nframes_per_state[state]; ++currentframe) {
         R_xlen_t res_index = (frame + currentframe) * nelements;
         for (R_xlen_t element = 0; element < nelements; ++element) {
@@ -75,8 +75,8 @@ cpp11::doubles_matrix colour_state_interpolator(cpp11::list_of<cpp11::doubles_ma
       }
     } else {
       std::vector<double> ease_points = ease_seq(easer[state], nframes_per_state[state]);
-      cpp11::doubles_matrix state_from = data[state_index[state]];
-      cpp11::doubles_matrix state_to = data[state_index[state] + 1];
+      cpp11::doubles_matrix<> state_from = data[state_index[state]];
+      cpp11::doubles_matrix<> state_to = data[state_index[state] + 1];
       for (R_xlen_t element = 0; element < nelements; ++element) {
         for (int currentframe = 0; currentframe < nframes_per_state[state]; ++currentframe) {
           R_xlen_t res_index = (frame + currentframe) * nelements + element;
