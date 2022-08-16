@@ -7,10 +7,7 @@
 gen_at(from, to, ease, id = NULL, enter = NULL, exit = NULL)
 }
 \arguments{
-\item{from}{A data.frame or vector of the same type. If either is of
-length/nrow 1 it will get repeated to match the length of the other}
-
-\item{to}{A data.frame or vector of the same type. If either is of
+\item{from, to}{A data.frame or vector of the same type. If either is of
 length/nrow 1 it will get repeated to match the length of the other}
 
 \item{ease}{A character vector giving valid easing functions. Recycled to
@@ -20,15 +17,7 @@ match the ncol of \code{from}}
 matched by position. See the \emph{Match, Enter, and Exit} section for more
 information.}
 
-\item{enter}{functions that calculate a start state for new observations
-that appear in \code{to} or an end state for observations that are not present in
-\code{to}. If \code{NULL} the new/old observations will not be part of the tween. The
-function gets a data.frame with either the start state of the exiting
-observations, or the end state of the entering observations and must return
-a modified version of that data.frame. See the \emph{Match, Enter, and Exit}
-section for more information.}
-
-\item{exit}{functions that calculate a start state for new observations
+\item{enter, exit}{functions that calculate a start state for new observations
 that appear in \code{to} or an end state for observations that are not present in
 \code{to}. If \code{NULL} the new/old observations will not be part of the tween. The
 function gets a data.frame with either the start state of the exiting

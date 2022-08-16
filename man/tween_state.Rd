@@ -49,7 +49,7 @@ The \code{tween_state()} is a counterpart to \code{tween_states()} that is aimed
 letting you gradually build up a scene by composing state changes one by one.
 This setup lets you take more control over each state change and allows you
 to work with datasets with uneven number of rows, flexibly specifying what
-should happen with entering and exiting data. \code{keep_state()} is a simpel
+should happen with entering and exiting data. \code{keep_state()} is a simple
 helper for letting you pause at a state. \code{open_state()} is a shortcut from
 tweening from an empty dataset with a given \code{enter()} function while
 \code{close_state()} is the same but will instead tween into an empty dataset with

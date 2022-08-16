@@ -38,15 +38,7 @@ each column in the data set.}
 matched by position. See the \emph{Match, Enter, and Exit} section for more
 information.}
 
-\item{enter}{functions that calculate a start state for new observations
-that appear in \code{to} or an end state for observations that are not present in
-\code{to}. If \code{NULL} the new/old observations will not be part of the tween. The
-function gets a data.frame with either the start state of the exiting
-observations, or the end state of the entering observations and must return
-a modified version of that data.frame. See the \emph{Match, Enter, and Exit}
-section for more information.}
-
-\item{exit}{functions that calculate a start state for new observations
+\item{enter, exit}{functions that calculate a start state for new observations
 that appear in \code{to} or an end state for observations that are not present in
 \code{to}. If \code{NULL} the new/old observations will not be part of the tween. The
 function gets a data.frame with either the start state of the exiting

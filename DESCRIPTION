@@ -27,7 +27,7 @@ Imports:
     vctrs
 LinkingTo: 
     cpp11 (>= 0.4.2)
-RoxygenNote: 7.1.1.9001
+RoxygenNote: 7.2.1
 Roxygen: list(markdown=TRUE)
 Suggests: testthat,
     covr
