@@ -1,4 +1,4 @@
-# tweenr (development version)
+# tweenr 2.0.0
 
 * Added generator versions of `at`, `along`, `event`, `components`, and `state` 
   tweens that output a single frame at a time at any fractional time point
