@@ -115,6 +115,8 @@
 #'               exit = to_zero)
 #'
 tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit = NULL) {
+  .data[] <- lapply(.data, fix_old_mapped_discrete)
+  to[] <- lapply(to, fix_old_mapped_discrete)
   from <- .get_last_frame(.data)
   from$.phase <- rep('raw', length.out = nrow(from))
   to$.phase <- rep('raw', length.out = nrow(to))
@@ -263,6 +265,8 @@ close_state <- function(.data, ease, nframes, exit) {
   frames <- if (!is.null(nframes_before)) {
     prior <- prior[prior$.frame != nframes_before, , drop = FALSE]
     new_tween$.frame <- new_tween$.frame + nframes_before - 1
+    if (is.character(prior$.id)) new_tween$.id <- as.character(new_tween$.id)
+    else if (is.character(new_tween$.id)) prior$.id <- as.character(prior$.id)
     vec_rbind(prior, new_tween)
   } else {
     nframes_before <- 1
@@ -280,6 +284,8 @@ close_state <- function(.data, ease, nframes, exit) {
   frames <- if ('.frame' %in% names(later)) {
     later <- later[later$.frame != 1, , drop = FALSE]
     later$.frame <- later$.frame + max(new_tween$.frame)
+    if (is.character(later$.id)) new_tween$.id <- as.character(new_tween$.id)
+    else if (is.character(new_tween$.id)) later$.id <- as.character(later$.id)
     vec_rbind(new_tween, later)
   } else {
     new_tween
@@ -386,4 +392,11 @@ simple_state <- function(n, ease) {
 count_occourance <- function(x) {
   if (length(x) == 0) return(integer(0))
   unsplit(lapply(split(x, x), seq_along), x)
+}
+
+fix_old_mapped_discrete <- function(x) {
+  if (inherits(x, 'mapped_discrete') && storage.mode(x) == 'integer') {
+    storage.mode(x) <- 'double'
+  }
+  x
 }

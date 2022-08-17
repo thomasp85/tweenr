@@ -1,9 +1,11 @@
 interpolate_numeric_state <- function(data, states) {
-  numeric_state_interpolator(lapply(data, as.numeric), states)
+  res <- numeric_state_interpolator(lapply(data, as.numeric), states)
+  c(data[[1]][0], res)
 }
 
 interpolate_logical_state <- function(data, states) {
-  as.logical(round(numeric_state_interpolator(data, states)))
+  res <- numeric_state_interpolator(lapply(data, as.numeric), states)
+  as.logical(round(res))
 }
 
 #' @importFrom farver decode_colour encode_colour
