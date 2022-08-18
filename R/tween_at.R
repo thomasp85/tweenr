@@ -38,7 +38,9 @@ tween_at <- function(from, to, at, ease) {
   if (nrow(from) != nrow(to)) {
     stop('from and to must be same length', call. = FALSE)
   }
-  stopifnot(names(from) == names(to))
+  if (names(from) != names(to)) {
+    stop('`from` and `to` must have the same columns', call. = FALSE)
+  }
   at <- rep(at, length.out = nrow(from))
   ease <- rep(ease, length.out = ncol(from))
   classes <- col_classes(from)

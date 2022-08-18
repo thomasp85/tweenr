@@ -138,7 +138,9 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
   } else {
     stop('Ease must be either a single string or one for each column', call. = FALSE)
   }
-  stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
+  if (!is_integerish(nframes, 1L)) {
+    stop("`nframes` must be a single count", call. = FALSE)
+  }
 
   classes <- if (nrow(from) == 0) col_classes(to) else col_classes(from)
   if (nrow(from) > 0 && nrow(to) > 0) {

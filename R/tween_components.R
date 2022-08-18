@@ -70,7 +70,9 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   } else {
     stop('Ease must be either a single string or one for each column', call. = FALSE)
   }
-  stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
+  if (!is_integerish(nframes, 1L)) {
+    stop("`nframes` must be a single count", call. = FALSE)
+  }
 
   timerange <- if (is.null(range)) range(.data$.time) else range
   if (diff(timerange) == 0) stop('range must have a length', call. = FALSE)

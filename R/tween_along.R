@@ -19,7 +19,7 @@
 #'
 #' @family data.frame tween
 #'
-#' @importFrom rlang enquo quo_is_null eval_tidy
+#' @importFrom rlang enquo quo_is_null eval_tidy is_integerish
 #' @export
 tween_along <- function(.data, ease, nframes, along, id = NULL, range = NULL, history = TRUE, keep_last = FALSE) {
   along <- enquo(along)
@@ -34,7 +34,9 @@ tween_along <- function(.data, ease, nframes, along, id = NULL, range = NULL, hi
   } else {
     stop('Ease must be either a single string or one for each column', call. = FALSE)
   }
-  stopifnot(length(nframes) == 1 && is.numeric(nframes) && nframes %% 1 == 0)
+  if (!is_integerish(nframes, 1L)) {
+    stop("`nframes` must be a single count", call. = FALSE)
+  }
 
   timerange <- if (is.null(range)) range(.data$.time) else range
   timerange <- as.numeric(timerange)
