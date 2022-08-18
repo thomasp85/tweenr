@@ -88,20 +88,7 @@ columns. If <code>from</code>/<code>to</code> is a vector then a vector.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tween_at</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="st">'cubic-in-out'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp       hp     drat       wt     qsec         vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 20.99601 6.000000 160.0893 109.9931 3.898433 2.621155 16.46517 0.00137454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 20.98063 6.016846 161.6846 110.5475 3.893683 2.879759 17.02000 0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 21.41032 5.985256 256.8942 109.8747 3.085677 3.208402 19.43388 1.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 22.11542 4.977973 181.3480 101.3128 3.473480 2.757643 19.01586 1.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 20.26702 6.637378 223.7378 130.7148 3.660983 3.055059 17.02000 0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 18.42368 6.000000 217.7452 105.5581 2.887238 3.366246 19.80034 0.88838769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           am     gear     carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.99862546 3.998625 3.995876</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.99157722 3.991577 3.983154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.00737218 3.007372 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.51101344 3.511013 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.68131099 3.681311 3.362622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.11161231 3.111612 1.334837</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (names(from) != names(to)) {    stop("`from` and `to` must have the same columns", call. = FALSE)}:</span> the condition has length &gt; 1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
