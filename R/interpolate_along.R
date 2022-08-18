@@ -3,7 +3,7 @@ interpolate_numeric_along <- function(data, group, frame, frames, ease, history,
 }
 
 interpolate_logical_along <- function(data, group, frame, frames, ease, history, keep_last) {
-  res <- interpolate_numeric_along(data, group, frame, history, keep_last, frames, ease)
+  res <- interpolate_numeric_along(data, group, frame, frames, ease, history, keep_last)
   res[['data']] <- as.logical(round(res[['data']]))
   res
 }

@@ -1,5 +1,7 @@
 # tweenr (development version)
 
+* Fix bug in logical state interpolation due to wrong argument order passing
+
 # tweenr 2.0.0
 
 * Added generator versions of `at`, `along`, `event`, `components`, and `state` 
