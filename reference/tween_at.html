@@ -19,7 +19,7 @@ single vectors and each row/element can have its own position and easing."><meta
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tweenr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1.9000</span>
       </span>
     </div>
 
@@ -88,20 +88,20 @@ columns. If <code>from</code>/<code>to</code> is a vector then a vector.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tween_at</span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="st">'cubic-in-out'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp        hp     drat       wt     qsec          vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 18.56493 6.000000 214.5792 105.80160 2.942765 3.325331 19.61720 0.839679622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 19.09326 7.658032 325.8032 163.88605 3.278238 3.343394 17.02000 0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 21.73974 5.514653 221.5989 105.87455 3.266859 2.997807 19.23858 1.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 22.40074 4.570371 150.7779  97.84816 3.630407 2.575241 18.84670 1.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 20.20340 6.692699 229.2699 132.51271 3.640238 3.070687 17.02000 0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 20.99363 6.000000 160.1429 109.98901 3.897494 2.621846 16.46826 0.002198096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          am     gear     carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1603204 3.160320 1.480961</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1709838 3.170984 2.341968</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.2426737 3.242674 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7148143 3.714814 1.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.6536506 3.653651 3.307301</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.9978019 3.997802 3.993406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp       hp     drat       wt     qsec        vs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 18.24010 6.000000 221.8599 105.2415 2.815073 3.419420 20.03836 0.9516906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 20.97054 6.025617 162.5617 110.8325 3.890394 2.882237 17.02000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 21.52145 5.826505 244.9878 108.5253 3.146796 3.137361 19.36800 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 21.40116 5.998345 257.8759 109.9859 3.080637 3.214260 19.43931 1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 18.72551 7.977817 357.7817 174.2791 3.158319 3.433733 17.02000 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 18.12265 6.000000 224.4924 105.0390 2.768903 3.453440 20.19064 0.9921908</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             am     gear     carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.0483094280 3.048309 1.144928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.9871916747 3.987192 3.974383</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0867477183 3.086748 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.0008273677 3.000827 1.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.0110914040 3.011091 2.022183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.0078092435 3.007809 1.023428</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
