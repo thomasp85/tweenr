@@ -1,5 +1,4 @@
-This is a big release providing yet another way to tween data in the form of
-generator functions.
+This is a small hotfix release fixing a bug in the latest internal rewrite
 
 ## revdepcheck results
 
