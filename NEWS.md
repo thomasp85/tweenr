@@ -1,4 +1,4 @@
-# tweenr (development version)
+# tweenr 2.0.1
 
 * Fix bug in logical state interpolation due to wrong argument order passing
 
