@@ -348,7 +348,6 @@ find_max_id <- function(data, new) {
     to_id <- paste(to_id, count_occourance(to_id), sep = '_')
     entering <- !to_id %in% from_id
     exiting <- !from_id %in% to_id
-    exits <- from[entering, , drop = FALSE]
 
     if (is.null(enter) || sum(entering) == 0) {
       to <- to[!entering, , drop = FALSE]
