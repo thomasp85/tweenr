@@ -1,4 +1,4 @@
-# tweenr (development version)
+# tweenr 2.0.2
 
 * Fixed a recycling bug in `tween_state()`
 
