@@ -1,7 +1,7 @@
 Package: tweenr
 Type: Package
 Title: Interpolate Data for Smooth Animations
-Version: 2.0.2
+Version: 2.0.2.9000
 Authors@R: 
     c(person(given = "Thomas Lin",
              family = "Pedersen",
