@@ -159,28 +159,34 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
     }
   }
   full_set <- .complete_states(from, to, id, enter, exit, .max_id(.data))
+
   to$.id <- full_set$orig_to
 
-  tweendata <- lapply(seq_along(classes), function(i) {
-    d <- list(full_set$from[[i]], full_set$to[[i]])
-    state <- simple_state(as.integer(nframes), ease[i])
-    switch(
-      classes[i],
-      numeric = interpolate_numeric_state(d, state),
-      logical = interpolate_logical_state(d, state),
-      factor = interpolate_factor_state(d, state),
-      character = interpolate_character_state(d, state),
-      colour = interpolate_colour_state(d, state),
-      date = interpolate_date_state(d, state),
-      datetime = interpolate_datetime_state(d, state),
-      constant = interpolate_constant_state(d, state),
-      numlist = interpolate_numlist_state(d, state),
-      list = interpolate_list_state(d, state),
-      phase = get_phase_state(d, state)
-    )
-  })
-  tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
-  tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
+  if (nrow(full_set$from) != 0) {
+    tweendata <- lapply(seq_along(classes), function(i) {
+      d <- list(full_set$from[[i]], full_set$to[[i]])
+      state <- simple_state(as.integer(nframes), ease[i])
+      switch(
+        classes[i],
+        numeric = interpolate_numeric_state(d, state),
+        logical = interpolate_logical_state(d, state),
+        factor = interpolate_factor_state(d, state),
+        character = interpolate_character_state(d, state),
+        colour = interpolate_colour_state(d, state),
+        date = interpolate_date_state(d, state),
+        datetime = interpolate_datetime_state(d, state),
+        constant = interpolate_constant_state(d, state),
+        numlist = interpolate_numlist_state(d, state),
+        list = interpolate_list_state(d, state),
+        phase = get_phase_state(d, state)
+      )
+    })
+    tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+    tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
+  } else {
+    tweendata <- full_set$from
+    tweendata$.frame <- integer(0)
+  }
   from[classes == "constant"] <- lapply(from[classes == "constant"], as.character)
   to[classes == "constant"] <- lapply(to[classes == "constant"], as.character)
   tweendata <- vec_rbind(
