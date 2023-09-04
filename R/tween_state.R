@@ -181,6 +181,8 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
   })
   tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
   tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
+  from[classes == "constant"] <- lapply(from[classes == "constant"], as.character)
+  to[classes == "constant"] <- lapply(to[classes == "constant"], as.character)
   tweendata <- vec_rbind(
     if (nframes > 1) vec_cbind(from, .frame = rep(1, nrow(from))) else NULL,
     tweendata[tweendata$.frame != 1, , drop = FALSE],
