@@ -369,9 +369,15 @@ find_max_id <- function(data, new) {
       exits$.phase <- 'exit'
       exit_id <- from_id[exiting]
     }
-    from <- vec_rbind(from, enters)
+    from <- vec_rbind(
+      if (nrow(from) == 0) NULL else from,
+      if (nrow(enters) == 0) NULL else enters
+    )
     from_id <- c(from_id, enter_id)
-    to <- vec_rbind(to, exits)
+    to <- vec_rbind(
+      if (nrow(to) == 0) NULL else to,
+      if (nrow(exits) == 0) NULL else exits
+    )
     to_id <- c(to_id, exit_id)
   }
   from$.id[is.na(from$.id)] <- seq_len(sum(is.na(from$.id))) + max_id

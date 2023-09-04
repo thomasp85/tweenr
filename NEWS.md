@@ -1,5 +1,7 @@
 # tweenr (development version)
 
+* Fix coercion bug from the switch to vctrs
+
 # tweenr 2.0.2
 
 * Fixed a recycling bug in `tween_state()`
