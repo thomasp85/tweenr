@@ -378,13 +378,13 @@ find_max_id <- function(data, new) {
       exit_id <- from_id[exiting]
     }
     from <- vec_rbind(
-      if (nrow(from) == 0) NULL else from,
-      if (nrow(enters) == 0) NULL else enters
+      safe_df(from),
+      safe_df(enters)
     )
     from_id <- c(from_id, enter_id)
     to <- vec_rbind(
-      if (nrow(to) == 0) NULL else to,
-      if (nrow(exits) == 0) NULL else exits
+      safe_df(to),
+      safe_df(exits)
     )
     to_id <- c(to_id, exit_id)
   }
@@ -413,5 +413,11 @@ fix_old_mapped_discrete <- function(x) {
   if (inherits(x, 'mapped_discrete') && storage.mode(x) == 'integer') {
     storage.mode(x) <- 'double'
   }
+  x
+}
+
+safe_df <- function(x) {
+  if (nrow(x) > 0) return(x)
+  x[] <- lapply(x, function(col) if (is.logical(col)) vctrs::unspecified() else col)
   x
 }
