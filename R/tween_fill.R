@@ -48,5 +48,5 @@ tween_fill <- function(data, ease) {
   })
   if (single_vec) return(tweendata[[1]])
 
-  structure(tweendata, names = names(data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  structure(tweendata, names = names(data), row.names = .set_row_names(length(tweendata[[1]])), class = 'data.frame')
 }

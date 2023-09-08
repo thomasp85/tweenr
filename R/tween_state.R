@@ -181,7 +181,7 @@ tween_state <- function(.data, to, ease, nframes, id = NULL, enter = NULL, exit 
         phase = get_phase_state(d, state)
       )
     })
-    tweendata <- structure(tweendata, names = names(full_set$from), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+    tweendata <- structure(tweendata, names = names(full_set$from), row.names = .set_row_names(length(tweendata[[1]])), class = 'data.frame')
     tweendata$.frame <- rep(seq_len(nframes - 1), each = nrow(full_set$from))
   } else {
     tweendata <- full_set$from

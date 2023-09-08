@@ -101,7 +101,7 @@ tween_components <- function(.data, ease, nframes, time, id = NULL, range = NULL
   })
   tweenInfo <- tweendata[[1]][, c('group', 'frame')]
   tweendata <- lapply(tweendata, `[[`, i = 'data')
-  tweendata <- structure(tweendata, names = names(.data), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  tweendata <- structure(tweendata, names = names(.data), row.names = .set_row_names(length(tweendata[[1]])), class = 'data.frame')
   tweendata$.frame <- tweenInfo$frame
   tweendata$.id <- tweenInfo$group
   tweendata <- tweendata[tweendata$.frame >= 1 & tweendata$.frame <= nframes, , drop = FALSE]

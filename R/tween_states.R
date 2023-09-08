@@ -109,7 +109,7 @@ tween_states <- function(data, tweenlength, statelength, ease, nframes) {
       phase = get_phase_state(d, d_states)
     )
   })
-  tweendata <- structure(tweendata, names = names(data[[1]]), row.names = seq_along(tweendata[[1]]), class = 'data.frame')
+  tweendata <- structure(tweendata, names = names(data[[1]]), row.names = .set_row_names(length(tweendata[[1]])), class = 'data.frame')
   tweendata$.id <- rep(seq_len(nrow(data[[1]])), each = nframes)
   tweendata$.frame <- rep(seq_len(nframes), each = nrow(data[[1]]))
   attr(tweendata, 'framelength') <- framelength
