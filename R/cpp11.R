@@ -44,28 +44,24 @@ numlist_at_interpolator <- function(from, to, at, ease) {
   .Call(`_tweenr_numlist_at_interpolator`, from, to, at, ease)
 }
 
-numeric_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_numeric_element_at_interpolator`, data, group, time, at, ease)
+numeric_at_t_interpolator <- function(from, to, at, ease) {
+  .Call(`_tweenr_numeric_at_t_interpolator`, from, to, at, ease)
 }
 
-colour_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_colour_element_at_interpolator`, data, group, time, at, ease)
+colour_at_t_interpolator <- function(from, to, at, ease) {
+  .Call(`_tweenr_colour_at_t_interpolator`, from, to, at, ease)
 }
 
-constant_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_constant_element_at_interpolator`, data, group, time, at, ease)
+constant_at_t_interpolator <- function(from, to, at, ease) {
+  .Call(`_tweenr_constant_at_t_interpolator`, from, to, at, ease)
 }
 
-list_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_list_element_at_interpolator`, data, group, time, at, ease)
+list_at_t_interpolator <- function(from, to, at, ease) {
+  .Call(`_tweenr_list_at_t_interpolator`, from, to, at, ease)
 }
 
-numlist_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_numlist_element_at_interpolator`, data, group, time, at, ease)
-}
-
-phase_element_at_interpolator <- function(data, group, time, at, ease) {
-  .Call(`_tweenr_phase_element_at_interpolator`, data, group, time, at, ease)
+numlist_at_t_interpolator <- function(from, to, at, ease) {
+  .Call(`_tweenr_numlist_at_t_interpolator`, from, to, at, ease)
 }
 
 numeric_element_interpolator <- function(data, group, frame, ease) {
@@ -90,6 +86,30 @@ numlist_element_interpolator <- function(data, group, frame, ease) {
 
 phase_element_interpolator <- function(data, group, frame, ease) {
   .Call(`_tweenr_phase_element_interpolator`, data, group, frame, ease)
+}
+
+numeric_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_numeric_element_at_interpolator`, data, group, time, at, ease)
+}
+
+colour_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_colour_element_at_interpolator`, data, group, time, at, ease)
+}
+
+constant_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_constant_element_at_interpolator`, data, group, time, at, ease)
+}
+
+list_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_list_element_at_interpolator`, data, group, time, at, ease)
+}
+
+numlist_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_numlist_element_at_interpolator`, data, group, time, at, ease)
+}
+
+phase_element_at_interpolator <- function(data, group, time, at, ease) {
+  .Call(`_tweenr_phase_element_at_interpolator`, data, group, time, at, ease)
 }
 
 numeric_fill_interpolator <- function(data, ease) {

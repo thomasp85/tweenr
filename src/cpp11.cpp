@@ -82,46 +82,39 @@ extern "C" SEXP _tweenr_numlist_at_interpolator(SEXP from, SEXP to, SEXP at, SEX
     return cpp11::as_sexp(numlist_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
-// element_at.cpp
-cpp11::writable::doubles numeric_element_at_interpolator(cpp11::doubles data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_numeric_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+// at.cpp
+cpp11::doubles numeric_at_t_interpolator(cpp11::doubles from, cpp11::doubles to, cpp11::doubles at, cpp11::strings ease);
+extern "C" SEXP _tweenr_numeric_at_t_interpolator(SEXP from, SEXP to, SEXP at, SEXP ease) {
   BEGIN_CPP11
-    return cpp11::as_sexp(numeric_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+    return cpp11::as_sexp(numeric_at_t_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
-// element_at.cpp
-cpp11::writable::data_frame colour_element_at_interpolator(cpp11::doubles_matrix<> data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_colour_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+// at.cpp
+cpp11::doubles_matrix<> colour_at_t_interpolator(cpp11::doubles_matrix<> from, cpp11::doubles_matrix<> to, cpp11::doubles at, cpp11::strings ease);
+extern "C" SEXP _tweenr_colour_at_t_interpolator(SEXP from, SEXP to, SEXP at, SEXP ease) {
   BEGIN_CPP11
-    return cpp11::as_sexp(colour_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles_matrix<>>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+    return cpp11::as_sexp(colour_at_t_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles_matrix<>>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles_matrix<>>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
-// element_at.cpp
-cpp11::writable::strings constant_element_at_interpolator(cpp11::strings data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_constant_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+// at.cpp
+cpp11::strings constant_at_t_interpolator(cpp11::strings from, cpp11::strings to, cpp11::doubles at, cpp11::strings ease);
+extern "C" SEXP _tweenr_constant_at_t_interpolator(SEXP from, SEXP to, SEXP at, SEXP ease) {
   BEGIN_CPP11
-    return cpp11::as_sexp(constant_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+    return cpp11::as_sexp(constant_at_t_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
-// element_at.cpp
-cpp11::writable::list list_element_at_interpolator(cpp11::list data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_list_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+// at.cpp
+cpp11::list list_at_t_interpolator(cpp11::list from, cpp11::list to, cpp11::doubles at, cpp11::strings ease);
+extern "C" SEXP _tweenr_list_at_t_interpolator(SEXP from, SEXP to, SEXP at, SEXP ease) {
   BEGIN_CPP11
-    return cpp11::as_sexp(list_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+    return cpp11::as_sexp(list_at_t_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
-// element_at.cpp
-cpp11::writable::list numlist_element_at_interpolator(cpp11::list_of<cpp11::doubles> data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_numlist_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+// at.cpp
+cpp11::list numlist_at_t_interpolator(cpp11::list_of<cpp11::doubles> from, cpp11::list_of<cpp11::doubles> to, cpp11::doubles at, cpp11::strings ease);
+extern "C" SEXP _tweenr_numlist_at_t_interpolator(SEXP from, SEXP to, SEXP at, SEXP ease) {
   BEGIN_CPP11
-    return cpp11::as_sexp(numlist_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
-  END_CPP11
-}
-// element_at.cpp
-cpp11::writable::strings phase_element_at_interpolator(cpp11::strings data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
-extern "C" SEXP _tweenr_phase_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(phase_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+    return cpp11::as_sexp(numlist_at_t_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(from), cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(to), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
 // element.cpp
@@ -164,6 +157,48 @@ cpp11::writable::data_frame phase_element_interpolator(cpp11::strings data, cpp1
 extern "C" SEXP _tweenr_phase_element_interpolator(SEXP data, SEXP group, SEXP frame, SEXP ease) {
   BEGIN_CPP11
     return cpp11::as_sexp(phase_element_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(frame), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::doubles numeric_element_at_interpolator(cpp11::doubles data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_numeric_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(numeric_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::data_frame colour_element_at_interpolator(cpp11::doubles_matrix<> data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_colour_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(colour_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::doubles_matrix<>>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::strings constant_element_at_interpolator(cpp11::strings data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_constant_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(constant_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::list list_element_at_interpolator(cpp11::list data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_list_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(list_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::list numlist_element_at_interpolator(cpp11::list_of<cpp11::doubles> data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_numlist_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(numlist_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::list_of<cpp11::doubles>>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
+  END_CPP11
+}
+// element_at.cpp
+cpp11::writable::strings phase_element_at_interpolator(cpp11::strings data, cpp11::integers group, cpp11::doubles time, double at, cpp11::strings ease);
+extern "C" SEXP _tweenr_phase_element_at_interpolator(SEXP data, SEXP group, SEXP time, SEXP at, SEXP ease) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(phase_element_at_interpolator(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(data), cpp11::as_cpp<cpp11::decay_t<cpp11::integers>>(group), cpp11::as_cpp<cpp11::decay_t<cpp11::doubles>>(time), cpp11::as_cpp<cpp11::decay_t<double>>(at), cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(ease)));
   END_CPP11
 }
 // fill.cpp
@@ -248,30 +283,35 @@ extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_tweenr_colour_along_interpolator",        (DL_FUNC) &_tweenr_colour_along_interpolator,        7},
     {"_tweenr_colour_at_interpolator",           (DL_FUNC) &_tweenr_colour_at_interpolator,           4},
+    {"_tweenr_colour_at_t_interpolator",         (DL_FUNC) &_tweenr_colour_at_t_interpolator,         4},
     {"_tweenr_colour_element_at_interpolator",   (DL_FUNC) &_tweenr_colour_element_at_interpolator,   5},
     {"_tweenr_colour_element_interpolator",      (DL_FUNC) &_tweenr_colour_element_interpolator,      4},
     {"_tweenr_colour_fill_interpolator",         (DL_FUNC) &_tweenr_colour_fill_interpolator,         2},
     {"_tweenr_colour_state_interpolator",        (DL_FUNC) &_tweenr_colour_state_interpolator,        2},
     {"_tweenr_constant_along_interpolator",      (DL_FUNC) &_tweenr_constant_along_interpolator,      7},
     {"_tweenr_constant_at_interpolator",         (DL_FUNC) &_tweenr_constant_at_interpolator,         4},
+    {"_tweenr_constant_at_t_interpolator",       (DL_FUNC) &_tweenr_constant_at_t_interpolator,       4},
     {"_tweenr_constant_element_at_interpolator", (DL_FUNC) &_tweenr_constant_element_at_interpolator, 5},
     {"_tweenr_constant_element_interpolator",    (DL_FUNC) &_tweenr_constant_element_interpolator,    4},
     {"_tweenr_constant_fill_interpolator",       (DL_FUNC) &_tweenr_constant_fill_interpolator,       2},
     {"_tweenr_constant_state_interpolator",      (DL_FUNC) &_tweenr_constant_state_interpolator,      2},
     {"_tweenr_list_along_interpolator",          (DL_FUNC) &_tweenr_list_along_interpolator,          7},
     {"_tweenr_list_at_interpolator",             (DL_FUNC) &_tweenr_list_at_interpolator,             4},
+    {"_tweenr_list_at_t_interpolator",           (DL_FUNC) &_tweenr_list_at_t_interpolator,           4},
     {"_tweenr_list_element_at_interpolator",     (DL_FUNC) &_tweenr_list_element_at_interpolator,     5},
     {"_tweenr_list_element_interpolator",        (DL_FUNC) &_tweenr_list_element_interpolator,        4},
     {"_tweenr_list_fill_interpolator",           (DL_FUNC) &_tweenr_list_fill_interpolator,           2},
     {"_tweenr_list_state_interpolator",          (DL_FUNC) &_tweenr_list_state_interpolator,          2},
     {"_tweenr_numeric_along_interpolator",       (DL_FUNC) &_tweenr_numeric_along_interpolator,       7},
     {"_tweenr_numeric_at_interpolator",          (DL_FUNC) &_tweenr_numeric_at_interpolator,          4},
+    {"_tweenr_numeric_at_t_interpolator",        (DL_FUNC) &_tweenr_numeric_at_t_interpolator,        4},
     {"_tweenr_numeric_element_at_interpolator",  (DL_FUNC) &_tweenr_numeric_element_at_interpolator,  5},
     {"_tweenr_numeric_element_interpolator",     (DL_FUNC) &_tweenr_numeric_element_interpolator,     4},
     {"_tweenr_numeric_fill_interpolator",        (DL_FUNC) &_tweenr_numeric_fill_interpolator,        2},
     {"_tweenr_numeric_state_interpolator",       (DL_FUNC) &_tweenr_numeric_state_interpolator,       2},
     {"_tweenr_numlist_along_interpolator",       (DL_FUNC) &_tweenr_numlist_along_interpolator,       7},
     {"_tweenr_numlist_at_interpolator",          (DL_FUNC) &_tweenr_numlist_at_interpolator,          4},
+    {"_tweenr_numlist_at_t_interpolator",        (DL_FUNC) &_tweenr_numlist_at_t_interpolator,        4},
     {"_tweenr_numlist_element_at_interpolator",  (DL_FUNC) &_tweenr_numlist_element_at_interpolator,  5},
     {"_tweenr_numlist_element_interpolator",     (DL_FUNC) &_tweenr_numlist_element_interpolator,     4},
     {"_tweenr_numlist_fill_interpolator",        (DL_FUNC) &_tweenr_numlist_fill_interpolator,        2},

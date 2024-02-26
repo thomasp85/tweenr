@@ -1,6 +1,7 @@
 # tweenr (development version)
 
 * Fix coercion bug from the switch to vctrs
+* At `tween_at_t()` for interpolating a full data frame at multiple locations
 
 # tweenr 2.0.2
 

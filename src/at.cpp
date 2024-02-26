@@ -87,3 +87,102 @@ cpp11::list numlist_at_interpolator(cpp11::list_of<cpp11::doubles> from, cpp11::
 
   return res;
 }
+
+[[cpp11::register]]
+cpp11::doubles numeric_at_t_interpolator(cpp11::doubles from, cpp11::doubles to,
+                                         cpp11::doubles at, cpp11::strings ease) {
+  R_xlen_t n = from.size();
+  R_xlen_t m = at.size();
+  std::string easer = ease[0];
+  cpp11::writable::doubles res;
+
+  for (R_xlen_t j = 0; j < m; ++j) {
+    double pos = ease_pos(at[j], easer);
+    for (R_xlen_t i = 0; i < n; ++i) {
+      res.push_back(from[i] + (to[i] - from[i]) * pos);
+    }
+  }
+
+  return res;
+}
+[[cpp11::register]]
+cpp11::doubles_matrix<> colour_at_t_interpolator(cpp11::doubles_matrix<> from, cpp11::doubles_matrix<> to,
+                                                 cpp11::doubles at, cpp11::strings ease) {
+  R_xlen_t n = from.nrow(), nn = from.ncol();
+  R_xlen_t m = at.size();
+  std::string easer = ease[0];
+  cpp11::writable::doubles_matrix<> res(n*m, nn);
+
+  for (R_xlen_t j = 0; j < m; ++j) {
+    double pos = ease_pos(at[j], easer);
+    for (R_xlen_t i = 0; i < n; ++i) {
+      for (R_xlen_t k = 0; k < nn; ++k) {
+        res(i, k) = from(i, k) + (to(i, k) - from(i, k)) * pos;
+      }
+    }
+  }
+
+  return res;
+}
+[[cpp11::register]]
+cpp11::strings constant_at_t_interpolator(cpp11::strings from, cpp11::strings to,
+                                          cpp11::doubles at, cpp11::strings ease) {
+  R_xlen_t n = from.size();
+  R_xlen_t m = at.size();
+  std::string easer = ease[0];
+  cpp11::writable::strings res;
+
+  for (R_xlen_t j = 0; j < m; ++j) {
+    double pos = ease_pos(at[j], easer);
+    for (R_xlen_t i = 0; i < n; ++i) {
+      res.push_back(pos < 0.5 ? from[i] : to[i]);
+    }
+  }
+
+  return res;
+}
+[[cpp11::register]]
+cpp11::list list_at_t_interpolator(cpp11::list from, cpp11::list to,
+                                   cpp11::doubles at, cpp11::strings ease) {
+  R_xlen_t n = from.size();
+  R_xlen_t m = at.size();
+  std::string easer = ease[0];
+  cpp11::writable::list res;
+
+  for (R_xlen_t j = 0; j < m; ++j) {
+    double pos = ease_pos(at[j], easer);
+    for (R_xlen_t i = 0; i < n; ++i) {
+      res.push_back(pos < 0.5 ? from[i] : to[i]);
+    }
+  }
+
+  return res;
+}
+[[cpp11::register]]
+cpp11::list numlist_at_t_interpolator(cpp11::list_of<cpp11::doubles> from, cpp11::list_of<cpp11::doubles> to,
+                                      cpp11::doubles at, cpp11::strings ease) {
+  R_xlen_t n = from.size();
+  R_xlen_t m = at.size();
+  std::string easer = ease[0];
+  cpp11::writable::list res;
+
+  std::vector<cpp11::doubles> aligned_from, aligned_to;
+
+  for (R_xlen_t i = 0; i < n; ++i) {
+    aligned_from.push_back(align_num_elem(from[i], to[i]));
+    aligned_to.push_back(align_num_elem(to[i], aligned_from.back()));
+  }
+
+  for (R_xlen_t j = 0; j < m; ++j) {
+    double pos = ease_pos(at[j], easer);
+    for (R_xlen_t i = 0; i < n; ++i) {
+      cpp11::writable::doubles state_vec(aligned_from[i].size());
+      for (R_xlen_t k = 0; k < aligned_from[i].size(); ++k) {
+        state_vec[k] = aligned_from[i][k] + pos * (aligned_to[i][k] - aligned_from[i][k]);
+      }
+      res.push_back(state_vec);
+    }
+  }
+
+  return res;
+}
