@@ -30,4 +30,3 @@ RoxygenNote: 7.2.3
 Roxygen: list(markdown=TRUE)
 Suggests: testthat,
     covr
-SystemRequirements: C++11
