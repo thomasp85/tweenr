@@ -1,4 +1,4 @@
-This is a small hotfix release fixing a bug in the latest internal rewrite
+This is a small patch release with various fixes
 
 ## revdepcheck results
 
