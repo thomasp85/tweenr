@@ -14,7 +14,7 @@ Description: In order to create smooth animation between states of data,
     creating tweened data that can be used as basis for animation. Furthermore 
     it adds a number of vectorized interpolaters for common R data 
     types such as numeric, date and colour.
-URL: https://github.com/thomasp85/tweenr
+URL: https://tweenr.data-imaginist.com/, https://github.com/thomasp85/tweenr
 BugReports: https://github.com/thomasp85/tweenr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
